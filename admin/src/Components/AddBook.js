@@ -85,78 +85,68 @@ export default function AddBook() {
   };
   return (
     <div>
-      <div className="form-container">
-        <h2>Add Book</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="form-fields">
-            <label>
-              Book Name:
-              <input
-                type="text"
-                name="bookname"
-                value={book.bookname}
-                onChange={handleChange}
-              />
-              {errors.bookname && (
-                <p style={{ color: "red" }}>{errors.bookname}</p>
-              )}
-            </label>
-          </div>
-          <div className="form-fields">
-            <label>
-              Author Name:
-              <input
-                type="text"
-                name="authorname"
-                value={book.authorname}
-                onChange={handleChange}
-              />
-              {errors.authorname && (
-                <p style={{ color: "red" }}>{errors.authorname}</p>
-              )}
-            </label>
-          </div>
-          <div className="form-fields">
-            <label>
-              Price:
-              <input
-                type="text"
-                name="price"
-                value={book.price}
-                onChange={handleChange}
-              />
-              {errors.price && <p style={{ color: "red" }}>{errors.price}</p>}
-            </label>
-          </div>
-          <div className="form-fields">
-            <label>
-              Description:
-              <textarea
-                name="description"
-                value={book.description}
-                onChange={handleChange}
-              />
-              {errors.description && (
-                <p style={{ color: "red" }}>{errors.description}</p>
-              )}
-            </label>
-          </div>
-          <div className="form-fields">
-            <label>
-              Image URL:
-              <input
-                type="file"
-                name="file"
-                ref={fileInput}
-                accept="image/*"
-                required
-              />
-            </label>
-          </div>
-          div
-          <button type="submit">Add Book</button>
-        </form>
-      </div>
+      <h2>Add Book</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="bookname">Book Name:</label>
+          <input
+            type="text"
+            name="bookname"
+            value={book.bookname}
+            onChange={handleChange}
+          />
+          {errors.bookname && <p style={{ color: "red" }}>{errors.bookname}</p>}
+        </div>
+
+        <div>
+          <label htmlFor="authorname">Author Name:</label>
+          <input
+            type="text"
+            name="authorname"
+            value={book.authorname}
+            onChange={handleChange}
+          />
+          {errors.authorname && (
+            <p style={{ color: "red" }}>{errors.authorname}</p>
+          )}
+        </div>
+
+        <div>
+          <label htmlFor="price">Price:</label>
+          <input
+            type="text"
+            name="price"
+            value={book.price}
+            onChange={handleChange}
+          />
+          {errors.price && <p style={{ color: "red" }}>{errors.price}</p>}
+        </div>
+
+        <div>
+          <label htmlFor="description">Description:</label>
+          <textarea
+            name="description"
+            value={book.description}
+            onChange={handleChange}
+          />
+          {errors.description && (
+            <p style={{ color: "red" }}>{errors.description}</p>
+          )}
+        </div>
+
+        <div>
+          <label htmlFor="file">Image URL: </label>
+          <input
+            type="file"
+            name="file"
+            ref={fileInput}
+            accept="image/*"
+            required
+          />
+        </div>
+
+        <button type="submit">Add Book</button>
+      </form>
     </div>
   );
 }
