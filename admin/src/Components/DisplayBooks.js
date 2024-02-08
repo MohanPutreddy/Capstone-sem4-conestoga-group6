@@ -39,6 +39,10 @@ export default function DisplayBooks() {
                 <p>{product.bookname}</p>
                 <p>${product.price}</p>
               </div>
+              <div>
+                <button>Update</button>
+                <button>Delete</button>
+              </div>
             </li>
           ))}
         </ul>
