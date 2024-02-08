@@ -1,7 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp({ onGoToLogin }) {
+  const nagivate = useNavigate();
   const initialFormData = { username: "", email: "", password: "" };
   const [formData, setFormData] = useState(initialFormData);
 
@@ -22,7 +24,7 @@ export default function SignUp({ onGoToLogin }) {
     }
 
     if (formData.password.length < 6) {
-      newErrors.password = "Invalid password address";
+      newErrors.password = "password is less than 6 characters ";
       isValid = false;
     }
 
@@ -42,10 +44,9 @@ export default function SignUp({ onGoToLogin }) {
         );
         if (response.data.status) {
           console.log("data sent successfully:", response.data);
-          alert("Login successful");
+          nagivate("/");
         } else {
-          console.error("Login failed:", response.data.message);
-          alert(`Login failed: ${response.data.message}`);
+          console.error("Signup failed:", response.data.message);
         }
       } catch (error) {
         console.error("error sending data:", error);

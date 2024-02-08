@@ -40,7 +40,7 @@ export default function Login({ onGoToSignup }) {
         );
         if (response.data.status) {
           console.log("data sent successfully:", response.data);
-          alert("Login successful");
+          nagivate("/products");
         } else {
           console.error("Login failed:", response.data.message);
           alert(`Login failed: ${response.data.message}`);

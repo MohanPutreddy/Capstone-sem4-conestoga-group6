@@ -1,45 +1,58 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function ForgotPassword() {
   const [hide, setHide] = useState(true);
   const nagivate = useNavigate();
   // email from
-  const initialEmail = { email: "" };
-  const [Email, setEmail] = useState(initialEmail);
+  const [email, setEmail] = useState("");
   const [isValidEmail, setIsValidEmail] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (isValidEmail) {
-      console.log(Email);
-      setHide(false);
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/userauth/forgotpassword",
+          { email }
+        );
+        if (response.data.status) {
+          console.log("otp sent", response.data);
+          setHide(false);
+        } else {
+          console.error("otp not sent", response.data.message);
+        }
+      } catch (error) {
+        console.error("error sending data:", error);
+      }
     }
   };
 
   const handleChange = (e) => {
     const inputEmail = e.target.value;
     setEmail(inputEmail);
+
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     setIsValidEmail(emailPattern.test(inputEmail));
   };
   // otp from
-  const intialOtpForm = { otp: "", newpassword: "", confirmPassword: "" };
+  const intialOtpForm = { otp: "", newPassword: "", confirmPassword: "" };
   const [OtpForm, setOtpForm] = useState(intialOtpForm);
   const [errorsOtp, setErrorsOtp] = useState("");
 
   const validOtpForm = () => {
     let isValid = true;
     let newErrors = {};
-    if (OtpForm.otp.length !== 4) {
+    if (OtpForm.otp.length === 0) {
       newErrors.otp = "Invalid otp";
       isValid = false;
     }
-    if (OtpForm.newpassword.length < 6) {
-      newErrors.newpassword = "password should be more than 6 characters";
+    if (OtpForm.newPassword.length < 6) {
+      newErrors.newPassword = "password should be more than 6 characters";
       isValid = false;
     }
-    if (OtpForm.confirmPassword !== OtpForm.newpassword) {
+    if (OtpForm.confirmPassword !== OtpForm.newPassword) {
       newErrors.confirmPassword = "passwords does not match";
       isValid = false;
     }
@@ -48,11 +61,23 @@ export default function ForgotPassword() {
     return isValid;
   };
 
-  const handleOtpSubmit = (e) => {
+  const handleOtpSubmit = async (e) => {
     e.preventDefault();
     if (validOtpForm()) {
-      console.log(OtpForm);
-      nagivate("/");
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/userauth/resetpassword",
+          { ...OtpForm, email }
+        );
+        if (response.data.status) {
+          console.log("new password sent", response.data);
+          nagivate("/");
+        } else {
+          console.error("password not changed", response.data.message);
+        }
+      } catch (error) {
+        console.error("error sending data:", error);
+      }
     }
   };
 
@@ -73,7 +98,7 @@ export default function ForgotPassword() {
                 type="email"
                 id="email"
                 name="email"
-                value={Email.email}
+                value={email}
                 onChange={handleChange}
               ></input>
             </div>
@@ -100,15 +125,15 @@ export default function ForgotPassword() {
               <span style={{ color: "red" }}>{errorsOtp.otp}</span>
             </div>
             <div>
-              <label htmlFor="newpassword"> New Password:</label>
+              <label htmlFor="newPassword"> New Password:</label>
               <input
                 type="password"
-                id="newpassword"
-                name="newpassword"
-                value={OtpForm.newpassword}
+                id="newPassword"
+                name="newPassword"
+                value={OtpForm.newPassword}
                 onChange={handleOtpChange}
               />
-              <span style={{ color: "red" }}>{errorsOtp.newpassword}</span>
+              <span style={{ color: "red" }}>{errorsOtp.newPassword}</span>
             </div>
             <div>
               <label htmlFor="confirmPassword"> confirm Password:</label>

@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function AddBook() {
+  const file = useRef();
   const nagivate = useNavigate();
   const intialBook = {
     bookname: "",
     authorname: "",
     price: "",
     description: "",
-    image: "",
   };
   const [book, setBook] = useState(intialBook);
 
@@ -40,12 +40,6 @@ export default function AddBook() {
       newErrors.description = "Description is required";
       isValid = false;
     }
-
-    if (book.image.trim() === "") {
-      newErrors.image = "Image URL is required";
-      isValid = false;
-    }
-
     setErrors(newErrors);
     return isValid;
   };
@@ -55,6 +49,13 @@ export default function AddBook() {
 
     if (validateForm()) {
       console.log("Book added:", book);
+      const formData = new FormData();
+      formData.append("bookname", book.bookname);
+      formData.append("authorname", book.authorname);
+      formData.append("price", book.price);
+      formData.append("description", book.description);
+      formData.append("file", file.current.file);
+
       nagivate("/displaybooks");
     } else {
       console.log("Form validation failed");
@@ -132,13 +133,7 @@ export default function AddBook() {
         <div>
           <label>
             Image URL:
-            <input
-              type="text"
-              name="image"
-              value={book.image}
-              onChange={handleChange}
-            />
-            {errors.image && <p style={{ color: "red" }}>{errors.image}</p>}
+            <input ref={file} type="file" name="file" required />
           </label>
         </div>
 
