@@ -2,6 +2,6 @@
 /CapstoneBackend/node_modules
 /CapstoneFrontend/node_modules
 
-/admin/.gitignore
-/CapstoneBackend/.gitignore
-/CapstoneFrontend/.gitignore
+/admin/.env
+/CapstoneBackend/.env
+/CapstoneFrontend/.env
