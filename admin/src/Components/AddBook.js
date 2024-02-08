@@ -1,9 +1,11 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function AddBook() {
-  const file = useRef();
-  const nagivate = useNavigate();
+  const fileInput = useRef();
+
+  const navigate = useNavigate();
   const intialBook = {
     bookname: "",
     authorname: "",
@@ -44,7 +46,7 @@ export default function AddBook() {
     return isValid;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (validateForm()) {
@@ -54,11 +56,23 @@ export default function AddBook() {
       formData.append("authorname", book.authorname);
       formData.append("price", book.price);
       formData.append("description", book.description);
-      formData.append("file", file.current.file);
+      formData.append("file", fileInput.current.files[0]);
 
-      nagivate("/displaybooks");
-    } else {
-      console.log("Form validation failed");
+      // formData.append("file", file.current.file);
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/product/insert",
+          formData
+        );
+        if (response.data.status) {
+          console.log("book is added", response.data);
+          navigate("/displaybooks");
+        } else {
+          console.error("book is not added", response.data.message);
+        }
+      } catch (error) {
+        console.error("error sending data:", error);
+      }
     }
   };
 
@@ -133,7 +147,13 @@ export default function AddBook() {
         <div>
           <label>
             Image URL:
-            <input ref={file} type="file" name="file" required />
+            <input
+              type="file"
+              name="file"
+              ref={fileInput}
+              accept="image/*"
+              required
+            />
           </label>
         </div>
 
