@@ -94,13 +94,15 @@ export default function ForgotPassword() {
           <form onSubmit={handleSubmit}>
             <div className="form-fields">
               <label htmlFor="Email">Email:</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={email}
-                onChange={handleChange}
-              ></input>
+              <div>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={email}
+                  onChange={handleChange}
+                ></input>
+              </div>
             </div>
             <div className="login-button">
               <button type="submit" disabled={!isValidEmail}>
@@ -110,43 +112,53 @@ export default function ForgotPassword() {
           </form>
         </div>
       ) : (
-        <div>
+        <div className="form-container">
           <h2>Change Password</h2>
           <form onSubmit={handleOtpSubmit}>
-            <div>
+            <div className="form-fields">
               <label htmlFor="OTP">OTP</label>
-              <input
-                type="number"
-                id="otp"
-                name="otp"
-                value={OtpForm.otp}
-                onChange={handleOtpChange}
-              ></input>
-              <span style={{ color: "red" }}>{errorsOtp.otp}</span>
+              <div>
+                <input
+                  type="number"
+                  id="otp"
+                  name="otp"
+                  value={OtpForm.otp}
+                  onChange={handleOtpChange}
+                ></input>
+                <span style={{ color: "red" }}>{errorsOtp.otp}</span>
+              </div>
             </div>
-            <div>
+            <div className="form-fields">
               <label htmlFor="newPassword"> New Password:</label>
-              <input
-                type="password"
-                id="newPassword"
-                name="newPassword"
-                value={OtpForm.newPassword}
-                onChange={handleOtpChange}
-              />
-              <span style={{ color: "red" }}>{errorsOtp.newPassword}</span>
+              <div>
+                <input
+                  type="password"
+                  id="newPassword"
+                  name="newPassword"
+                  value={OtpForm.newPassword}
+                  onChange={handleOtpChange}
+                />
+                <span style={{ color: "red" }}>{errorsOtp.newPassword}</span>
+              </div>
             </div>
-            <div>
+            <div className="form-fields">
               <label htmlFor="confirmPassword"> confirm Password:</label>
-              <input
-                type="password"
-                id="confirmPassword"
-                name="confirmPassword"
-                value={OtpForm.confirmPassword}
-                onChange={handleOtpChange}
-              />
-              <span style={{ color: "red" }}>{errorsOtp.confirmPassword}</span>
+              <div>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  value={OtpForm.confirmPassword}
+                  onChange={handleOtpChange}
+                />
+                <span style={{ color: "red" }}>
+                  {errorsOtp.confirmPassword}
+                </span>
+              </div>
             </div>
-            <button type="submit">Submit</button>
+            <div className="login-button">
+              <button type="submit">Submit</button>
+            </div>
           </form>
         </div>
       )}

@@ -62,52 +62,61 @@ export default function SignUp({ onGoToLogin }) {
 
   return (
     <div>
-      <h2>Sign Up</h2>
-      <form onSubmit={handleSubmitSignUp}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={formData.username}
-            onChange={handleChangeSignUp}
-          />
-          <span style={{ color: "red" }}>{errorsSignUP.username}</span>
-        </div>
+      <div className="form-container">
+        <h2>Sign Up</h2>
+        <form onSubmit={handleSubmitSignUp}>
+          <div className="form-fields">
+            <label htmlFor="username">Username:</label>
+            <div>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value={formData.username}
+                onChange={handleChangeSignUp}
+              />
+              <span style={{ color: "red" }}>{errorsSignUP.username}</span>
+            </div>
+          </div>
 
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChangeSignUp}
-          />
-          <span style={{ color: "red" }}>{errorsSignUP.email}</span>
-        </div>
+          <div className="form-fields">
+            <label htmlFor="email">Email:</label>
+            <div>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChangeSignUp}
+              />
+              <span style={{ color: "red" }}>{errorsSignUP.email}</span>
+            </div>
+          </div>
 
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChangeSignUp}
-          />
-          <span style={{ color: "red" }}>{errorsSignUP.password}</span>
-        </div>
-
-        <button type="submit">Submit</button>
-
-        <div>
-          <button type="button" onClick={onGoToLogin}>
-            Go to Login
-          </button>
-        </div>
-      </form>
+          <div className="form-fields">
+            <label htmlFor="password">Password:</label>
+            <div>
+              <input
+                className="email-input"
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChangeSignUp}
+              />
+              <span style={{ color: "red" }}>{errorsSignUP.password}</span>
+            </div>
+          </div>
+          <div className="login-button">
+            <button type="submit">Submit</button>
+          </div>
+        </form>
+      </div>
+      <div className="signin-button">
+        <button type="button" onClick={onGoToLogin}>
+          Already a member? Sign In
+        </button>
+      </div>
     </div>
   );
 }
