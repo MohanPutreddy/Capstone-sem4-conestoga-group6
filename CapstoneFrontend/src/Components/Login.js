@@ -68,26 +68,30 @@ export default function Login({ onGoToSignup }) {
         <form onSubmit={handleSubmitLogin}>
           <div className="form-fields">
             <label htmlFor="username">Username:</label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              value={formData.username}
-              onChange={handleChangeLogin}
-            />
-            <span style={{ color: "red" }}>{errorsLogin.username}</span>
+            <div>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value={formData.username}
+                onChange={handleChangeLogin}
+              />
+              <span style={{ color: "red" }}>{errorsLogin.username}</span>
+            </div>
           </div>
 
           <div className="form-fields">
             <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChangeLogin}
-            />
-            <span style={{ color: "red" }}>{errorsLogin.password}</span>
+            <div>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChangeLogin}
+              />
+              <span style={{ color: "red" }}>{errorsLogin.password}</span>
+            </div>
           </div>
 
           <div className="login-button">
