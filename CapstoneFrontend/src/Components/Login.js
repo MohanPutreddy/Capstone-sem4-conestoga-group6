@@ -65,7 +65,7 @@ export default function Login({ onGoToSignup }) {
   };
 
   return (
-    <div>
+    <div className="main-container">
       <div className="form-container">
         <h2>Login</h2>
         <form onSubmit={handleSubmitLogin}>

@@ -85,80 +85,78 @@ export default function AddBook() {
   };
   return (
     <div>
-      <h2>Add Book</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>
-            Book Name:
-            <input
-              type="text"
-              name="bookname"
-              value={book.bookname}
-              onChange={handleChange}
-            />
-            {errors.bookname && (
-              <p style={{ color: "red" }}>{errors.bookname}</p>
-            )}
-          </label>
-        </div>
-
-        <div>
-          <label>
-            Author Name:
-            <input
-              type="text"
-              name="authorname"
-              value={book.authorname}
-              onChange={handleChange}
-            />
-            {errors.authorname && (
-              <p style={{ color: "red" }}>{errors.authorname}</p>
-            )}
-          </label>
-        </div>
-
-        <div>
-          <label>
-            Price:
-            <input
-              type="text"
-              name="price"
-              value={book.price}
-              onChange={handleChange}
-            />
-            {errors.price && <p style={{ color: "red" }}>{errors.price}</p>}
-          </label>
-        </div>
-
-        <div>
-          <label>
-            Description:
-            <textarea
-              name="description"
-              value={book.description}
-              onChange={handleChange}
-            />
-            {errors.description && (
-              <p style={{ color: "red" }}>{errors.description}</p>
-            )}
-          </label>
-        </div>
-
-        <div>
-          <label>
-            Image URL:
-            <input
-              type="file"
-              name="file"
-              ref={fileInput}
-              accept="image/*"
-              required
-            />
-          </label>
-        </div>
-
-        <button type="submit">Add Book</button>
-      </form>
+      <div className="form-container">
+        <h2>Add Book</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="form-fields">
+            <label>
+              Book Name:
+              <input
+                type="text"
+                name="bookname"
+                value={book.bookname}
+                onChange={handleChange}
+              />
+              {errors.bookname && (
+                <p style={{ color: "red" }}>{errors.bookname}</p>
+              )}
+            </label>
+          </div>
+          <div className="form-fields">
+            <label>
+              Author Name:
+              <input
+                type="text"
+                name="authorname"
+                value={book.authorname}
+                onChange={handleChange}
+              />
+              {errors.authorname && (
+                <p style={{ color: "red" }}>{errors.authorname}</p>
+              )}
+            </label>
+          </div>
+          <div className="form-fields">
+            <label>
+              Price:
+              <input
+                type="text"
+                name="price"
+                value={book.price}
+                onChange={handleChange}
+              />
+              {errors.price && <p style={{ color: "red" }}>{errors.price}</p>}
+            </label>
+          </div>
+          <div className="form-fields">
+            <label>
+              Description:
+              <textarea
+                name="description"
+                value={book.description}
+                onChange={handleChange}
+              />
+              {errors.description && (
+                <p style={{ color: "red" }}>{errors.description}</p>
+              )}
+            </label>
+          </div>
+          <div className="form-fields">
+            <label>
+              Image URL:
+              <input
+                type="file"
+                name="file"
+                ref={fileInput}
+                accept="image/*"
+                required
+              />
+            </label>
+          </div>
+          div
+          <button type="submit">Add Book</button>
+        </form>
+      </div>
     </div>
   );
 }

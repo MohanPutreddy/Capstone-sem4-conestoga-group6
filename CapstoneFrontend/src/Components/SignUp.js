@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "./Css/styles.css";
 
 export default function SignUp({ onGoToLogin }) {
   const nagivate = useNavigate();
@@ -65,7 +66,7 @@ export default function SignUp({ onGoToLogin }) {
   };
 
   return (
-    <div>
+    <div className="main-container">
       <div className="form-container">
         <h2>Sign Up</h2>
         <form onSubmit={handleSubmitSignUp}>
