@@ -64,10 +64,10 @@ export default function ForgotPassword() {
   return (
     <div>
       {hide ? (
-        <div>
-          <h2>ForgotPassword</h2>
+        <div className="form-container">
+          <h2>Forgot Password</h2>
           <form onSubmit={handleSubmit}>
-            <div>
+            <div className="form-fields">
               <label htmlFor="Email">Email:</label>
               <input
                 type="email"
@@ -77,7 +77,7 @@ export default function ForgotPassword() {
                 onChange={handleChange}
               ></input>
             </div>
-            <div>
+            <div className="login-button">
               <button type="submit" disabled={!isValidEmail}>
                 Send Email
               </button>
