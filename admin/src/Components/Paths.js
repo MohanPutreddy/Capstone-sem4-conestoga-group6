@@ -3,12 +3,14 @@ import { Routes, Route, Link } from "react-router-dom";
 import AddBook from "./AddBook";
 import DisplayBooks from "./DisplayBooks";
 import Home from "./Home";
+import "./Css/styles.css";
 
 export default function Paths() {
   return (
     <div>
       <div>
-        <div>
+        <header>
+          <h1>Admin</h1>
           <nav>
             <ul>
               <li>
@@ -19,7 +21,8 @@ export default function Paths() {
               </li>
             </ul>
           </nav>
-        </div>
+        </header>
+
         <div>
           <Routes>
             <Route path="/" element={<Home></Home>}></Route>

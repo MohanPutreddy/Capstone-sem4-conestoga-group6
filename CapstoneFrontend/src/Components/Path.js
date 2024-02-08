@@ -5,27 +5,32 @@ import ForgotPassword from "./ForgotPassword";
 import Products from "./Products";
 import Login from "./Login";
 import SignUp from "./SignUp";
+import "./Css/styles.css";
 
 export default function Path() {
   return (
     <div>
       <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/products">Products</Link>
-            </li>
-            <li>
-              <Link to="/login">Log In</Link>
-            </li>
-            <li>
-              <Link to="/signup">Sign Up</Link>
-            </li>
-          </ul>
-        </nav>
+        <header>
+          <h1>BookWorld</h1>
+
+          <nav>
+            <ul>
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li>
+                <Link to="/products">Products</Link>
+              </li>
+              <li>
+                <Link to="/login">Log In</Link>
+              </li>
+              <li>
+                <Link to="/signup">Sign Up</Link>
+              </li>
+            </ul>
+          </nav>
+        </header>
       </div>
       <div>
         <Routes>
