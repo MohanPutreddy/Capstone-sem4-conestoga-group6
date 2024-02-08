@@ -56,6 +56,9 @@ export default function Login({ onGoToSignup }) {
     setFormData({ ...formData, [name]: value });
     setErrorsLogin({ ...errorsLogin, [name]: "" });
   };
+  const changeToSignup = () => {
+    nagivate("/signup");
+  };
 
   const changePassword = () => {
     nagivate("/forgotpassword");
@@ -103,7 +106,7 @@ export default function Login({ onGoToSignup }) {
         <p>or</p>
       </div>
       <div className="signup-button">
-        <button type="button" onClick={onGoToSignup}>
+        <button type="button" onClick={changeToSignup}>
           Create an account - SignUp here
         </button>
       </div>

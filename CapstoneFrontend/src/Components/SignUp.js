@@ -44,7 +44,7 @@ export default function SignUp({ onGoToLogin }) {
         );
         if (response.data.status) {
           console.log("data sent successfully:", response.data);
-          nagivate("/");
+          nagivate("/products");
         } else {
           console.error("Signup failed:", response.data.message);
         }
@@ -52,6 +52,10 @@ export default function SignUp({ onGoToLogin }) {
         console.error("error sending data:", error);
       }
     }
+  };
+
+  const changeToLogin = () => {
+    nagivate("/login");
   };
 
   const handleChangeSignUp = (e) => {
@@ -113,7 +117,7 @@ export default function SignUp({ onGoToLogin }) {
         </form>
       </div>
       <div className="signin-button">
-        <button type="button" onClick={onGoToLogin}>
+        <button type="button" onClick={changeToLogin}>
           Already a member? Sign In
         </button>
       </div>
