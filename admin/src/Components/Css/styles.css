@@ -115,3 +115,7 @@ textarea {
   background-color: #e6f7ff;
   cursor: pointer;
 }
+
+p {
+  margin: 0;
+}
