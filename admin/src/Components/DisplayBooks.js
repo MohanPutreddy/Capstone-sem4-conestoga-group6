@@ -21,15 +21,15 @@ export default function DisplayBooks() {
   }, []);
 
   return (
-    <div>
+    <div className="center-text">
       <h1>Product List</h1>
 
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <ul>
+        <ul className="product-list">
           {products.map((product) => (
-            <li key={product.id}>
+            <li key={product.id} className="product-card">
               <img
                 src={`http://localhost:3000/uploads/${product.image}`}
                 alt={product.bookname}
@@ -37,9 +37,9 @@ export default function DisplayBooks() {
               />
               <div>
                 <p>{product.bookname}</p>
-                <p>${product.price}</p>
+                <p>$ {product.price}</p>
               </div>
-              <div>
+              <div className="action-buttons">
                 <button>Update</button>
                 <button>Delete</button>
               </div>

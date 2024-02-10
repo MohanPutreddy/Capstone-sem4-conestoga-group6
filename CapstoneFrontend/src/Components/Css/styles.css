@@ -144,3 +144,19 @@ header h1 {
   padding: 6px 0 6px 0;
   margin: 5px 0 5px 0;
 }
+
+.product-card{
+  padding: 15px;
+  background: azure;
+  border-radius: 10px;
+}
+
+.product-list{
+  display: flex;
+  gap: 50px;
+  padding: 25px;
+}
+
+.center-text{
+  text-align: center;
+}
