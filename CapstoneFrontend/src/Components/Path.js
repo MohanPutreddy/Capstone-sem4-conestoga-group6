@@ -13,7 +13,6 @@ export default function Path() {
       <div>
         <header>
           <h1>BookWorld</h1>
-
           <nav>
             <ul>
               <li>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "./Css/styles.css";
 
 export default function ForgotPassword() {
   const [hide, setHide] = useState(true);
@@ -89,77 +90,81 @@ export default function ForgotPassword() {
   return (
     <div>
       {hide ? (
-        <div className="form-container">
-          <h2>Forgot Password</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="form-fields">
-              <label htmlFor="Email">Email:</label>
-              <div>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={email}
-                  onChange={handleChange}
-                ></input>
+        <div className="main-container">
+          <div className="form-container">
+            <h2>Forgot Password</h2>
+            <form onSubmit={handleSubmit}>
+              <div className="form-fields">
+                <label htmlFor="Email">Email:</label>
+                <div>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={email}
+                    onChange={handleChange}
+                  ></input>
+                </div>
               </div>
-            </div>
-            <div className="login-button">
-              <button type="submit" disabled={!isValidEmail}>
-                Send Email
-              </button>
-            </div>
-          </form>
+              <div className="login-button">
+                <button type="submit" disabled={!isValidEmail}>
+                  Send Email
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       ) : (
-        <div className="form-container">
-          <h2>Change Password</h2>
-          <form onSubmit={handleOtpSubmit}>
-            <div className="form-fields">
-              <label htmlFor="OTP">OTP</label>
-              <div>
-                <input
-                  type="number"
-                  id="otp"
-                  name="otp"
-                  value={OtpForm.otp}
-                  onChange={handleOtpChange}
-                ></input>
-                <span style={{ color: "red" }}>{errorsOtp.otp}</span>
+        <div className="main-container">
+          <div className="form-container">
+            <h2>Change Password</h2>
+            <form onSubmit={handleOtpSubmit}>
+              <div className="form-fields">
+                <label htmlFor="OTP">OTP</label>
+                <div>
+                  <input
+                    type="number"
+                    id="otp"
+                    name="otp"
+                    value={OtpForm.otp}
+                    onChange={handleOtpChange}
+                  ></input>
+                  <span style={{ color: "red" }}>{errorsOtp.otp}</span>
+                </div>
               </div>
-            </div>
-            <div className="form-fields">
-              <label htmlFor="newPassword"> New Password:</label>
-              <div>
-                <input
-                  type="password"
-                  id="newPassword"
-                  name="newPassword"
-                  value={OtpForm.newPassword}
-                  onChange={handleOtpChange}
-                />
-                <span style={{ color: "red" }}>{errorsOtp.newPassword}</span>
+              <div className="form-fields">
+                <label htmlFor="newPassword"> New Password:</label>
+                <div>
+                  <input
+                    type="password"
+                    id="newPassword"
+                    name="newPassword"
+                    value={OtpForm.newPassword}
+                    onChange={handleOtpChange}
+                  />
+                  <span style={{ color: "red" }}>{errorsOtp.newPassword}</span>
+                </div>
               </div>
-            </div>
-            <div className="form-fields">
-              <label htmlFor="confirmPassword"> confirm Password:</label>
-              <div>
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  value={OtpForm.confirmPassword}
-                  onChange={handleOtpChange}
-                />
-                <span style={{ color: "red" }}>
-                  {errorsOtp.confirmPassword}
-                </span>
+              <div className="form-fields">
+                <label htmlFor="confirmPassword"> confirm Password:</label>
+                <div>
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    value={OtpForm.confirmPassword}
+                    onChange={handleOtpChange}
+                  />
+                  <span style={{ color: "red" }}>
+                    {errorsOtp.confirmPassword}
+                  </span>
+                </div>
               </div>
-            </div>
-            <div className="login-button">
-              <button type="submit">Submit</button>
-            </div>
-          </form>
+              <div className="login-button">
+                <button type="submit">Submit</button>
+              </div>
+            </form>
+          </div>
         </div>
       )}
     </div>
