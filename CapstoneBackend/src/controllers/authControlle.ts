@@ -5,6 +5,7 @@ import { compare } from "bcrypt";
 import { hash, otp } from "../utils/utils";
 import { PrismaClient } from "@prisma/client";
 import { sendEmail } from "./emailController";
+import { JwtUtil } from "../utils/JwtUtil";
 
 const prisma = new PrismaClient();
 
@@ -38,7 +39,12 @@ export const login = async (
     }
 
     return res.json({
-      user: userDetails,
+      user: {
+        username: userDetails.username,
+        email: userDetails.email,
+        id: userDetails.id,
+      },
+      token: JwtUtil.generateToken({ id: userDetails.id }),
       status: true,
     });
   } catch (error) {
@@ -82,8 +88,13 @@ export const signup = async (
       },
     });
     return res.json({
-      user: response,
+      user: {
+        username: response.username,
+        email: response.email,
+        id: response.id,
+      },
       status: true,
+      token: JwtUtil.generateToken({ id: response.id }),
     });
   } catch (error) {
     console.log(error);

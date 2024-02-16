@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Css/styles.css";
+import { AppContext } from "./GlobalContextProvider";
 
 export default function Login({ onGoToSignup }) {
+  const { setLogIn } = useContext(AppContext);
   const nagivate = useNavigate();
 
   const initialFormData = { username: "", password: "" };
@@ -40,7 +42,13 @@ export default function Login({ onGoToSignup }) {
         );
         if (response.data.status) {
           console.log("data sent successfully:", response.data);
+          // Assuming the server returns a token upon successful login
+          const authToken = response.data.token;
+
+          // Store the token in localStorage
+          localStorage.setItem("token", authToken);
           nagivate("/products");
+          setLogIn(true);
         } else {
           console.error("Login failed:", response.data.message);
           alert(`Login failed: ${response.data.message}`);

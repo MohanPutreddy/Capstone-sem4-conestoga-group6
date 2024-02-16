@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import Home from "./Home";
 import ForgotPassword from "./ForgotPassword";
@@ -6,8 +6,14 @@ import Products from "./Products";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import "./Css/styles.css";
+import { AppContext } from "./GlobalContextProvider";
 
 export default function Path() {
+  const { logIn, setLogIn } = useContext(AppContext);
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setLogIn(false);
+  };
   return (
     <div>
       <div>
@@ -21,12 +27,22 @@ export default function Path() {
               <li>
                 <Link to="/products">Products</Link>
               </li>
-              <li>
-                <Link to="/login">Log In</Link>
-              </li>
-              <li>
-                <Link to="/signup">Sign Up</Link>
-              </li>
+              {logIn ? (
+                <div>
+                  <li>
+                    <button onClick={handleLogout}>Log out</button>
+                  </li>
+                </div>
+              ) : (
+                <div>
+                  <li>
+                    <Link to="/login">Log In</Link>
+                  </li>
+                  <li>
+                    <Link to="/signup">Sign Up</Link>
+                  </li>
+                </div>
+              )}
             </ul>
           </nav>
         </header>
