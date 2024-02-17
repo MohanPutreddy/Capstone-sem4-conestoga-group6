@@ -9,6 +9,7 @@ export default function SignUp({ onGoToLogin }) {
   const nagivate = useNavigate();
   const initialFormData = { username: "", email: "", password: "" };
   const [formData, setFormData] = useState(initialFormData);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [errorsSignUP, setErrorsSignUP] = useState({});
 
@@ -55,7 +56,8 @@ export default function SignUp({ onGoToLogin }) {
           setLogIn(true);
           nagivate("/products");
         } else {
-          console.error("Signup failed:", response.data.message);
+          setErrorMessage(response.data.message);
+          // console.error("Signup failed:", response.data.message);
         }
       } catch (error) {
         console.error("error sending data:", error);
@@ -130,6 +132,7 @@ export default function SignUp({ onGoToLogin }) {
           Already a member? Sign In
         </button>
       </div>
+      <p>{errorMessage}</p>
     </div>
   );
 }

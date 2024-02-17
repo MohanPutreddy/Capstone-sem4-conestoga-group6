@@ -11,6 +11,7 @@ export default function Login({ onGoToSignup }) {
   const initialFormData = { username: "", password: "" };
   const [formData, setFormData] = useState(initialFormData);
   const [errorsLogin, setErrorsLogin] = useState({});
+  const [errorMessage, setErrorMessage] = useState("");
 
   const validateLogin = () => {
     let isValid = true;
@@ -50,8 +51,9 @@ export default function Login({ onGoToSignup }) {
           nagivate("/products");
           setLogIn(true);
         } else {
-          console.error("Login failed:", response.data.message);
-          alert(`Login failed: ${response.data.message}`);
+          // console.error("Login failed:", response.data.message);
+          // alert(`Login failed: ${response.data.message}`);
+          setErrorMessage(response.data.message);
         }
       } catch (error) {
         console.error("error sending data:", error);
@@ -121,6 +123,7 @@ export default function Login({ onGoToSignup }) {
       <div className="forget-button">
         <button onClick={changePassword}>Forget Password</button>
       </div>
+      <p>{errorMessage}</p>
     </div>
   );
 }
