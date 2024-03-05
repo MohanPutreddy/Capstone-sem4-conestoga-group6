@@ -28,20 +28,20 @@ export default function Path() {
                 <Link to="/products">Products</Link>
               </li>
               {logIn ? (
-                <div>
+                <>
                   <li>
                     <button onClick={handleLogout}>Log out</button>
                   </li>
-                </div>
+                </>
               ) : (
-                <div>
+                <>
                   <li>
                     <Link to="/login">Log In</Link>
                   </li>
                   <li>
                     <Link to="/signup">Sign Up</Link>
                   </li>
-                </div>
+                </>
               )}
             </ul>
           </nav>
