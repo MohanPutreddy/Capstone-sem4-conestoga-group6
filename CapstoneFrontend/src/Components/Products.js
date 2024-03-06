@@ -30,21 +30,23 @@ export default function Products() {
       ) : (
         <ul className="product-list">
           {products.map((product) => (
-            <li key={product.id} className="product-card">
-              <Link to={`/products/${product.id}`}>
-                <div className="productImageContainer">
-                  <img
-                    src={`http://localhost:3000/uploads/${product.image}`}
-                    alt={product.bookname}
-                  />
-                </div>
-              </Link>
+            <div className="productCardWrapper">
+              <li key={product.id} className="product-card">
+                <Link to={`/products/${product.id}`}>
+                  <div className="productImageContainer">
+                    <img
+                      src={`http://localhost:3000/uploads/${product.image}`}
+                      alt={product.bookname}
+                    />
+                  </div>
+                </Link>
 
-              <div>
-                <p className="product-name">{product.bookname}</p>
-                <p>${product.price}</p>
-              </div>
-            </li>
+                <div>
+                  <p className="product-name">{product.bookname}</p>
+                  <p>${product.price}</p>
+                </div>
+              </li>
+            </div>
           ))}
         </ul>
       )}
