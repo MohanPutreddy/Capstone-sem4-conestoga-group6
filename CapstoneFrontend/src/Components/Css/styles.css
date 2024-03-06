@@ -174,7 +174,7 @@ nav ul {
   height: 100px;
   width: auto;
 }
-a {
+nav a {
   text-decoration: none;
   padding-left: 50px;
   text-transform: uppercase;
@@ -189,6 +189,24 @@ header h1 {
   padding: 15px;
   background: azure;
   border-radius: 10px;
+  transition: 300ms;
+  box-shadow: 0 4px 8px 0 rgba(181, 181, 181, 0.2), 0 6px 20px 0 rgba(255, 255, 255, 0.19);
+  -webkit-transition: 300ms;
+  -moz-transition: 300ms;
+  -ms-transition: 300ms;
+  -o-transition: 300ms;
+}
+
+.product-card:hover{
+  padding: 15px;
+  background: azure;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
 }
 
 .product-list{
