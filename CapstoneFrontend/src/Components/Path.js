@@ -7,6 +7,8 @@ import Login from "./Login";
 import SignUp from "./SignUp";
 import "./Css/styles.css";
 import { AppContext } from "./GlobalContextProvider";
+import logo from '../logo/logo.png';
+import ProductDetail from './ProductDetail';
 
 export default function Path() {
   const { logIn, setLogIn } = useContext(AppContext);
@@ -15,10 +17,12 @@ export default function Path() {
     setLogIn(false);
   };
   return (
-    <div>
-      <div>
+    <>
+      <>
         <header>
-          <h1>BookWorld</h1>
+          <div>
+            <img src={logo} alt="Logo" className="logo" />
+          </div>
           <nav>
             <ul>
               <li>
@@ -28,26 +32,26 @@ export default function Path() {
                 <Link to="/products">Products</Link>
               </li>
               {logIn ? (
-                <div>
+                <>
                   <li>
                     <button onClick={handleLogout}>Log out</button>
                   </li>
-                </div>
+                </>
               ) : (
-                <div>
+                <>
                   <li>
-                    <Link to="/login">Log In</Link>
+                    <Link to="/login"><i className="fa fa-sign-in"></i>Log In</Link>
                   </li>
                   <li>
                     <Link to="/signup">Sign Up</Link>
                   </li>
-                </div>
+                </>
               )}
             </ul>
           </nav>
         </header>
-      </div>
-      <div>
+      </>
+      <main>
         <Routes>
           <Route path="/" element={<Home></Home>}></Route>
           <Route path="/login" element={<Login></Login>}></Route>
@@ -57,8 +61,12 @@ export default function Path() {
             element={<ForgotPassword></ForgotPassword>}
           ></Route>
           <Route path="/products" element={<Products></Products>}></Route>
+          <Route path="/product/:id" element={<ProductDetail />} />
         </Routes>
-      </div>
-    </div>
+      </main>
+      <footer>
+        &copy; Group 6 - 2024 Winter - Sec 8
+      </footer>
+    </>
   );
 }

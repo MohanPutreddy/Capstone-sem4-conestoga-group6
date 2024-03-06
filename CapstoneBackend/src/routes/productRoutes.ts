@@ -1,6 +1,6 @@
 import express from "express";
 import multer from "multer";
-import { addProduct, getProducts } from "../controllers/productController";
+import { addProduct, getProducts, getProductById } from "../controllers/productController";
 import { tokenValidation } from "../middlewares/tokenValidation";
 
 const router = express.Router();
@@ -18,5 +18,6 @@ const upload = multer({ storage });
 
 router.get("/", getProducts);
 router.post("/insert", tokenValidation, upload.single("file"), addProduct);
+router.get("/:id", getProductById);
 
 export const productRouter = router;

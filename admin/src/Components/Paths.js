@@ -4,13 +4,16 @@ import AddBook from "./AddBook";
 import DisplayBooks from "./DisplayBooks";
 import Home from "./Home";
 import "./Css/styles.css";
+import logo from '../logo/logo.png';
 
 export default function Paths() {
   return (
-    <div>
-      <div>
+    <>
+      <>
         <header>
-          <h1>Admin</h1>
+          <div>
+            <img src={logo} alt="Logo" className="logo" />
+          </div>
           <nav>
             <ul>
               <li>
@@ -22,19 +25,25 @@ export default function Paths() {
             </ul>
           </nav>
         </header>
+        <main>
+          <><h2 className="partition-text">Admin Control Center</h2></>
+          <div>
+            <Routes>
+              <Route path="/" element={<Home></Home>}></Route>
+              <Route path="/addbooks" element={<AddBook></AddBook>}></Route>
 
-        <div>
-          <Routes>
-            <Route path="/" element={<Home></Home>}></Route>
-            <Route path="/addbooks" element={<AddBook></AddBook>}></Route>
+              <Route
+                path="/displaybooks"
+                element={<DisplayBooks></DisplayBooks>}
+              ></Route>
+            </Routes>
+          </div>
+        </main>
 
-            <Route
-              path="/displaybooks"
-              element={<DisplayBooks></DisplayBooks>}
-            ></Route>
-          </Routes>
-        </div>
-      </div>
-    </div>
+        <footer>
+          &copy; Admin Control Center - Group 6 - 2024 Winter - Sec 8
+        </footer>
+      </>
+    </>
   );
 }

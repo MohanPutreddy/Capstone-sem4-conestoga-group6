@@ -56,3 +56,35 @@ export const getProducts = async (
     products,
   });
 };
+
+export const getProductById = async (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction
+
+) => {
+  try {
+    const { id } = req.params;
+
+    const productId = parseInt(id, 10);
+
+    if (isNaN(productId)) {
+      return res.status(400).json({
+        status: false,
+        message: "Invalid product ID",
+      });
+    }
+
+    const product = await prisma.products.findUnique({
+      where: { id: productId },
+    });
+    if (product) {
+      res.json({ status: true, product });
+    } else {
+      res.status(404).json({ status: false, message: "Product not found" });
+    }
+  } catch (error) {
+    console.error("Failed to fetch product:", error);
+    res.status(500).json({ status: false });
+  }
+};

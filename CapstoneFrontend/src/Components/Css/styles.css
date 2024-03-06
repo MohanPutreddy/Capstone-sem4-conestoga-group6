@@ -9,12 +9,29 @@
 
 h2 {
   text-align: center;
-  text-transform: uppercase;
+}
+
+.partition-text {
+  padding: 5px;
+  border-bottom-width: 2px;
+  border-bottom-color: #d2d2d2;
+  border-bottom-style: solid;
+}
+
+.product-name {
   font-weight: bold;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
 }
 
 body {
   background-color: #e6f7ff;
+  display: flex;
+  flex-direction: column;
 }
 
 .form-fields {
@@ -32,7 +49,6 @@ body {
 }
 
 .form-fields label {
-  font-weight: bold;
   width: 30%;
   align-items: center;
   justify-content: center;
@@ -66,14 +82,22 @@ body {
   color: white;
   border-radius: 10px;
   padding: 5px 20px 5px 20px;
-  font-weight: bold;
 }
+
+.login-button button:hover,
+.signup-button button:hover,
+.google-button button:hover,
+.forget-button button:hover,
+.signin-button button:hover {
+  background-color: #0056b3;
+  cursor: pointer;
+}
+
 
 .para-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: bold;
   text-transform: uppercase;
 }
 
@@ -107,19 +131,84 @@ body {
 
 body {
   margin: 0;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .main-container {
-  margin-top: 150px;
+  margin: 50px;
 }
 
 /* Header css*/
 header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   background-color: #004080;
-  padding: 0 10px 0 10px;
+}
+
+footer {
+  bottom: 0;
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+  border-top-width: 2px;
+  border-top-color: #c9c9c9;
+  border-top-style: solid;
+}
+
+.action-buttons {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+
+.productImageContainer {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.productImageContainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 3px;
+}
+
+.action-buttons button {
+  margin: 5px;
+  padding: 5px;
+  background-color: white;
+  color: black;
+  border: 2px solid #004080;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  transition: 500ms;
+  -webkit-transition: 500ms;
+  -moz-transition: 500ms;
+  -ms-transition: 500ms;
+  -o-transition: 500ms;
+}
+
+.action-buttons button:hover {
+  margin: 5px;
+  padding: 5px;
+  background-color: #004080;
+  color: white;
+  border: 2px solid white;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+
+header nav {
+  padding: 25px;
 }
 
 ul {
@@ -132,31 +221,70 @@ nav ul {
   flex-direction: row;
 }
 
-a {
+.logo {
+  height: 100px;
+  width: auto;
+}
+
+nav a {
   text-decoration: none;
   padding-left: 50px;
-  font-size: 15px;
   text-transform: uppercase;
-  font-weight: bold;
   color: white;
 }
+
 header h1 {
-  padding: 6px 0 6px 0;
   margin: 5px 0 5px 0;
+  color: white;
 }
 
-.product-card{
+.product-card {
+  height: 300px;
+  display: grid;
+  grid-template-rows: 60% auto auto;
   padding: 15px;
   background: azure;
-  border-radius: 10px;
+  border-radius: 5px;
+  transition: 300ms;
+  box-shadow: 0 4px 8px 0 rgba(181, 181, 181, 0.2), 0 6px 20px 0 rgba(255, 255, 255, 0.19);
+  -webkit-transition: 300ms;
+  -moz-transition: 300ms;
+  -ms-transition: 300ms;
+  -o-transition: 300ms;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
 }
 
-.product-list{
-  display: flex;
-  gap: 50px;
+.product-card:hover {
+  height: 305px;
+  padding: 15px;
+  background: azure;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+
+.productCardWrapper{
+  height: 320px;
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 30px;
   padding: 25px;
 }
 
-.center-text{
+.center-text {
   text-align: center;
+}
+
+main {
+  flex-grow: 1;
+  margin: 0 100px;
 }

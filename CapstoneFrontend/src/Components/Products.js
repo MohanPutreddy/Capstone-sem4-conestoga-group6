@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -21,25 +22,31 @@ export default function Products() {
   }, []);
 
   return (
-    <div className="center-text">
-      <h1>Product List</h1>
+    <div>
+      <h1 className="partition-text">Shop</h1>
 
       {loading ? (
         <p>Loading...</p>
       ) : (
         <ul className="product-list">
           {products.map((product) => (
-            <li key={product.id} className="product-card">
-              <img
-                src={`http://localhost:3000/uploads/${product.image}`}
-                alt={product.bookname}
-                style={{ maxWidth: "100px" }}
-              />
-              <div>
-                <p>{product.bookname}</p>
-                <p>$ {product.price}</p>
-              </div>
-            </li>
+            <div className="productCardWrapper">
+              <li key={product.id} className="product-card">
+                <Link to={`/product/${product.id}`}>
+                  <div className="productImageContainer">
+                    <img
+                      src={`http://localhost:3000/uploads/${product.image}`}
+                      alt={product.bookname}
+                    />
+                  </div>
+                </Link>
+
+                <div>
+                  <p className="product-name">{product.bookname}</p>
+                  <p>${product.price}</p>
+                </div>
+              </li>
+            </div>
           ))}
         </ul>
       )}

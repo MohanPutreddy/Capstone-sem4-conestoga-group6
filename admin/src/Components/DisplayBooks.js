@@ -21,29 +21,33 @@ export default function DisplayBooks() {
   }, []);
 
   return (
-    <div className="center-text">
-      <h1>Product List</h1>
+    <div>
+      <h1 className="partition-text">Shop</h1>
 
       {loading ? (
         <p>Loading...</p>
       ) : (
         <ul className="product-list">
           {products.map((product) => (
-            <li key={product.id} className="product-card">
-              <img
-                src={`http://localhost:3000/uploads/${product.image}`}
-                alt={product.bookname}
-                style={{ maxWidth: "100px" }}
-              />
-              <div>
-                <p>{product.bookname}</p>
-                <p>$ {product.price}</p>
-              </div>
-              <div className="action-buttons">
-                <button>Update</button>
-                <button>Delete</button>
-              </div>
-            </li>
+            <div className="productCardWrapper">
+              <li key={product.id} className="product-card">
+                <div className="productImageContainer">
+                  <img
+                    src={`http://localhost:3000/uploads/${product.image}`}
+                    alt={product.bookname}
+                  />
+                </div>
+
+                <div>
+                  <p className="product-name">{product.bookname}</p>
+                  <p>${product.price}</p>
+                </div>
+                <div className="action-buttons">
+                  <button>Update</button>
+                  <button>Delete</button>
+                </div>
+              </li>
+            </div>
           ))}
         </ul>
       )}
