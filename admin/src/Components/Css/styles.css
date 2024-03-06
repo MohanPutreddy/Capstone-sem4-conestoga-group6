@@ -18,6 +18,10 @@ h2 {
   border-bottom-style: solid;
 }
 
+.product-name{
+  font-weight: bold;
+}
+
 html, body {
   height: 100%;
   margin: 0;

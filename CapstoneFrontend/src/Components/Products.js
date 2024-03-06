@@ -36,8 +36,8 @@ export default function Products() {
                 style={{ maxWidth: "100px" }}
               />
               <div>
-                <p>{product.bookname}</p>
-                <p>$ {product.price}</p>
+                <p className="product-name">{product.bookname}</p>
+                <p>${product.price}</p>
               </div>
             </li>
           ))}
