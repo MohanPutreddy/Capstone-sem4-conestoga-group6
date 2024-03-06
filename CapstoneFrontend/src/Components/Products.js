@@ -21,8 +21,8 @@ export default function Products() {
   }, []);
 
   return (
-    <div className="center-text">
-      <h1>Product List</h1>
+    <div>
+      <h1 className="partition-text">Shop</h1>
 
       {loading ? (
         <p>Loading...</p>
