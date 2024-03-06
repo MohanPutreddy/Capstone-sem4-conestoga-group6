@@ -30,13 +30,15 @@ export default function DisplayBooks() {
         <ul className="product-list">
           {products.map((product) => (
             <li key={product.id} className="product-card">
-              <img
-                src={`http://localhost:3000/uploads/${product.image}`}
-                alt={product.bookname}
-                style={{ maxWidth: "100px" }}
-              />
+              <div className="productImageContainer">
+                <img
+                  src={`http://localhost:3000/uploads/${product.image}`}
+                  alt={product.bookname}
+                />
+              </div>
+
               <div>
-                <p  className="product-name">{product.bookname}</p>
+                <p className="product-name">{product.bookname}</p>
                 <p>${product.price}</p>
               </div>
               <div className="action-buttons">
