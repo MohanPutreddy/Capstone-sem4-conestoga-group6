@@ -8,6 +8,7 @@ import SignUp from "./SignUp";
 import "./Css/styles.css";
 import { AppContext } from "./GlobalContextProvider";
 import logo from '../logo/logo.png';
+import ProductDetail from './ProductDetail';
 
 export default function Path() {
   const { logIn, setLogIn } = useContext(AppContext);
@@ -20,7 +21,7 @@ export default function Path() {
       <>
         <header>
           <div>
-            <img src={logo} alt="Logo" className="logo"/>
+            <img src={logo} alt="Logo" className="logo" />
           </div>
           <nav>
             <ul>
@@ -60,10 +61,11 @@ export default function Path() {
             element={<ForgotPassword></ForgotPassword>}
           ></Route>
           <Route path="/products" element={<Products></Products>}></Route>
+          <Route path="/products/:id" element={<ProductDetail />} />
         </Routes>
       </main>
       <footer>
-          &copy; Group 6 - 2024 Winter - Sec 8
+        &copy; Group 6 - 2024 Winter - Sec 8
       </footer>
     </>
   );
