@@ -64,9 +64,19 @@ export const getProductById = async (
 
 ) => {
   try {
-    const { id } = req.params; // Extract the ID from the request parameters
+    const { id } = req.params;
+
+    const productId = parseInt(id, 10);
+
+    if (isNaN(productId)) {
+      return res.status(400).json({
+        status: false,
+        message: "Invalid product ID",
+      });
+    }
+
     const product = await prisma.products.findUnique({
-      where: { id: parseInt(id) },
+      where: { id: productId },
     });
     if (product) {
       res.json({ status: true, product });

@@ -61,7 +61,7 @@ export default function Path() {
             element={<ForgotPassword></ForgotPassword>}
           ></Route>
           <Route path="/products" element={<Products></Products>}></Route>
-          <Route path="/products/:id" element={<ProductDetail />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
         </Routes>
       </main>
       <footer>

@@ -32,7 +32,7 @@ export default function Products() {
           {products.map((product) => (
             <div className="productCardWrapper">
               <li key={product.id} className="product-card">
-                <Link to={`/products/${product.id}`}>
+                <Link to={`/product/${product.id}`}>
                   <div className="productImageContainer">
                     <img
                       src={`http://localhost:3000/uploads/${product.image}`}
