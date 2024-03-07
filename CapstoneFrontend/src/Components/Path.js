@@ -7,8 +7,8 @@ import Login from "./Login";
 import SignUp from "./SignUp";
 import "./Css/styles.css";
 import { AppContext } from "./GlobalContextProvider";
-import logo from '../logo/logo.png';
-import ProductDetail from './ProductDetail';
+import logo from "../logo/logo.png";
+import ProductDetail from "./ProductDetail";
 
 export default function Path() {
   const { logIn, setLogIn } = useContext(AppContext);
@@ -34,13 +34,17 @@ export default function Path() {
               {logIn ? (
                 <>
                   <li>
-                    <button onClick={handleLogout}>Log out</button>
+                    <button onClick={handleLogout} className="header-button">
+                      Log out
+                    </button>
                   </li>
                 </>
               ) : (
                 <>
                   <li>
-                    <Link to="/login"><i className="fa fa-sign-in"></i>Log In</Link>
+                    <Link to="/login">
+                      <i className="fa fa-sign-in"></i>Log In
+                    </Link>
                   </li>
                   <li>
                     <Link to="/signup">Sign Up</Link>
@@ -64,9 +68,7 @@ export default function Path() {
           <Route path="/product/:id" element={<ProductDetail />} />
         </Routes>
       </main>
-      <footer>
-        &copy; Group 6 - 2024 Winter - Sec 8
-      </footer>
+      <footer>&copy; Group 6 - 2024 Winter - Sec 8</footer>
     </>
   );
 }

@@ -42,21 +42,27 @@ const AddCategory = () => {
   };
 
   return (
-    <div>
-      <h2>Add Category</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="category">Category:</label>
-          <input
-            type="text"
-            id="category"
-            value={category.name}
-            onChange={(e) => setCategory({ ...category, name: e.target.value })}
-          />
-        </div>
-        {error.name && <p style={{ color: "red" }}>{error.name}</p>}
-        <button type="submit">Add Category</button>
-      </form>
+    <div className="main-container">
+      <div className="form-container">
+        <h2>Add Category</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="form-fields">
+            <label htmlFor="category">Category:</label>
+            <input
+              type="text"
+              id="category"
+              value={category.name}
+              onChange={(e) =>
+                setCategory({ ...category, name: e.target.value })
+              }
+            />
+          </div>
+          {error.name && <p style={{ color: "red" }}>{error.name}</p>}
+          <div className="login-button">
+            <button type="submit">Add Category</button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

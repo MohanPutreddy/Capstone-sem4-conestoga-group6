@@ -38,7 +38,9 @@ export default function Paths() {
                     <Link to="/addcategory">ADD CATEGORY</Link>
                   </li>
                   <li>
-                    <button onClick={handleLogout}>Log out</button>
+                    <button onClick={handleLogout} className="header-button">
+                      Log out
+                    </button>
                   </li>
                 </>
               ) : (

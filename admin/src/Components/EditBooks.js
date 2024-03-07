@@ -138,7 +138,7 @@ export default function EditBooks() {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <div>
+        <div className="edit-container">
           <div className="productImageContainer">
             <img
               src={`http://localhost:3000/uploads/${book.image}`}
