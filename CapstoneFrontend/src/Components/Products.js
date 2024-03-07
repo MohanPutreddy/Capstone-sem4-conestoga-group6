@@ -22,7 +22,7 @@ export default function Products() {
   }, []);
 
   return (
-    <div>
+    <div className="usersViewProductsComponent">
       <h1 className="partition-text">Shop</h1>
 
       {loading ? (

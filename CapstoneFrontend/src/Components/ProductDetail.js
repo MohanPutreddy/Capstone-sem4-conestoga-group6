@@ -27,20 +27,21 @@ export default function ProductDetail() {
     };
 
     fetchProducts();
-  }, [id]);
+  }, [id, product.ProductDetail]);
 
   return (
     <div>
-      <h1 className="partition-text">Shop</h1>
+      
 
       {loading ? (
         <p>Loading...</p>
       ) : (
         <div>
-          <h1>{product.bookname}</h1>
+          <h1 className="partition-text">{product.bookname}</h1>
+          
+          <p>Price: ${product.price}</p>
           <img src={`http://localhost:3000/uploads/${product.image}`} alt={product.bookname} />
           <p>Author: {product.authorname}</p>
-          <p>Price: ${product.price}</p>
           <p>Description: {product.description}</p>
         </div>
       )}
