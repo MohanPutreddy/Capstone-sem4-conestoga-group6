@@ -12,6 +12,7 @@ h2 {
 }
 
 .partition-text {
+  text-align: center;
   padding: 5px;
   border-bottom-width: 2px;
   border-bottom-color: #d2d2d2;
@@ -328,8 +329,9 @@ header h1 {
 
 .individualProductDisplay{
   display: grid;
-  grid-template-columns: 50% auto;
+  grid-template-columns: 40% auto;
   gap: 5%;
+  margin: 0px 0px 0px 5%;
 }
 
 .center-text {
