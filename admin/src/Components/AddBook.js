@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -11,26 +11,58 @@ export default function AddBook() {
     authorname: "",
     price: "",
     description: "",
+    categoryid: "",
+    stock: "",
   };
   const [book, setBook] = useState(intialBook);
+  const [categories, setCategories] = useState([]);
 
   const [errors, setErrors] = useState({});
+  useEffect(() => {
+    // Fetch categories from the backend
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/category");
+        if (response.data) {
+          setCategories(response.data);
+        } else {
+          console.error("Unable to fetch categories:");
+        }
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const validateForm = () => {
     let isValid = true;
     const newErrors = {};
 
-    if (book.bookname.trim() === "") {
+    if (book.bookname?.trim() === "") {
       newErrors.bookname = "Book Name is required";
       isValid = false;
     }
 
-    if (book.authorname.trim() === "") {
+    if (book.authorname?.trim() === "") {
       newErrors.authorname = "Author Name is required";
       isValid = false;
     }
+    if (book.category?.trim() === "") {
+      newErrors.category = "Category is required";
+      isValid = false;
+    }
 
-    if (book.price.trim() === "") {
+    if (book.stock?.trim() === "") {
+      newErrors.stock = "Stock is required";
+      isValid = false;
+    } else if (isNaN(book.stock) || +book.stock < 0) {
+      newErrors.stock = "Stock must be a non-negative number";
+      isValid = false;
+    }
+
+    if (book.price?.trim() === "") {
       newErrors.price = "Price is required";
       isValid = false;
     } else if (isNaN(book.price) || +book.price <= 0) {
@@ -38,7 +70,7 @@ export default function AddBook() {
       isValid = false;
     }
 
-    if (book.description.trim() === "") {
+    if (book.description?.trim() === "") {
       newErrors.description = "Description is required";
       isValid = false;
     }
@@ -50,18 +82,19 @@ export default function AddBook() {
     e.preventDefault();
 
     if (validateForm()) {
-      console.log("Book added:", book);
       const formData = new FormData();
       formData.append("bookname", book.bookname);
       formData.append("authorname", book.authorname);
       formData.append("price", book.price);
       formData.append("description", book.description);
+      formData.append("categoryid", book.categoryid);
+      formData.append("stock", book.stock);
       formData.append("file", fileInput.current.files[0]);
 
       // formData.append("file", file.current.file);
       try {
         const response = await axios.post(
-          "http://localhost:3000/product/insert",
+          "http://localhost:3000/product/",
           formData
         );
         if (response.data.status) {
@@ -78,6 +111,7 @@ export default function AddBook() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     setBook((prevBook) => ({
       ...prevBook,
       [name]: value,
@@ -155,6 +189,42 @@ export default function AddBook() {
                 accept="image/*"
                 required
               />
+            </div>
+          </div>
+          <div className="form-fields">
+            <label htmlFor="category">Category:</label>
+            <div>
+              <select
+                name="categoryid"
+                value={book.categoryid}
+                onChange={handleChange}
+              >
+                <option value="" disabled>
+                  Select Category
+                </option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+
+              {errors.category && (
+                <p style={{ color: "red" }}>{errors.category}</p>
+              )}
+            </div>
+          </div>
+
+          <div className="form-fields">
+            <label htmlFor="stock">Stock:</label>
+            <div>
+              <input
+                type="text"
+                name="stock"
+                value={book.stock}
+                onChange={handleChange}
+              />
+              {errors.stock && <p style={{ color: "red" }}>{errors.stock}</p>}
             </div>
           </div>
           <div className="add-books">

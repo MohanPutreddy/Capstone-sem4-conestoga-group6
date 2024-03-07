@@ -62,17 +62,23 @@ export const signup = async (
   const data = req.body as SignUp;
   const { username, password, email } = data || {};
 
+  console.log({ username, password, email });
+
   try {
     const userDetails = await prisma.users.findFirst({
       where: {
         OR: [
           {
             username,
+          },
+          {
             email,
           },
         ],
       },
     });
+
+    console.log(userDetails);
 
     if (userDetails?.id) {
       return res.json({
@@ -85,6 +91,64 @@ export const signup = async (
         username,
         password: await hash(password),
         email,
+        role: "regular",
+      },
+    });
+    return res.json({
+      user: {
+        username: response.username,
+        email: response.email,
+        id: response.id,
+      },
+      status: true,
+      token: JwtUtil.generateToken({ id: response.id }),
+    });
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      status: false,
+    });
+  }
+};
+
+export const signupAdmin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const data = req.body as SignUp;
+  const { username, password, email } = data || {};
+
+  console.log({ username, password, email });
+
+  try {
+    const userDetails = await prisma.users.findFirst({
+      where: {
+        OR: [
+          {
+            username,
+          },
+          {
+            email,
+          },
+        ],
+      },
+    });
+
+    console.log(userDetails);
+
+    if (userDetails?.id) {
+      return res.json({
+        status: false,
+        message: "Username or Email already exists",
+      });
+    }
+    const response = await prisma.users.create({
+      data: {
+        username,
+        password: await hash(password),
+        email,
+        role: "admin",
       },
     });
     return res.json({

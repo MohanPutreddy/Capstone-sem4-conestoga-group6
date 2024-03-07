@@ -4,6 +4,7 @@ import {
   login,
   resetPassword,
   signup,
+  signupAdmin,
 } from "../controllers/authControlle";
 import {
   emailExists,
@@ -14,6 +15,7 @@ const router = express.Router();
 
 router.post("/login", loginValidation, login);
 router.post("/signup", signUpValidation, signup);
+router.post("/admin/signup", signUpValidation, signupAdmin);
 router.post("/forgotpassword", emailExists, forgotPassword);
 router.post("/resetpassword", resetPassword);
 

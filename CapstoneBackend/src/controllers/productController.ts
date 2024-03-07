@@ -1,5 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import { ProductDetails } from "../utils/types";
+import {
+  DeletProduct,
+  EditProductDetails,
+  ProductDetails,
+} from "../utils/types";
 import { PrismaClient } from "@prisma/client";
 
 interface CustomRequest extends Request {
@@ -22,7 +26,8 @@ export const addProduct = async (
     }
     const image = req.file.filename;
     const { body } = req;
-    const { authorname, bookname, description, price } = body as ProductDetails;
+    const { authorname, bookname, description, price, categoryid, stock } =
+      body as ProductDetails;
 
     const addedProduct = await prisma.products.create({
       data: {
@@ -31,6 +36,8 @@ export const addProduct = async (
         price,
         description,
         image,
+        categoryid: +categoryid,
+        stock: +stock,
       },
     });
 
@@ -39,6 +46,85 @@ export const addProduct = async (
       product: addedProduct,
     });
   } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      status: false,
+    });
+  }
+};
+
+export const editProduct = async (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    let image;
+    if (req.file) {
+      image = req.file.filename;
+    }
+    const { body } = req;
+    const { authorname, bookname, description, price, categoryid, stock, id } =
+      body as EditProductDetails;
+
+    const existingDetails = await prisma.products.findFirst({
+      where: {
+        id: +id,
+      },
+    });
+    if (!existingDetails) {
+      return res.status(500).json({
+        status: false,
+        message: "Product doesnt exist",
+      });
+    }
+
+    const addedProduct = await prisma.products.update({
+      where: {
+        id: +id,
+      },
+      data: {
+        bookname: bookname || existingDetails.bookname,
+        authorname: authorname || existingDetails.authorname,
+        price: price || existingDetails.price,
+        description: description || existingDetails.price,
+        image: image || existingDetails.image,
+        stock: +stock || existingDetails.stock,
+      },
+    });
+
+    return res.json({
+      status: true,
+      product: addedProduct,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      status: false,
+    });
+  }
+};
+
+export const deleteProduct = async (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { body } = req;
+    const { id } = body as DeletProduct;
+
+    const addedProduct = await prisma.products.delete({
+      where: {
+        id: +id,
+      },
+    });
+
+    return res.json({
+      status: true,
+    });
+  } catch (error) {
+    console.log(error);
     return res.status(500).json({
       status: false,
     });
@@ -61,7 +147,6 @@ export const getProductById = async (
   req: CustomRequest,
   res: Response,
   next: NextFunction
-
 ) => {
   try {
     const { id } = req.params;

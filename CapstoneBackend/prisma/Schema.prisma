@@ -7,19 +7,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model category {
+  id       Int        @id @default(autoincrement())
+  name     String     @db.VarChar(100)
+  products products[]
+}
+
+model products {
+  id          Int      @id @default(autoincrement())
+  bookname    String   @db.VarChar(45)
+  authorname  String   @db.VarChar(45)
+  price       String   @db.VarChar(45)
+  description String?  @db.VarChar(45)
+  image       String?  @db.VarChar(100)
+  categoryid  Int
+  stock       Int
+  category    category @relation(fields: [categoryid], references: [id])
+
+  @@index([categoryid], map: "products_categoryid_fkey")
+}
+
 model users {
   id       Int    @id @default(autoincrement())
   username String @db.VarChar(45)
   password String @db.VarChar(100)
   email    String @db.VarChar(45)
   otp      Int?
-}
-
-model products {
-  id          Int     @id @default(autoincrement())
-  bookname    String  @db.VarChar(45)
-  authorname  String  @db.VarChar(45)
-  price       String  @db.VarChar(45)
-  description String? @db.VarChar(45)
-  image       String? @db.VarChar(100)
+  role     String @db.VarChar(45)
 }

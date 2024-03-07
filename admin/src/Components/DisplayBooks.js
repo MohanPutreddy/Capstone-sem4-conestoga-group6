@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function DisplayBooks() {
   const [products, setProducts] = useState([]);
@@ -19,6 +20,17 @@ export default function DisplayBooks() {
 
     fetchProducts();
   }, []);
+  const deleteProduct = async (id) => {
+    console.log(id);
+    try {
+      await axios.delete("http://localhost:3000/product/", {
+        data: { id },
+      });
+      window.location.reload();
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
 
   return (
     <div>
@@ -43,8 +55,12 @@ export default function DisplayBooks() {
                   <p>${product.price}</p>
                 </div>
                 <div className="action-buttons">
-                  <button>Update</button>
-                  <button>Delete</button>
+                  <Link to={`/edit/${product.id}`}>
+                    <button>Edit</button>
+                  </Link>
+                  <button onClick={() => deleteProduct(product.id)}>
+                    Delete
+                  </button>
                 </div>
               </li>
             </div>

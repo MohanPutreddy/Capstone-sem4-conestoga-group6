@@ -33,4 +33,21 @@ export type ProductDetails = {
   price: string;
   description: string;
   image: string;
+  categoryid: number;
+  stock: number;
+};
+
+export type EditProductDetails = {
+  bookname: string;
+  authorname: string;
+  price: string;
+  description: string;
+  image: string;
+  categoryid: number;
+  stock: number;
+  id: number;
+};
+
+export type DeletProduct = {
+  id: number;
 };
