@@ -31,18 +31,28 @@ export default function ProductDetail() {
 
   return (
     <div>
-      
+
 
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <div>
+        <div className="usersViewProductsComponent">
           <h1 className="partition-text">{product.bookname}</h1>
-          
-          <p>Price: ${product.price}</p>
-          <img src={`http://localhost:3000/uploads/${product.image}`} alt={product.bookname} />
-          <p>Author: {product.authorname}</p>
-          <p>Description: {product.description}</p>
+          <div className="individualProductDisplay">
+
+
+
+            <div className="productImageContainer-indi">
+              <img src={`http://localhost:3000/uploads/${product.image}`} alt={product.bookname} />
+            </div>
+
+            <div>
+              <p><strong>Author: </strong>{product.authorname}</p>
+              <p><strong>Description: </strong> {product.description}</p>
+              <p><strong>Price:</strong>  ${product.price}</p>
+            </div>
+
+          </div>
         </div>
       )}
     </div>

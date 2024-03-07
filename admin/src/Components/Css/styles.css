@@ -206,6 +206,7 @@ ul {
 nav ul {
   display: flex;
   flex-direction: row;
+  gap: 40px;
 }
 
 .logo {
@@ -215,14 +216,12 @@ nav ul {
 
 nav a {
   text-decoration: none;
-  padding-left: 50px;
   text-transform: uppercase;
   color: white;
 }
 
 nav a:hover {
   text-decoration: none;
-  padding-left: 50px;
   text-transform: uppercase;
   text-decoration: underline;
   color: white;
