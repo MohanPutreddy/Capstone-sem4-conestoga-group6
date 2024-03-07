@@ -191,7 +191,7 @@ footer {
   -o-border-radius: 3px;
 }
 
-.productImageContainer-indi{
+.productImageContainer-indi {
   width: 97%;
   height: 97%;
   overflow: hidden;
@@ -327,7 +327,7 @@ header h1 {
   padding: 25px;
 }
 
-.individualProductDisplay{
+.individualProductDisplay {
   display: grid;
   grid-template-columns: 40% auto;
   gap: 5%;
@@ -350,7 +350,6 @@ main {
   color: white;
   text-decoration: none;
   cursor: pointer;
-  padding-left: 50px;
   font-size: inherit;
 }
 

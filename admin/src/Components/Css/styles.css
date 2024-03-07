@@ -65,7 +65,8 @@ body {
 .signup-button,
 .google-button,
 .forget-button,
-.signin-button {
+.signin-button,
+.add-books {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -75,7 +76,8 @@ body {
 .signup-button button,
 .google-button button,
 .forget-button button,
-.signin-button button {
+.signin-button button,
+.add-books button {
   width: auto;
   background-color: #0066cc;
   border: 2px solid #004080;
@@ -325,7 +327,6 @@ main {
   color: white;
   text-decoration: none;
   cursor: pointer;
-  padding-left: 50px;
   font-size: inherit;
 }
 
