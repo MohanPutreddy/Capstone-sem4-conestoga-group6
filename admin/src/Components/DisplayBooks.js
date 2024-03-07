@@ -21,7 +21,7 @@ export default function DisplayBooks() {
   }, []);
 
   return (
-    <div>
+    <div className="productsComponent">
       <h1 className="partition-text">Shop</h1>
 
       {loading ? (
