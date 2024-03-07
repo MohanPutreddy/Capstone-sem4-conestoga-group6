@@ -204,9 +204,10 @@ footer {
 }
 
 .productImageContainer-indi img {
-  width: 100%;
+  width: 90%;
   height: 400px;
-  object-fit: none;
+  object-fit: contain;
+  padding: 0% 5%;
   border-radius: 3px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
