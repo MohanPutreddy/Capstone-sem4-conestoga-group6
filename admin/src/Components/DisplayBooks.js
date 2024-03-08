@@ -21,7 +21,6 @@ export default function DisplayBooks() {
     fetchProducts();
   }, []);
   const deleteProduct = async (id) => {
-    console.log(id);
     try {
       await axios.delete("http://localhost:3000/product/", {
         data: { id },

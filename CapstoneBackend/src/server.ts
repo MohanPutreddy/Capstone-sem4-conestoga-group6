@@ -6,6 +6,7 @@ import cors from "cors";
 import { productRouter } from "./routes/productRoutes";
 import path from "path";
 import { catRouter } from "./routes/categoryRoutes";
+import { cartRouter } from "./routes/cartRouter";
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use("/uploads", express.static("uploads"));
 app.use("/userauth", userAuthRouter);
 app.use("/product", productRouter);
 app.use("/category", catRouter);
+app.use("/cart", cartRouter);
 
 app.listen(process.env.PORT || 3000, () => {
   console.log(

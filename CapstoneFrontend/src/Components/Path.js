@@ -9,12 +9,15 @@ import "./Css/styles.css";
 import { AppContext } from "./GlobalContextProvider";
 import logo from "../logo/logo.png";
 import ProductDetail from "./ProductDetail";
-
+import Cart from "./Cart";
+import { useNavigate } from "react-router-dom";
 export default function Path() {
+  const navigate = useNavigate();
   const { logIn, setLogIn } = useContext(AppContext);
   const handleLogout = () => {
     localStorage.removeItem("token");
     setLogIn(false);
+    navigate("/login");
   };
   return (
     <>
@@ -33,6 +36,10 @@ export default function Path() {
               </li>
               {logIn ? (
                 <>
+                  <li>
+                    <Link to="/cart">Cart</Link>
+                  </li>
+
                   <li>
                     <button onClick={handleLogout} className="header-button">
                       Log out
@@ -60,6 +67,7 @@ export default function Path() {
           <Route path="/" element={<Home></Home>}></Route>
           <Route path="/login" element={<Login></Login>}></Route>
           <Route path="/signup" element={<SignUp></SignUp>}></Route>
+          <Route path="/cart" element={<Cart></Cart>}></Route>
           <Route
             path="/forgotpassword"
             element={<ForgotPassword></ForgotPassword>}

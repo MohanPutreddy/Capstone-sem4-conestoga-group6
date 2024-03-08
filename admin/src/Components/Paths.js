@@ -11,11 +11,14 @@ import SignUp from "./SignUp";
 import ForgotPassword from "./ForgotPassword";
 import AddCategory from "./AddCategory";
 import EditBooks from "./EditBooks";
+import { useNavigate } from "react-router-dom";
 export default function Paths() {
+  const navigate = useNavigate();
   const { logIn, setLogIn } = useContext(AppContext);
   const handleLogout = () => {
     localStorage.removeItem("token");
     setLogIn(false);
+    navigate("/login");
   };
   return (
     <>

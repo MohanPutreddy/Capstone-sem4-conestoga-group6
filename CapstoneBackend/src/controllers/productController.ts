@@ -1,14 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import {
+  CustomRequest,
   DeletProduct,
   EditProductDetails,
   ProductDetails,
 } from "../utils/types";
 import { PrismaClient } from "@prisma/client";
-
-interface CustomRequest extends Request {
-  file?: any;
-}
 
 const prisma = new PrismaClient();
 

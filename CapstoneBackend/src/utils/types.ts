@@ -1,4 +1,5 @@
 import { users } from "@prisma/client";
+import { Request } from "express";
 
 export type Login = {
   username: string;
@@ -51,3 +52,8 @@ export type EditProductDetails = {
 export type DeletProduct = {
   id: number;
 };
+
+export interface CustomRequest extends Request {
+  id?: number;
+  file?: any;
+}

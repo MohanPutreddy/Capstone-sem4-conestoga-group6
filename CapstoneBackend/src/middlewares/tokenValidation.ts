@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { JwtUtil } from "../utils/JwtUtil";
+import { CustomRequest } from "../utils/types";
 
 export const tokenValidation = (
-  req: Request,
+  req: CustomRequest,
   res: Response,
   next: NextFunction
 ) => {
@@ -14,6 +15,7 @@ export const tokenValidation = (
         status: false,
       });
     }
+    req.id = valid.id;
     next();
   } catch (error) {
     return res.status(500).json({

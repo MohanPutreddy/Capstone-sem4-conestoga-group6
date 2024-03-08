@@ -35,3 +35,10 @@ model users {
   otp      Int?
   role     String @db.VarChar(45)
 }
+
+model cart {
+  id       Int    @id @default(autoincrement())
+  userid   Int
+  productid Int
+  count Int
+}
