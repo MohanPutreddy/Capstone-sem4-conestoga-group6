@@ -194,6 +194,7 @@ header {
   top: 0;
   z-index: 1000;
   display: flex;
+  align-items: baseline;
   justify-content: space-around;
   background-color: #004080;
 }
