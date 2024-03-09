@@ -5,6 +5,12 @@ import { AppContext } from "./GlobalContextProvider";
 export default function Cart() {
   const { reFetchCart, cartItems } = useContext(AppContext);
 
+  const totalPrice = cartItems.reduce((acc, item) => {
+    const itemPrice = parseFloat(item.productdetails.price);
+    const itemCount = item.count;
+    return acc + itemPrice * itemCount;
+  }, 0);
+
   const deleteItem = async (id) => {
     try {
       await axios.delete(`http://localhost:3000/cart/${id}`);
@@ -15,17 +21,20 @@ export default function Cart() {
   };
 
   const handleItemCount = async (id, count, itemId) => {
-    try {
-      await axios.get(`http://localhost:3000/cart/${id}/${count}`);
-      reFetchCart();
-    } catch (error) {
-      console.error("Error fetching data:", error);
+    if (count > 0) {
+      try {
+        await axios.get(`http://localhost:3000/cart/${id}/${count}`);
+        reFetchCart();
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     }
   };
 
   return (
     <div className="container">
       <h2 className="mt-3 mb-4">Shopping Cart</h2>
+      <p>Total price:{totalPrice}</p>
       <div className="cart-container">
         {cartItems?.length > 0 ? (
           cartItems?.map((item) => (
@@ -39,6 +48,7 @@ export default function Cart() {
                 <p className="cart-item-name">
                   Book Name: {item.productdetails.bookname}
                 </p>
+                <p> price:{item.productdetails.price}</p>
                 <div className="cart-item-buttons">
                   <button
                     onClick={() => deleteItem(item.id)}

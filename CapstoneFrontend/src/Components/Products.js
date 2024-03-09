@@ -30,7 +30,7 @@ export default function Products() {
       ) : (
         <div className="row">
           {products.map((product) => (
-            <div key={product.id} className="col-md-4">
+            <div key={product.id} className="col-md-2">
               <div className="product-box">
                 <div className="thumbnail">
                   <Link to={`/product/${product.id}`}>
