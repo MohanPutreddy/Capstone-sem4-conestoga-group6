@@ -1,23 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import axios from "axios";
+import { useContext } from "react";
+import { AppContext } from "./GlobalContextProvider";
 
 export default function Cart() {
-  const [cartItems, setCartItems] = useState();
-  useEffect(() => {
-    const fetchCartItems = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3000/cart/`);
-        setCartItems(response.data?.cart);
-      } catch (error) {
-        console.error("Error fetching cart items:", error);
-      }
-    };
-    fetchCartItems();
-  }, []);
+  const { reFetchCart, cartItems } = useContext(AppContext);
+
   const deleteItem = async (id) => {
     try {
       await axios.delete(`http://localhost:3000/cart/${id}`);
-      window.location.reload();
+      reFetchCart();
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
@@ -25,13 +17,7 @@ export default function Cart() {
   const handleItemCount = async (id, count, itemId) => {
     try {
       await axios.get(`http://localhost:3000/cart/${id}/${count}`);
-      const upadteCount = cartItems?.map((item) =>
-        item.id === itemId ? { ...item, count: count } : item
-      );
-      // console.log(upadteCount);
-
-      setCartItems(upadteCount);
-      // window.location.reload();
+      reFetchCart();
     } catch (error) {
       console.error("Error fetching data:", error);
     }

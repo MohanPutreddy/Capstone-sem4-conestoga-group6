@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useContext } from "react";
+import { AppContext } from "./GlobalContextProvider";
 import { useParams } from "react-router-dom";
 
 export default function ProductDetail() {
+  const { cartItems, reFetchCart } = useContext(AppContext);
   const { id } = useParams();
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
   const [countNo, setCountNo] = useState(false);
-
+  const [addedToCart, setAddedToCart] = useState(false);
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         await axios
           .get(`http://localhost:3000/product/${id}`)
           .then((response) => {
-            console.log(response.data);
             setProduct(response.data.product);
           });
-        console.log("Line 20 in ProductDetail.js===>", product.ProductDetail);
+
         setLoading(false);
       } catch (error) {
         console.error("Error fetching product by ID:", error);
@@ -29,11 +31,20 @@ export default function ProductDetail() {
   }, [id]);
 
   const addToCart = async (id) => {
-    try {
-      await axios.get(`http://localhost:3000/cart/${id}/${1}`);
+    const findCount = cartItems.find(
+      (element) => element.productdetails.id === id
+    );
+    console.log(findCount);
+    if (findCount?.count > 0) {
       setCountNo(true);
-    } catch (error) {
-      console.error("Error fetching data:", error);
+    } else {
+      try {
+        await axios.get(`http://localhost:3000/cart/${id}/${1}`);
+        setAddedToCart(true);
+        reFetchCart();
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     }
   };
 
@@ -64,6 +75,8 @@ export default function ProductDetail() {
                 <strong>Price:</strong> ${product.price}
               </p>
               {countNo ? (
+                <p>Item already in cart</p>
+              ) : addedToCart ? (
                 <p>Item added to cart</p>
               ) : (
                 <button onClick={() => addToCart(product.id)}>ADD CART</button>
