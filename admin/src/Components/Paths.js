@@ -4,6 +4,7 @@ import AddBook from "./AddBook";
 import DisplayBooks from "./DisplayBooks";
 import Home from "./Home";
 import "./Css/styles.css";
+import "bootstrap/dist/css/bootstrap.css";
 import logo from "../logo/logo.png";
 import { AppContext } from "./GlobalContextProvider";
 import Login from "./Login";

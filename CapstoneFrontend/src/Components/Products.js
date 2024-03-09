@@ -28,27 +28,28 @@ export default function Products() {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <ul className="product-list">
+        <div className="row">
           {products.map((product) => (
-            <div className="productCardWrapper">
-              <li key={product.id} className="product-card">
-                <Link to={`/product/${product.id}`}>
-                  <div className="productImageContainer">
+            <div key={product.id} className="col-md-4">
+              <div className="product-box">
+                <div className="thumbnail">
+                  <Link to={`/product/${product.id}`}>
                     <img
                       src={`http://localhost:3000/uploads/${product.image}`}
                       alt={product.bookname}
+                      className="img-thumbnail"
                     />
-                  </div>
-                </Link>
-
-                <div>
+                  </Link>
                   <p className="product-name">{product.bookname}</p>
-                  <p>${product.price}</p>
+                  <p>Price: ${product.price}</p>
                 </div>
-              </li>
+                <Link to={`/product/${product.id}`}>
+                  <button className="btn btn-light">Buy</button>
+                </Link>
+              </div>
             </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );

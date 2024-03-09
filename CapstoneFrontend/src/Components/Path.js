@@ -5,6 +5,7 @@ import ForgotPassword from "./ForgotPassword";
 import Products from "./Products";
 import Login from "./Login";
 import SignUp from "./SignUp";
+import "bootstrap/dist/css/bootstrap.css";
 import "./Css/styles.css";
 import { AppContext } from "./GlobalContextProvider";
 import logo from "../logo/logo.png";

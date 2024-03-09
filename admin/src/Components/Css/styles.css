@@ -7,6 +7,53 @@
   border-radius: 10px;
 }
 
+.product-box {
+  max-width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: #a9c9eb;
+}
+
+.thumbnail {
+  max-width: 200px;
+  margin-bottom: 10px;
+}
+
+.thumbnail img {
+  max-width: 100%;
+}
+
+.btn {
+  background-color: #004080;
+  color: #fff;
+  padding: 10px 10px;
+  text-align: center;
+  margin: 10px 5px;
+  text-decoration: none;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 0px solid #007bff;
+}
+
+.productImageContainer {
+  width: 300px; /* Adjust the width as needed */
+  height: 400px; /* Adjust the height as needed */
+  margin-top: 100px;
+}
+
+.product-image {
+  width: 100%; /* Make the image fill the container */
+  height: 100%; /* Make the image fill the container */
+  object-fit: cover; /* Maintain aspect ratio and cover container */
+  border-radius: 10px; /* Add rounded corners */
+}
+
+p {
+  font-weight: bold;
+}
+
 h2 {
   text-align: center;
 }
@@ -175,17 +222,17 @@ footer {
   -o-border-radius: 5px;
 }
 
-.productImageContainer {
-  width: 100%;
-  height: 100%;
+/* .productImageContainer {
+  max-width: 500px;
   overflow: hidden;
-  /* align-items: center;
+  padding-top: 120px;
+  align-items: center;
   justify-content: center;
   display: flex;
-  padding: 50px 0 50px 0; */
-}
+  padding: 50px 0 50px 0;
+} */
 
-.productImageContainer img {
+/* .productImageContainer img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -194,7 +241,7 @@ footer {
   -moz-border-radius: 3px;
   -ms-border-radius: 3px;
   -o-border-radius: 3px;
-}
+} */
 
 header nav {
   padding: 25px;
@@ -268,7 +315,7 @@ header h1 {
   -o-border-radius: 5px;
 }
 
-.action-buttons button {
+/* .action-buttons button {
   margin: 5px;
   padding: 5px;
   background-color: white;
@@ -298,7 +345,7 @@ header h1 {
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
-}
+} */
 
 .productCardWrapper {
   height: 320px;
@@ -337,6 +384,9 @@ main {
 .edit-container {
   display: flex;
   justify-content: space-evenly;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 30px;
+  border-radius: 10px;
 }
 
 /* Responsiveness - Tablets */

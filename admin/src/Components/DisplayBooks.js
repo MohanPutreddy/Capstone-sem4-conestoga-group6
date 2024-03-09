@@ -33,31 +33,35 @@ export default function DisplayBooks() {
 
   return (
     <div className="productsComponent">
-      <h1 className="partition-text">Shop</h1>
+      <h1 className="partition-text">Books</h1>
 
       {loading ? (
         <p>Loading...</p>
       ) : (
         <ul className="product-list">
           {products.map((product) => (
-            <div className="productCardWrapper">
-              <li key={product.id} className="product-card">
-                <div className="productImageContainer">
+            <div className="product-box">
+              <li key={product.id}>
+                <div className="thumbnail">
                   <img
                     src={`http://localhost:3000/uploads/${product.image}`}
                     alt={product.bookname}
+                    className="img-thumbnail"
                   />
                 </div>
 
                 <div>
                   <p className="product-name">{product.bookname}</p>
-                  <p>${product.price}</p>
+                  <p>Price: ${product.price}</p>
                 </div>
                 <div className="action-buttons">
                   <Link to={`/edit/${product.id}`}>
-                    <button>Edit</button>
+                    <button className="btn btn-secondary">Edit</button>
                   </Link>
-                  <button onClick={() => deleteProduct(product.id)}>
+                  <button
+                    onClick={() => deleteProduct(product.id)}
+                    className="btn btn-secondary"
+                  >
                     Delete
                   </button>
                 </div>

@@ -143,6 +143,7 @@ export default function EditBooks() {
             <img
               src={`http://localhost:3000/uploads/${book.image}`}
               alt={book.bookname}
+              className="product-image"
             />
           </div>
           <>
