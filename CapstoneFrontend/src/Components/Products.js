@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -21,15 +22,31 @@ export default function Products() {
     fetchProducts();
   }, []);
 
+  // Filtering products based on the search query
+  const filteredProducts = products.filter(product =>
+    product.bookname.toLowerCase().includes(searchQuery.toLowerCase())
+  ); //
+
+
   return (
     <div className="usersViewProductsComponent">
       <h1 className="partition-text">Shop</h1>
+
+      <div className="searchAndSortComponent">
+        <input
+          type="text"
+          placeholder="Search products..."
+          value={searchQuery}
+          onChange={e => setSearchQuery(e.target.value)} // Step 2
+          className="search-input"
+        />
+      </div>
 
       {loading ? (
         <p>Loading...</p>
       ) : (
         <div className="row">
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <div key={product.id} className="col-md-2">
               <div className="product-box">
                 <div className="thumbnail">

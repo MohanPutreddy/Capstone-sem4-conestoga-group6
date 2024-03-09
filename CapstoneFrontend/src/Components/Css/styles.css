@@ -49,7 +49,11 @@
   cursor: pointer;
 }
 
-.thumbnail p {
+.searchAndSortComponent{
+  padding: 1%;
+}
+
+.thumbnail p{
   font-weight: bold;
 }
 
