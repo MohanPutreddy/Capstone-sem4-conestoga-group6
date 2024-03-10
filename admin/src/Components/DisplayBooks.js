@@ -65,7 +65,7 @@ export default function DisplayBooks() {
   };
 
   return (
-    <div className="productsComponent">
+    <div className="ProductsComponent">
       <h1 className="partition-text">Books</h1>
 
       <div className="searchAndSortComponent">

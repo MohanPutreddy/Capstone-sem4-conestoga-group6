@@ -230,11 +230,21 @@ footer {
   grid-template-columns: 50% 50%;
 }
 
+.ProductsComponent {
+  margin: 10px 0px;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  padding: 10px;
+}
+
 .usersViewProductsComponent {
   margin: 15px 0px;
-  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   padding: 15px;
-  border-radius: 5px;
+  border-radius: 10px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
