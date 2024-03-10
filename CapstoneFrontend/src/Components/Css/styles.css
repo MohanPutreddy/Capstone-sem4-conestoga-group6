@@ -50,7 +50,16 @@
 }
 
 .searchAndSortComponent{
+  display: flex;
+  gap: 10px;
   padding: 1%;
+  background-color: #a9c9eb;
+  border-radius: 5px;
+  width: fit-content;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
 }
 
 .thumbnail p{

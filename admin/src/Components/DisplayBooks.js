@@ -6,6 +6,8 @@ export default function DisplayBooks() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortOrder, setSortOrder] = useState("name-asc");
+  const [displayProducts, setDisplayProducts] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -32,10 +34,35 @@ export default function DisplayBooks() {
     }
   };
 
-  // Filtering products based on the search query
-  const filteredProducts = products.filter(product =>
-    product.bookname.toLowerCase().includes(searchQuery.toLowerCase())
-  ); //
+  useEffect(() => {
+    let result = [...products];
+    result = result.filter(product =>
+      product.bookname.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    switch (sortOrder) {
+      case "name-asc":
+        result.sort((a, b) => a.bookname.localeCompare(b.bookname));
+        break;
+      case "name-desc":
+        result.sort((a, b) => b.bookname.localeCompare(a.bookname));
+        break;
+      case "price-asc":
+        result.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+        break;
+      case "price-desc":
+        result.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+        break;
+      default:
+        break;
+    }
+
+    setDisplayProducts(result);
+  }, [products, searchQuery, sortOrder]);
+
+  const handleSortChange = (event) => {
+    setSortOrder(event.target.value);
+  };
 
   return (
     <div className="productsComponent">
@@ -46,42 +73,51 @@ export default function DisplayBooks() {
           type="text"
           placeholder="Search products..."
           value={searchQuery}
-          onChange={e => setSearchQuery(e.target.value)} // Step 2
+          onChange={(e) => setSearchQuery(e.target.value)}
           className="search-input"
         />
+
+        <select onChange={handleSortChange} value={sortOrder}>
+          <option value="name-asc">Name (A to Z)</option>
+          <option value="name-desc">Name (Z to A)</option>
+          <option value="price-asc">Price (Low to High)</option>
+          <option value="price-desc">Price (High to Low)</option>
+        </select>
       </div>
 
       {loading ? (
         <p>Loading...</p>
       ) : (
         <ul className="product-list">
-          {filteredProducts.map((product) => (
-            <div className="product-box">
-              <li key={product.id}>
-                <div className="thumbnail">
-                  <img
-                    src={`http://localhost:3000/uploads/${product.image}`}
-                    alt={product.bookname}
-                    className="img-thumbnail"
-                  />
-                </div>
+          {displayProducts.map((product) => (
+            <div className="productImageContainer">
+              <div key={product.id}>
+                <li key={product.id}  className="product-card">
+                  <div className="thumbnail">
+                    <img
+                      src={`http://localhost:3000/uploads/${product.image}`}
+                      alt={product.bookname}
+                      className="img-thumbnail"
+                    />
+                  </div>
 
-                <div>
-                  <p className="product-name">{product.bookname}</p>
-                  <p>Price: ${product.price}</p>
-                </div>
-                <div className="action-buttons">
-                  <Link to={`/edit/${product.id}`}>
-                    <button className="btn btn-secondary">Edit</button>
-                  </Link>
-                  <button
-                    onClick={() => deleteProduct(product.id)}
-                    className="btn btn-secondary"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </li>
+                  <div>
+                    <p className="product-name">{product.bookname}</p>
+                    <p>Price: ${product.price}</p>
+                  </div>
+                  <div className="action-buttons">
+                    <Link to={`/edit/${product.id}`}>
+                      <button className="btn btn-secondary">Edit</button>
+                    </Link>
+                    <button
+                      onClick={() => deleteProduct(product.id)}
+                      className="btn btn-secondary"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </li>
+              </div>
             </div>
           ))}
         </ul>
