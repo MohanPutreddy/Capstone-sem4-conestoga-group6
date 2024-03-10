@@ -5,7 +5,7 @@ import { AppContext } from "./GlobalContextProvider";
 export default function Cart() {
   const { reFetchCart, cartItems } = useContext(AppContext);
 
-  const totalPrice = cartItems.reduce((acc, item) => {
+  const totalPrice = cartItems?.reduce((acc, item) => {
     const itemPrice = parseFloat(item.productdetails.price);
     const itemCount = item.count;
     return acc + itemPrice * itemCount;

@@ -25,11 +25,9 @@ export default function Products() {
     fetchProducts();
   }, []);
 
-
   useEffect(() => {
-
     let result = [...products];
-    result = result.filter(product =>
+    result = result.filter((product) =>
       product.bookname.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
@@ -70,7 +68,11 @@ export default function Products() {
           className="form-control"
         />
 
-        <select className="form-select" onChange={handleSortChange} value={sortOrder}>
+        <select
+          className="form-select"
+          onChange={handleSortChange}
+          value={sortOrder}
+        >
           <option value="name-asc">Name (A to Z)</option>
           <option value="name-desc">Name (Z to A)</option>
           <option value="price-asc">Price (Low to High)</option>
@@ -96,13 +98,11 @@ export default function Products() {
                   <p className="product-name">{product.bookname}</p>
                   <p>Price: ${product.price}</p>
                   <Link to={`/product/${product.id}`}>
-                  <button className="btn btn-light">Buy</button>
-                </Link>
+                    <button className="btn btn-light">Buy</button>
+                  </Link>
                 </div>
-                
               </div>
             </div>
-
           ))}
         </div>
       )}
