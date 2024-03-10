@@ -23,7 +23,7 @@
 
 .product-list {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(5 , minmax(0, 1fr));
   gap: 30px;
   padding: 25px;
 }
@@ -55,11 +55,18 @@
   padding: 1%;
   background-color: #a9c9eb;
   border-radius: 5px;
-  width: fit-content;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
+}
+
+.searchAndSortComponent > input{
+  width: 75%;
+}
+
+.searchAndSortComponent > select{
+  width: 25%;
 }
 
 .thumbnail p{
@@ -235,15 +242,20 @@ footer {
 }
 
 .productImageContainer {
-  width: 100%;
-  height: 100%;
   overflow: hidden;
+  height: 365px;
+  background: #004080;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
 }
 
 .productImageContainer img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 3px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -255,7 +267,7 @@ footer {
   width: 97%;
   height: 97%;
   overflow: hidden;
-  border: 5px solid black;
+  border: 5px solid #a9c9eb;
   border-radius: 5px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -343,7 +355,7 @@ header h1 {
 }
 
 .product-card {
-  height: 300px;
+  height: 360px;
   display: grid;
   background: #a9c9eb;
   color: black;
@@ -364,7 +376,7 @@ header h1 {
 }
 
 .product-card:hover {
-  height: 305px;
+  height: 365px;
   padding: 15px;
   color: white;
   background: #004080;
@@ -470,6 +482,13 @@ main {
 @media (min-width: 601px) and (max-width: 1024px) {
   .product-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Responsiveness - Larger Tablets */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .product-list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 

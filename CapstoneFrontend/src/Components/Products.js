@@ -67,10 +67,10 @@ export default function Products() {
           placeholder="Search products..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="search-input"
+          className="form-control"
         />
 
-        <select onChange={handleSortChange} value={sortOrder}>
+        <select className="form-select" onChange={handleSortChange} value={sortOrder}>
           <option value="name-asc">Name (A to Z)</option>
           <option value="name-desc">Name (Z to A)</option>
           <option value="price-asc">Price (Low to High)</option>
@@ -83,9 +83,9 @@ export default function Products() {
       ) : (
         <div className="product-list">
           {displayProducts.map((product) => (
-            <div key={product.id}>
-              <div className="product-box">
-                <div className="thumbnail">
+            <div className="productImageContainer">
+              <div key={product.id}>
+                <div className="product-card">
                   <Link to={`/product/${product.id}`}>
                     <img
                       src={`http://localhost:3000/uploads/${product.image}`}
@@ -95,12 +95,14 @@ export default function Products() {
                   </Link>
                   <p className="product-name">{product.bookname}</p>
                   <p>Price: ${product.price}</p>
-                </div>
-                <Link to={`/product/${product.id}`}>
+                  <Link to={`/product/${product.id}`}>
                   <button className="btn btn-light">Buy</button>
                 </Link>
+                </div>
+                
               </div>
             </div>
+
           ))}
         </div>
       )}

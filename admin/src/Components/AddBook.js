@@ -186,7 +186,8 @@ export default function AddBook() {
                 type="file"
                 name="file"
                 ref={fileInput}
-                accept="image/*"
+                accept="image/*"/* 
+                class="form-control" */
                 required
               />
             </div>

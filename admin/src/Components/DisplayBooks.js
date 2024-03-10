@@ -69,15 +69,14 @@ export default function DisplayBooks() {
       <h1 className="partition-text">Books</h1>
 
       <div className="searchAndSortComponent">
-        <input
+        <input className="form-control" 
           type="text"
           placeholder="Search products..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="search-input"
         />
 
-        <select onChange={handleSortChange} value={sortOrder}>
+        <select  className="form-select" onChange={handleSortChange} value={sortOrder}>
           <option value="name-asc">Name (A to Z)</option>
           <option value="name-desc">Name (Z to A)</option>
           <option value="price-asc">Price (Low to High)</option>
@@ -100,7 +99,6 @@ export default function DisplayBooks() {
                       className="img-thumbnail"
                     />
                   </div>
-
                   <div>
                     <p className="product-name">{product.bookname}</p>
                     <p>Price: ${product.price}</p>
