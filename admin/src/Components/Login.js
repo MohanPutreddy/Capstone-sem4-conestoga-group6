@@ -38,7 +38,7 @@ export default function Login({ onGoToSignup }) {
     if (validateLogin()) {
       try {
         const response = await axios.post(
-          "http://localhost:3000/userauth/login",
+          "http://localhost:3000/userauth/admin/login",
           formData
         );
         if (response.data.status) {

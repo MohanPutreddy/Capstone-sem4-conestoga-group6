@@ -1,6 +1,13 @@
 import { NextFunction } from "connect";
 import { Request, Response } from "express";
-import { ForgotPassword, Login, ResetPassword, SignUp } from "../utils/types";
+import {
+  CustomRequest,
+  ForgotPassword,
+  Login,
+  ResetPassword,
+  SignUp,
+  User,
+} from "../utils/types";
 import { compare } from "bcrypt";
 import { hash, otp } from "../utils/utils";
 import { PrismaClient } from "@prisma/client";
@@ -30,11 +37,85 @@ export const login = async (
       });
     }
 
+    if (!userDetails.isactive) {
+      return res.json({
+        status: false,
+        message: "Account Disabled by Admin",
+      });
+    }
+
     const match = await compare(password, userDetails.password || "");
     if (!match) {
       return res.json({
         status: false,
         message: "Password Invalid",
+      });
+    }
+
+    return res.json({
+      user: {
+        username: userDetails.username,
+        email: userDetails.email,
+        id: userDetails.id,
+      },
+      token: JwtUtil.generateToken({ id: userDetails.id }),
+      status: true,
+    });
+  } catch (error) {
+    return res.json({
+      status: false,
+    });
+  }
+};
+
+export const getAllUsers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const users = await prisma.users.findMany({});
+    res.json(users);
+  } catch (error) {
+    return res.json({
+      status: false,
+    });
+  }
+};
+
+export const adminLogin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const data = req.body as Login;
+  const { username, password } = data;
+
+  try {
+    const userDetails = await prisma.users.findFirst({
+      where: {
+        username,
+      },
+    });
+    if (!userDetails?.id) {
+      return res.json({
+        status: false,
+        message: "Username not exists",
+      });
+    }
+
+    const match = await compare(password, userDetails.password || "");
+    if (!match) {
+      return res.json({
+        status: false,
+        message: "Password Invalid",
+      });
+    }
+
+    if (userDetails.role?.toLowerCase() !== "admin") {
+      return res.json({
+        status: false,
+        message: "Disabled login for regular users in Admin portal",
       });
     }
 
@@ -92,6 +173,7 @@ export const signup = async (
         password: await hash(password),
         email,
         role: "regular",
+        isactive: true,
       },
     });
     return res.json({
@@ -242,6 +324,111 @@ export const resetPassword = async (
     return res.json({
       status: true,
       message: "Password Updated.",
+    });
+  } catch (error) {
+    return res.json({
+      status: false,
+      message: "Internal Server Error!!!",
+    });
+  }
+};
+
+export const getProfile = async (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req;
+    const profile = await prisma.users.findFirst({
+      where: {
+        id,
+      },
+    });
+    return res.json({
+      status: true,
+      profile,
+    });
+  } catch (error) {
+    return res.json({
+      status: false,
+      message: "Internal Server Error!!!",
+    });
+  }
+};
+
+export const saveProfile = async (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id, body } = req;
+    const { file, ...rest } = body;
+    const data = {
+      ...rest,
+    };
+    const profileimage = req?.file?.filename || "";
+    profileimage && (data.profileimage = profileimage);
+
+    if (!id) {
+      return res.json({
+        status: false,
+        message: "Invalid user id",
+      });
+    }
+
+    const userDetails = await prisma.users.update({
+      where: {
+        id: +id,
+      },
+      data,
+    });
+
+    return res.json({
+      status: true,
+      profile: {
+        ...userDetails,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      status: false,
+      message: "Internal Server Error!!!",
+    });
+  }
+};
+
+export const editAccountStatus = async (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id, body } = req;
+
+    if (!id || !body.id) {
+      return res.json({
+        status: false,
+        message: "Invalid user id",
+      });
+    }
+
+    const userDetails = await prisma.users.update({
+      where: {
+        id: +body.id,
+      },
+      data: {
+        isactive: body?.accountstatus,
+      },
+    });
+
+    return res.json({
+      status: true,
+      profile: {
+        ...userDetails,
+      },
     });
   } catch (error) {
     return res.json({

@@ -12,6 +12,8 @@ import logo from "../logo/logo.png";
 import ProductDetail from "./ProductDetail";
 import Cart from "./Cart";
 import { useNavigate } from "react-router-dom";
+import ProfileDetails from "./ProfileDetails";
+
 export default function Path() {
   const navigate = useNavigate();
   const { logIn, setLogIn } = useContext(AppContext);
@@ -39,6 +41,9 @@ export default function Path() {
                 <>
                   <li>
                     <Link to="/cart">Cart</Link>
+                  </li>
+                  <li>
+                    <Link to="/profile">Profile</Link>
                   </li>
 
                   <li>
@@ -73,6 +78,11 @@ export default function Path() {
             path="/forgotpassword"
             element={<ForgotPassword></ForgotPassword>}
           ></Route>
+          <Route
+            path="/profile"
+            element={<ProfileDetails></ProfileDetails>}
+          ></Route>
+
           <Route path="/products" element={<Products></Products>}></Route>
           <Route path="/product/:id" element={<ProductDetail />} />
         </Routes>

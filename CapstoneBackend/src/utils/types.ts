@@ -57,3 +57,18 @@ export interface CustomRequest extends Request {
   id?: number;
   file?: any;
 }
+
+export type User = {
+  id: number;
+  username: string;
+  password: string;
+  email: string;
+  otp?: number | null;
+  role: string;
+  firstname: string;
+  lastname: string;
+  dob: string;
+  address: string;
+  postalcode: string;
+  profileimage: string;
+};

@@ -28,17 +28,24 @@ model products {
 }
 
 model users {
-  id       Int    @id @default(autoincrement())
-  username String @db.VarChar(45)
-  password String @db.VarChar(100)
-  email    String @db.VarChar(45)
-  otp      Int?
-  role     String @db.VarChar(45)
+  id           Int      @id @default(autoincrement())
+  username     String   @db.VarChar(45)
+  password     String   @db.VarChar(100)
+  email        String   @db.VarChar(45)
+  otp          Int?
+  role         String   @db.VarChar(45)
+  firstname    String?  @db.VarChar(40)
+  lastname     String?  @db.VarChar(40)
+  dob          String?  @db.VarChar(20)
+  address      String?  @db.VarChar(100)
+  postalcode   String?  @db.VarChar(10)
+  profileimage String?  @db.VarChar(200)
+  isactive     Boolean?
 }
 
 model cart {
-  id       Int    @id @default(autoincrement())
-  userid   Int
+  id        Int @id @default(autoincrement())
+  userid    Int
   productid Int
-  count Int
+  count     Int
 }

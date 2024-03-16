@@ -13,6 +13,7 @@ import ForgotPassword from "./ForgotPassword";
 import AddCategory from "./AddCategory";
 import EditBooks from "./EditBooks";
 import { useNavigate } from "react-router-dom";
+import Users from "./Users";
 export default function Paths() {
   const navigate = useNavigate();
   const { logIn, setLogIn } = useContext(AppContext);
@@ -40,6 +41,9 @@ export default function Paths() {
                   </li>
                   <li>
                     <Link to="/addcategory">ADD CATEGORY</Link>
+                  </li>
+                  <li>
+                    <Link to="/users">USERS</Link>
                   </li>
                   <li>
                     <button onClick={handleLogout} className="header-button">
@@ -76,6 +80,7 @@ export default function Paths() {
                 element={<ForgotPassword></ForgotPassword>}
               ></Route>
               <Route path="/addbooks" element={<AddBook></AddBook>}></Route>
+              <Route path="/users" element={<Users></Users>}></Route>
               <Route
                 path="/addcategory"
                 element={<AddCategory></AddCategory>}
