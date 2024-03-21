@@ -245,7 +245,7 @@ footer {
 
 .productImageContainer {
   overflow: hidden;
-  height: 365px;
+  height: 405px;
   background: #004080;
   border-radius: 10px;
   -webkit-border-radius: 10px;
@@ -334,7 +334,7 @@ header h1 {
 }
 
 .product-card {
-  height: 360px;
+  height: 400px;
   display: grid;
   background: #a9c9eb;
   color: black;
@@ -355,7 +355,7 @@ header h1 {
 }
 
 .product-card:hover {
-  height: 365px;
+  height: 400px;
   padding: 15px;
   color: white;
   background: #004080;
@@ -365,6 +365,21 @@ header h1 {
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
+}
+
+.product-card p {
+  margin-bottom: 5px;
+}
+
+.discount-details {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+
+.discount-details p {
+  font-size: 0.8rem;
+  color: #666;
 }
 
 .productCardWrapper {
@@ -412,7 +427,7 @@ main {
 .individualProductDisplay {
   display: flex;
   align-items: flex-start;
-  max-width: 800px; /* Set a max-width for better readability */
+  max-width: 800px;
 }
 
 .productImageContainer-indi {
@@ -420,7 +435,7 @@ main {
 }
 
 .productImageContainer-indi img {
-  max-width: 100%; /* Ensure image doesn't overflow container */
+  max-width: 100%;
   height: auto;
 }
 
