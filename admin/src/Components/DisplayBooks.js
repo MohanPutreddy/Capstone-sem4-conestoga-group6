@@ -123,11 +123,11 @@ export default function DisplayBooks() {
                   </div>
                   <div className="action-buttons">
                     <Link to={`/edit/${product.id}`}>
-                      <button className="btn btn-secondary">Edit</button>
+                      <button className="edit-button">Edit</button>
                     </Link>
                     <button
                       onClick={() => deleteProduct(product.id)}
-                      className="btn btn-secondary"
+                      className="delete-button"
                     >
                       Delete
                     </button>
