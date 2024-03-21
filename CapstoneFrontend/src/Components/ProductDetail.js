@@ -13,6 +13,7 @@ export default function ProductDetail() {
   const [loading, setLoading] = useState(true);
   const [countNo, setCountNo] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
+  // const [showQuantity, setShowQuantity] = useState(false);
   const [quantity, setQuantity] = useState(1); // Default quantity is 1
   useEffect(() => {
     const fetchProducts = async () => {
@@ -83,7 +84,6 @@ export default function ProductDetail() {
               <p className="price">
                 <strong>Price:</strong> ${product.price}
               </p>
-<<<<<<< HEAD
               <div className="quantityControl">
                 <button
                   onClick={() => handleQuantityChange(-1)}
@@ -94,7 +94,6 @@ export default function ProductDetail() {
                 <span>{quantity}</span>
                 <button onClick={() => handleQuantityChange(1)}>+</button>
               </div>
-=======
               {product.discountpercent > 0 && (
                 <div>
                   <p>
@@ -107,7 +106,6 @@ export default function ProductDetail() {
                 </div>
               )}
 
->>>>>>> d61c757c61eeed95b2dfba30dda1347f3918bf43
               {countNo ? (
                 <p className="cartMessage">Item already in cart</p>
               ) : addedToCart ? (
