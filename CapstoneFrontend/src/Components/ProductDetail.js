@@ -13,6 +13,7 @@ export default function ProductDetail() {
   const [loading, setLoading] = useState(true);
   const [countNo, setCountNo] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
+  const [quantity, setQuantity] = useState(1); // Default quantity is 1
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -42,7 +43,7 @@ export default function ProductDetail() {
         setCountNo(true);
       } else {
         try {
-          await axios.get(`http://localhost:3000/cart/${id}/${1}`);
+          await axios.get(`http://localhost:3000/cart/${id}/${quantity}`);
           setAddedToCart(true);
           reFetchCart();
         } catch (error) {
@@ -54,13 +55,19 @@ export default function ProductDetail() {
     }
   };
 
+  const handleQuantityChange = (value) => {
+    const newQuantity = quantity + value;
+    if (newQuantity > 0) {
+      setQuantity(newQuantity);
+    }
+  };
+
   return (
     <div>
       {loading ? (
         <p>Loading...</p>
       ) : (
         <div className="usersViewProductsComponent">
-          <h1 className="partition-text">{product.bookname}</h1>
           <div className="individualProductDisplay">
             <div className="productImageContainer-indi">
               <img
@@ -68,26 +75,41 @@ export default function ProductDetail() {
                 alt={product.bookname}
               />
             </div>
-
-            <div>
+            <div className="productDetails">
               <p>
-                <strong>Author: </strong>
-                {product.authorname}
+                <strong>{product.bookname}</strong>
               </p>
-              <p>
-                <strong>Description: </strong> {product.description}
-              </p>
-              <p>
+              <p>{product.description}</p>
+              <p className="price">
                 <strong>Price:</strong> ${product.price}
               </p>
+              <div className="quantityControl">
+                <button
+                  onClick={() => handleQuantityChange(-1)}
+                  disabled={quantity === 1}
+                >
+                  -
+                </button>
+                <span>{quantity}</span>
+                <button onClick={() => handleQuantityChange(1)}>+</button>
+              </div>
               {countNo ? (
-                <p>Item already in cart</p>
+                <p className="cartMessage">Item already in cart</p>
               ) : addedToCart ? (
-                <p>Item added to cart</p>
+                <p className="cartMessage">Item added to cart</p>
               ) : (
                 <button onClick={() => addToCart(product.id)}>ADD CART</button>
               )}
             </div>
+          </div>
+          <div className="bookDescription">
+            <h2>Book Description</h2>
+            <p>
+              <strong>Author:</strong> {product.authorname}
+            </p>
+            <p>
+              <strong>Description:</strong> {product.description}
+            </p>
           </div>
         </div>
       )}
