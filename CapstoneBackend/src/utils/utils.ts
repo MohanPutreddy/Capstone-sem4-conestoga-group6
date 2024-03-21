@@ -31,5 +31,5 @@ export function discountedPRice(price: number, discountpercent: number) {
   }
 
   const newPrice = (discountpercent * price) / 100;
-  return newPrice;
+  return price - newPrice;
 }
