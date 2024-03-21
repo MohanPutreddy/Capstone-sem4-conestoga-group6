@@ -24,3 +24,12 @@ export function otp() {
   }
   return Number(otp);
 }
+
+export function discountedPRice(price: number, discountpercent: number) {
+  if (discountpercent <= 0 || !discountpercent) {
+    return 0;
+  }
+
+  const newPrice = (discountpercent * price) / 100;
+  return newPrice;
+}

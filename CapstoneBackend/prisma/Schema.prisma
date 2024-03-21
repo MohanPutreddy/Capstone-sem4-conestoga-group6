@@ -14,15 +14,16 @@ model category {
 }
 
 model products {
-  id          Int      @id @default(autoincrement())
-  bookname    String   @db.VarChar(45)
-  authorname  String   @db.VarChar(45)
-  price       String   @db.VarChar(45)
-  description String?  @db.VarChar(45)
-  image       String?  @db.VarChar(100)
-  categoryid  Int
-  stock       Int
-  category    category @relation(fields: [categoryid], references: [id])
+  id              Int      @id @default(autoincrement())
+  bookname        String   @db.VarChar(45)
+  authorname      String   @db.VarChar(45)
+  price           String   @db.VarChar(45)
+  description     String?  @db.VarChar(45)
+  image           String?  @db.VarChar(100)
+  categoryid      Int
+  stock           Int
+  discountpercent Int?
+  category        category @relation(fields: [categoryid], references: [id])
 
   @@index([categoryid], map: "products_categoryid_fkey")
 }

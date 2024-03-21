@@ -35,7 +35,7 @@ export default function ProductDetail() {
 
   const addToCart = async (id) => {
     if (logIn) {
-      const findCount = cartItems.find(
+      const findCount = cartItems?.find(
         (element) => element.productdetails.id === id
       );
       console.log(findCount);
@@ -83,6 +83,7 @@ export default function ProductDetail() {
               <p className="price">
                 <strong>Price:</strong> ${product.price}
               </p>
+<<<<<<< HEAD
               <div className="quantityControl">
                 <button
                   onClick={() => handleQuantityChange(-1)}
@@ -93,6 +94,20 @@ export default function ProductDetail() {
                 <span>{quantity}</span>
                 <button onClick={() => handleQuantityChange(1)}>+</button>
               </div>
+=======
+              {product.discountpercent > 0 && (
+                <div>
+                  <p>
+                    <strong>Sale Price:</strong> ${product.salePrice}
+                  </p>
+                  <p>
+                    <strong>Discount Percent:</strong> $
+                    {product.discountpercent}
+                  </p>
+                </div>
+              )}
+
+>>>>>>> d61c757c61eeed95b2dfba30dda1347f3918bf43
               {countNo ? (
                 <p className="cartMessage">Item already in cart</p>
               ) : addedToCart ? (

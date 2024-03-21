@@ -96,7 +96,20 @@ export default function Products() {
                     />
                   </Link>
                   <p className="product-name">{product.bookname}</p>
-                  <p>Price: ${product.price}</p>
+                  <p>
+                    <strong>Price:</strong> ${product.price}
+                  </p>
+                  {product.discountpercent > 0 && (
+                    <div>
+                      <p>
+                        <strong>Sale Price:</strong> ${product.salePrice}
+                      </p>
+                      <p>
+                        <strong>Discount Percent:</strong> $
+                        {product.discountpercent}
+                      </p>
+                    </div>
+                  )}
                   <Link to={`/product/${product.id}`}>
                     <button className="btn btn-light">Buy</button>
                   </Link>

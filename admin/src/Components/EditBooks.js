@@ -83,7 +83,15 @@ export default function EditBooks() {
       newErrors.price = "Price must be a positive number";
       isValid = false;
     }
-
+    if (
+      isNaN(book.discountpercent) ||
+      +book.discountpercent < 0 ||
+      +book.discountpercent > 100
+    ) {
+      newErrors.discountpercent =
+        "discountpercent must be a positive number and less than 100";
+      isValid = false;
+    }
     if (book.description?.trim() === "") {
       newErrors.description = "Description is required";
       isValid = false;
@@ -100,6 +108,7 @@ export default function EditBooks() {
       formData.append("bookname", book.bookname);
       formData.append("authorname", book.authorname);
       formData.append("price", book.price);
+      formData.append("discountpercent", book.discountpercent);
       formData.append("description", book.description);
       formData.append("categoryid", book.categoryid);
       formData.append("stock", book.stock);
@@ -130,6 +139,7 @@ export default function EditBooks() {
     setbook((prevBook) => ({
       ...prevBook,
       [name]: value,
+      // SalePrice: book.discountpercent,
     }));
   };
   return (
@@ -193,6 +203,22 @@ export default function EditBooks() {
                         />
                         {errors.price && (
                           <p style={{ color: "red" }}>{errors.price}</p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="form-fields">
+                      <label htmlFor="discountpercent">Discount Percent:</label>
+                      <div>
+                        <input
+                          type="text"
+                          name="discountpercent"
+                          value={book.discountpercent}
+                          onChange={handleChange}
+                        />
+                        {errors.SalePrice && (
+                          <p style={{ color: "red" }}>
+                            {errors.discountpercent}
+                          </p>
                         )}
                       </div>
                     </div>
