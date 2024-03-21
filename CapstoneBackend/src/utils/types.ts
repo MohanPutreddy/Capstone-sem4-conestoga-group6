@@ -36,6 +36,7 @@ export type ProductDetails = {
   image: string;
   categoryid: number;
   stock: number;
+  discountpercent: number;
 };
 
 export type EditProductDetails = {
@@ -47,6 +48,7 @@ export type EditProductDetails = {
   categoryid: number;
   stock: number;
   id: number;
+  discountpercent: number;
 };
 
 export type DeletProduct = {

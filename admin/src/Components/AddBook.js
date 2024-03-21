@@ -10,6 +10,7 @@ export default function AddBook() {
     bookname: "",
     authorname: "",
     price: "",
+    discountpercent: "",
     description: "",
     categoryid: "",
     stock: "",
@@ -69,6 +70,15 @@ export default function AddBook() {
       newErrors.price = "Price must be a positive number";
       isValid = false;
     }
+    if (
+      isNaN(book.discountpercent) ||
+      +book.discountpercent < 0 ||
+      +book.discountpercent > 100
+    ) {
+      newErrors.discountpercent =
+        "discountpercent must be a positive number and less than 100";
+      isValid = false;
+    }
 
     if (book.description?.trim() === "") {
       newErrors.description = "Description is required";
@@ -86,6 +96,7 @@ export default function AddBook() {
       formData.append("bookname", book.bookname);
       formData.append("authorname", book.authorname);
       formData.append("price", book.price);
+      formData.append("discountpercent", book.discountpercent);
       formData.append("description", book.description);
       formData.append("categoryid", book.categoryid);
       formData.append("stock", book.stock);
@@ -164,6 +175,20 @@ export default function AddBook() {
               {errors.price && <p style={{ color: "red" }}>{errors.price}</p>}
             </div>
           </div>
+          <div className="form-fields">
+            <label htmlFor="discountpercent">Discount Percent:</label>
+            <div>
+              <input
+                type="text"
+                name="discountpercent"
+                value={book.discountpercent}
+                onChange={handleChange}
+              />
+              {errors.discountpercent && (
+                <p style={{ color: "red" }}>{errors.discountpercent}</p>
+              )}
+            </div>
+          </div>
 
           <div className="form-fields">
             <label htmlFor="description">Description:</label>
@@ -186,7 +211,7 @@ export default function AddBook() {
                 type="file"
                 name="file"
                 ref={fileInput}
-                accept="image/*"/* 
+                accept="image/*" /* 
                 class="form-control" */
                 required
               />

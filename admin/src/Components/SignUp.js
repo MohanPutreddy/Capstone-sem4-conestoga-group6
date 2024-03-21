@@ -43,7 +43,7 @@ export default function SignUp({ onGoToLogin }) {
     if (validateSignUp()) {
       try {
         const response = await axios.post(
-          "http://localhost:3000/userauth/signup",
+          "http://localhost:3000/userauth/admin/signup",
           formData
         );
         if (response.data.status) {

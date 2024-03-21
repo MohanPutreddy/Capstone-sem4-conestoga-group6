@@ -36,7 +36,7 @@ export default function DisplayBooks() {
 
   useEffect(() => {
     let result = [...products];
-    result = result.filter(product =>
+    result = result.filter((product) =>
       product.bookname.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
@@ -69,14 +69,19 @@ export default function DisplayBooks() {
       <h1 className="partition-text">Books</h1>
 
       <div className="searchAndSortComponent">
-        <input className="form-control" 
+        <input
+          className="form-control"
           type="text"
           placeholder="Search products..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
 
-        <select  className="form-select" onChange={handleSortChange} value={sortOrder}>
+        <select
+          className="form-select"
+          onChange={handleSortChange}
+          value={sortOrder}
+        >
           <option value="name-asc">Name (A to Z)</option>
           <option value="name-desc">Name (Z to A)</option>
           <option value="price-asc">Price (Low to High)</option>
@@ -91,7 +96,7 @@ export default function DisplayBooks() {
           {displayProducts.map((product) => (
             <div className="productImageContainer">
               <div key={product.id}>
-                <li key={product.id}  className="product-card">
+                <li key={product.id} className="product-card">
                   <div className="thumbnail">
                     <img
                       src={`http://localhost:3000/uploads/${product.image}`}
@@ -101,7 +106,20 @@ export default function DisplayBooks() {
                   </div>
                   <div>
                     <p className="product-name">{product.bookname}</p>
-                    <p>Price: ${product.price}</p>
+                    <p>
+                      <strong>Price:</strong> ${product.price}
+                    </p>
+                    {product.discountpercent > 0 && (
+                      <div>
+                        <p>
+                          <strong>Sale Price:</strong> ${product.salePrice}
+                        </p>
+                        <p>
+                          <strong>Discount Percent:</strong> $
+                          {product.discountpercent}
+                        </p>
+                      </div>
+                    )}
                   </div>
                   <div className="action-buttons">
                     <Link to={`/edit/${product.id}`}>

@@ -231,6 +231,7 @@ export const signupAdmin = async (
         password: await hash(password),
         email,
         role: "admin",
+        isactive: true,
       },
     });
     return res.json({

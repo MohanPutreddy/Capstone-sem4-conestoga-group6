@@ -6,6 +6,7 @@ import {
   ProductDetails,
 } from "../utils/types";
 import { PrismaClient } from "@prisma/client";
+import { discountedPRice } from "../utils/utils";
 
 const prisma = new PrismaClient();
 
@@ -23,8 +24,15 @@ export const addProduct = async (
     }
     const image = req.file.filename;
     const { body } = req;
-    const { authorname, bookname, description, price, categoryid, stock } =
-      body as ProductDetails;
+    const {
+      authorname,
+      bookname,
+      description,
+      price,
+      categoryid,
+      stock,
+      discountpercent,
+    } = body as ProductDetails;
 
     const addedProduct = await prisma.products.create({
       data: {
@@ -35,6 +43,7 @@ export const addProduct = async (
         image,
         categoryid: +categoryid,
         stock: +stock,
+        discountpercent: +discountpercent,
       },
     });
 
@@ -61,8 +70,16 @@ export const editProduct = async (
       image = req.file.filename;
     }
     const { body } = req;
-    const { authorname, bookname, description, price, categoryid, stock, id } =
-      body as EditProductDetails;
+    const {
+      authorname,
+      bookname,
+      description,
+      price,
+      categoryid,
+      stock,
+      id,
+      discountpercent,
+    } = body as EditProductDetails;
 
     const existingDetails = await prisma.products.findFirst({
       where: {
@@ -87,6 +104,7 @@ export const editProduct = async (
         description: description || existingDetails.price,
         image: image || existingDetails.image,
         stock: +stock || existingDetails.stock,
+        discountpercent: !!discountpercent ? +discountpercent : 0,
       },
     });
 
@@ -136,7 +154,12 @@ export const getProducts = async (
   const products = await prisma.products.findMany();
   return res.json({
     status: true,
-    products,
+    products: products.map((obj) => {
+      return {
+        ...obj,
+        salePrice: discountedPRice(+obj.price, obj.discountpercent || 0),
+      };
+    }),
   });
 };
 
@@ -161,7 +184,16 @@ export const getProductById = async (
       where: { id: productId },
     });
     if (product) {
-      res.json({ status: true, product });
+      res.json({
+        status: true,
+        product: {
+          ...product,
+          salePrice: discountedPRice(
+            +product.price,
+            product.discountpercent || 0
+          ),
+        },
+      });
     } else {
       res.status(404).json({ status: false, message: "Product not found" });
     }
