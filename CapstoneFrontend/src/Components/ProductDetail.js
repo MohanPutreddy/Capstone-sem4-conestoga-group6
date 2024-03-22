@@ -6,15 +6,24 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 export default function ProductDetail() {
+  const { id } = useParams();
   const navigate = useNavigate();
   const { cartItems, reFetchCart, logIn } = useContext(AppContext);
-  const { id } = useParams();
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [countNo, setCountNo] = useState(false);
-  const [addedToCart, setAddedToCart] = useState(false);
-  // const [showQuantity, setShowQuantity] = useState(false);
-  const [quantity, setQuantity] = useState(1); // Default quantity is 1
+  const [quantity, setQuantity] = useState(0); // Default quantity is 1
+
+  useEffect(() => {
+    const findCount = cartItems?.find(
+      (element) => element.productdetails.id == id
+    );
+
+    console.log(findCount);
+    if (findCount?.count > 0) {
+      setQuantity(findCount.count);
+    }
+  }, [cartItems, id]);
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -34,18 +43,14 @@ export default function ProductDetail() {
     fetchProducts();
   }, [id]);
 
-  const addToCart = async (id) => {
+  const handleQuantityChange = async (value) => {
     if (logIn) {
-      const findCount = cartItems?.find(
-        (element) => element.productdetails.id === id
-      );
-      console.log(findCount);
-      if (findCount?.count > 0) {
-        setCountNo(true);
-      } else {
+      const newQuantity = quantity + value;
+      if (newQuantity > -1) {
         try {
-          await axios.get(`http://localhost:3000/cart/${id}/${quantity}`);
-          setAddedToCart(true);
+          await axios.get(`http://localhost:3000/cart/${id}/${newQuantity}`);
+          // setAddedToCart(true);
+          setQuantity(newQuantity);
           reFetchCart();
         } catch (error) {
           console.error("Error fetching data:", error);
@@ -53,13 +58,6 @@ export default function ProductDetail() {
       }
     } else {
       navigate("/login");
-    }
-  };
-
-  const handleQuantityChange = (value) => {
-    const newQuantity = quantity + value;
-    if (newQuantity > 0) {
-      setQuantity(newQuantity);
     }
   };
 
@@ -87,7 +85,7 @@ export default function ProductDetail() {
               <div className="quantityControl">
                 <button
                   onClick={() => handleQuantityChange(-1)}
-                  disabled={quantity === 1}
+                  disabled={quantity === 0}
                 >
                   -
                 </button>
@@ -104,14 +102,6 @@ export default function ProductDetail() {
                     {product.discountpercent}
                   </p>
                 </div>
-              )}
-
-              {countNo ? (
-                <p className="cartMessage">Item already in cart</p>
-              ) : addedToCart ? (
-                <p className="cartMessage">Item added to cart</p>
-              ) : (
-                <button onClick={() => addToCart(product.id)}>ADD CART</button>
               )}
             </div>
           </div>

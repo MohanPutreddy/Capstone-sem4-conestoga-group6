@@ -41,10 +41,10 @@ export default function ProfileDetails() {
           <h1>Profile Details</h1>
           <div>
             <div>
-              <img
+              {/* <img
                 src={`http://localhost:3000/uploads/${Profile.profileimage}`}
                 alt={Profile.image}
-              />
+              /> */}
             </div>
             <p>First Name: {Profile.firstname}</p>
             <p>Last Name: {Profile.lastname}</p>
@@ -60,10 +60,10 @@ export default function ProfileDetails() {
         <div>
           <h1>Profile Details</h1>
           <div>
-            <img
+            {/* <img
               src={`http://localhost:3000/uploads/${Profile.profileimage}`}
               alt={Profile.image}
-            />
+            /> */}
           </div>
           <form onSubmit={handleSubmit}>
             <div>
@@ -116,7 +116,7 @@ export default function ProfileDetails() {
                 onChange={handleChange}
               />
             </div>
-            <div>
+            {/* <div>
               <label htmlFor="file">Image URL: </label>
               <div>
                 <input
@@ -126,7 +126,7 @@ export default function ProfileDetails() {
                   accept="image/*"
                 />
               </div>
-            </div>
+            </div> */}
             <button type="submit">Submit</button>
           </form>
         </div>

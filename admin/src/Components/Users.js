@@ -41,14 +41,16 @@ export default function Users() {
       <h1>Users List</h1>
       <div>
         <ul>
-          {users?.map((user) => (
-            <li key={user.id}>
-              <span>{user.username}</span>
-              <button onClick={() => handleToggle(user.id, user.isactive)}>
-                {user.isactive ? "Block User" : "Unblock User"}
-              </button>
-            </li>
-          ))}
+          {users
+            ?.filter((user) => user.role === "regular")
+            .map((user) => (
+              <li key={user.id}>
+                <span>{user.username}</span>
+                <button onClick={() => handleToggle(user.id, user.isactive)}>
+                  {user.isactive ? "Block User" : "Unblock User"}
+                </button>
+              </li>
+            ))}
         </ul>
       </div>
     </div>
