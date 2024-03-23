@@ -112,7 +112,8 @@ export default function DisplayBooks() {
                     {product.discountpercent > 0 && (
                       <div>
                         <p>
-                          <strong>Sale Price:</strong> ${product.salePrice}
+                          <strong>Sale Price:</strong> $
+                          {product.salePrice.toFixed(2)}
                         </p>
                         <p>
                           <strong>Discount Percent:</strong> $
