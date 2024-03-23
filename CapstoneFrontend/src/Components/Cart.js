@@ -103,16 +103,29 @@ const Cart = () => {
         </div>
         <div className="price-container">
           <div>
-            <span>SubTotal price: </span>
-            <span>${subTotalPrice?.toFixed(2)}</span>
+            <span>
+              <strong>SubTotal price:</strong>
+            </span>
+            <span>
+              <strong>${subTotalPrice?.toFixed(2)}</strong>
+            </span>
           </div>
           <div>
-            <span>Tax (13%):</span>
-            <span> ${tax?.toFixed(2)}</span>
+            <span>
+              <strong>Tax (13%):</strong>
+            </span>
+            <span>
+              {" "}
+              <strong>${tax?.toFixed(2)}</strong>
+            </span>
           </div>
           <div>
-            <span>Total price:</span>
-            <span>${totalPrice?.toFixed(2)}</span>
+            <span>
+              <strong>Total price: </strong>
+            </span>
+            <span>
+              <strong>${totalPrice?.toFixed(2)}</strong>
+            </span>
           </div>
           <button onClick={handleCheckoutClick} className="btn btn-primary">
             Checkout

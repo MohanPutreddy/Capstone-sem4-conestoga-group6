@@ -498,12 +498,31 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  padding: 15px;
+  background-color: #fff;
+  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
+}
+
+.price-container > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   border-bottom: 1px solid #e5e5e5;
   padding: 15px 0;
 }
 
-.price-container:last-child {
+.price-container > div:last-child {
   border-bottom: none;
+}
+
+.price-container > div > span {
+  padding: 0 20px;
+}
+
+.subtotal {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .mt-3 {
   margin-top: 1rem;
