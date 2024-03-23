@@ -44,9 +44,15 @@ const Cart = () => {
   return (
     <div className="container">
       <h2 className="mt-3 mb-4">Shopping Cart</h2>
-      <p>SubTotal price: ${subTotalPrice?.toFixed(2)}</p>
-      <p>Tax (13%): ${tax?.toFixed(2)}</p>
-      <p>Total price: ${totalPrice?.toFixed(2)}</p>
+      <p>
+        <strong> SubTotal price:</strong>${subTotalPrice?.toFixed(2)}
+      </p>
+      <p>
+        <strong> Tax (13%):</strong>${tax?.toFixed(2)}
+      </p>
+      <p>
+        <strong>Total price:</strong>${totalPrice?.toFixed(2)}
+      </p>
       <div className="cart-container">
         {cartItems?.length > 0 ? (
           cartItems?.map((item) => (
