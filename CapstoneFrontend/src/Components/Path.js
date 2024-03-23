@@ -7,6 +7,7 @@ import Login from "./Login";
 import SignUp from "./SignUp";
 import "bootstrap/dist/css/bootstrap.css";
 import "./Css/styles.css";
+import "./Css/home.css";
 import { AppContext } from "./GlobalContextProvider";
 import logo from "../logo/logo.png";
 import ProductDetail from "./ProductDetail";
@@ -83,7 +84,8 @@ export default function Path() {
             element={<ProfileDetails></ProfileDetails>}
           ></Route>
 
-          <Route path="/products" element={<Products></Products>}></Route>
+          <Route path="/products/" element={<Products></Products>}></Route>
+
           <Route path="/product/:id" element={<ProductDetail />} />
         </Routes>
       </main>

@@ -3,11 +3,32 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 export default function Products() {
+  const params = new URLSearchParams(window.location.search);
+  const categoryId = params.get("id") ? parseInt(params.get("id")) : "";
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState("name-asc");
   const [displayProducts, setDisplayProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    // Fetch categories from the backend
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/category");
+        if (response.data) {
+          setCategories(response.data);
+        } else {
+          console.error("Unable to fetch categories:");
+        }
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -58,6 +79,19 @@ export default function Products() {
   return (
     <div className="usersViewProductsComponent">
       <h1 className="partition-text">Shop</h1>
+      {categoryId ? (
+        <h6>
+          Displaying products under
+          {categories.find((o) => o.id === categoryId)?.name}
+        </h6>
+      ) : (
+        <></>
+      )}
+      {params.get("type") === "sale" && (
+        <>
+          <h6>Prodcuts under sale</h6>
+        </>
+      )}
 
       <div className="searchAndSortComponent">
         <input
@@ -84,39 +118,51 @@ export default function Products() {
         <p>Loading...</p>
       ) : (
         <div className="product-list">
-          {displayProducts.map((product) => (
-            <div className="productImageContainer">
-              <div key={product.id}>
-                <div className="product-card">
-                  <Link to={`/product/${product.id}`}>
-                    <img
-                      src={`http://localhost:3000/uploads/${product.image}`}
-                      alt={product.bookname}
-                      className="img-thumbnail"
-                    />
-                  </Link>
-                  <p className="product-name">{product.bookname}</p>
-                  <p>
-                    <strong>Price:</strong> ${product.price}
-                  </p>
-                  {product.discountpercent > 0 && (
-                    <div>
-                      <p>
-                        <strong>Sale Price:</strong> ${product.salePrice}
-                      </p>
-                      <p>
-                        <strong>Discount Percent:</strong> $
-                        {product.discountpercent}
-                      </p>
-                    </div>
-                  )}
-                  <Link to={`/product/${product.id}`}>
-                    <button className="btn btn-light">Buy</button>
-                  </Link>
+          {displayProducts
+            .filter((product) =>
+              categoryId ? product.categoryid === categoryId : true
+            )
+            .filter((obj) => {
+              if (params.get("type") === "sale") {
+                return obj.discountpercent > 0;
+              } else {
+                return true;
+              }
+            })
+            .map((product) => (
+              <div className="productImageContainer">
+                <div key={product.id}>
+                  <div className="product-card">
+                    <Link to={`/product/${product.id}`}>
+                      <img
+                        src={`http://localhost:3000/uploads/${product.image}`}
+                        alt={product.bookname}
+                        className="img-thumbnail"
+                      />
+                    </Link>
+                    <p className="product-name">{product.bookname}</p>
+                    <p>
+                      <strong>Price:</strong> ${product.price}
+                    </p>
+                    {product.discountpercent > 0 && (
+                      <div>
+                        <p>
+                          <strong>Sale Price:</strong> $
+                          {product.salePrice.toFixed(2)}
+                        </p>
+                        <p>
+                          <strong>Discount Percent:</strong> $
+                          {product.discountpercent}
+                        </p>
+                      </div>
+                    )}
+                    <Link to={`/product/${product.id}`}>
+                      <button className="btn btn-light">Buy</button>
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       )}
     </div>
