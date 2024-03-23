@@ -79,19 +79,6 @@ export default function Products() {
   return (
     <div className="usersViewProductsComponent">
       <h1 className="partition-text">Shop</h1>
-      {categoryId ? (
-        <h6>
-          Displaying products under
-          {categories.find((o) => o.id === categoryId)?.name}
-        </h6>
-      ) : (
-        <></>
-      )}
-      {params.get("type") === "sale" && (
-        <>
-          <h6>Prodcuts under sale</h6>
-        </>
-      )}
 
       <div className="searchAndSortComponent">
         <input
@@ -113,6 +100,19 @@ export default function Products() {
           <option value="price-desc">Price (High to Low)</option>
         </select>
       </div>
+      {categoryId ? (
+        <h5>
+          Displaying products under{" "}
+          {categories.find((o) => o.id === categoryId)?.name}
+        </h5>
+      ) : (
+        <></>
+      )}
+      {params.get("type") === "sale" && (
+        <>
+          <h5>Prodcuts under sale</h5>
+        </>
+      )}
 
       {loading ? (
         <p>Loading...</p>
@@ -144,6 +144,9 @@ export default function Products() {
                     <p>
                       <strong>Price:</strong> ${product.price}
                     </p>
+                    {/* <p>
+                      <strong>Price:</strong> ${product.price}
+                    </p> */}
                     {product.discountpercent > 0 && (
                       <div>
                         <p>
