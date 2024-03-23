@@ -489,6 +489,22 @@ body {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.cart {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.price-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 15px 0;
+}
+
+.price-container:last-child {
+  border-bottom: none;
+}
 .mt-3 {
   margin-top: 1rem;
 }
