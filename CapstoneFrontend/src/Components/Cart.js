@@ -1,12 +1,10 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import { AppContext } from "./GlobalContextProvider";
-import CheckoutForm from "./CheckoutForm";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
   const { reFetchCart, cartItems } = useContext(AppContext);
-
-  const [showCheckoutForm, setShowCheckoutForm] = useState(false);
 
   const subTotalPrice = cartItems?.reduce((acc, item) => {
     const itemPrice = parseFloat(item.productdetails.price);
@@ -35,10 +33,6 @@ const Cart = () => {
         console.error("Error updating item count:", error);
       }
     }
-  };
-
-  const handleCheckoutClick = () => {
-    setShowCheckoutForm(true);
   };
 
   return (
@@ -127,12 +121,12 @@ const Cart = () => {
               <strong>${totalPrice?.toFixed(2)}</strong>
             </span>
           </div>
-          <button onClick={handleCheckoutClick} className="btn btn-primary">
+          <Link to="/checkout" className="btn btn-primary">
             Checkout
-          </button>
+          </Link>
         </div>
       </div>
-      {showCheckoutForm && <CheckoutForm />}
+
     </div>
   );
 };

@@ -14,6 +14,7 @@ import ProductDetail from "./ProductDetail";
 import Cart from "./Cart";
 import { useNavigate } from "react-router-dom";
 import ProfileDetails from "./ProfileDetails";
+import CheckoutForm from "./CheckoutForm";
 
 export default function Path() {
   const navigate = useNavigate();
@@ -87,6 +88,8 @@ export default function Path() {
           <Route path="/products/" element={<Products></Products>}></Route>
 
           <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/checkout" element={<CheckoutForm />} />
+        
         </Routes>
       </main>
       <footer>&copy; Group 6 - 2024 Winter - Sec 8</footer>
