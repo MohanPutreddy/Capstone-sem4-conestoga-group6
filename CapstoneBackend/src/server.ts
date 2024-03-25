@@ -38,6 +38,12 @@ app.post("/payment", async (req, res) => {
     //Here we are getting the book name and its count and storing it in an array, so that we can send it to the stripe
     const productDetails = [];
 
+    const taxRate = await stripe.taxRates.create({ // Here
+      display_name: 'Sales Tax',
+      percentage: 13,
+      inclusive: false
+    });
+
     for (const cartItem of cartDetails) {
       const product = await prisma.products.findUnique({
         where: { id: cartItem.productid },
@@ -55,6 +61,7 @@ app.post("/payment", async (req, res) => {
             unit_amount: productPrice
           },
           quantity: cartItem.count,
+          tax_rates: [taxRate.id]
         });
       }
     }
@@ -68,8 +75,8 @@ app.post("/payment", async (req, res) => {
       cancel_url: "http://localhost:4000/cart"
     });
     res.json({ url: session.url });
-/* 
-    console.log(session.url); */
+    /* 
+        console.log(session.url); */
   } catch (error) {
     console.error("Error processing payment:", error);
     res.status(500).json({ error: "An error occurred while processing the payment" });
