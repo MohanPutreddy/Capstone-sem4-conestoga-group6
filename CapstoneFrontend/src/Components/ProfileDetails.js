@@ -1,15 +1,17 @@
 import React, { useContext, useState, useRef } from "react";
 import { AppContext } from "./GlobalContextProvider";
-
 import axios from "axios";
+
 export default function ProfileDetails() {
   const fileInput = useRef();
   const [displayProfile, setDisplayProfile] = useState(true);
   const { Profile, setProfile, reFetchCart } = useContext(AppContext);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProfile((prevProfile) => ({ ...prevProfile, [name]: value }));
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -19,14 +21,15 @@ export default function ProfileDetails() {
     formData.append("address", Profile.address);
     formData.append("postalcode", Profile.postalcode);
     formData.append("file", fileInput.current?.files[0]);
+
     try {
       const updateProfile = await axios.post(
         `http://localhost:3000/userauth/profile`,
         formData
       );
+
       if (updateProfile.data.status) {
         reFetchCart();
-
         setDisplayProfile(true);
       }
     } catch (error) {
@@ -35,17 +38,11 @@ export default function ProfileDetails() {
   };
 
   return (
-    <div>
+    <div className="profile-container">
       {displayProfile ? (
-        <div>
+        <div className="profile-details">
           <h1>Profile Details</h1>
           <div>
-            <div>
-              {/* <img
-                src={`http://localhost:3000/uploads/${Profile.profileimage}`}
-                alt={Profile.image}
-              /> */}
-            </div>
             <p>First Name: {Profile.firstname}</p>
             <p>Last Name: {Profile.lastname}</p>
             <p>Date of Birth: {Profile.dob}</p>
@@ -57,14 +54,8 @@ export default function ProfileDetails() {
           </div>
         </div>
       ) : (
-        <div>
+        <div className="profile-details">
           <h1>Profile Details</h1>
-          <div>
-            {/* <img
-              src={`http://localhost:3000/uploads/${Profile.profileimage}`}
-              alt={Profile.image}
-            /> */}
-          </div>
           <form onSubmit={handleSubmit}>
             <div>
               <label htmlFor="firstname">First Name:</label>
@@ -74,6 +65,7 @@ export default function ProfileDetails() {
                 name="firstname"
                 value={Profile.firstname}
                 onChange={handleChange}
+                className="profile-input"
               />
             </div>
             <div>
@@ -84,6 +76,7 @@ export default function ProfileDetails() {
                 name="lastname"
                 value={Profile.lastname}
                 onChange={handleChange}
+                className="profile-input"
               />
             </div>
             <div>
@@ -94,6 +87,7 @@ export default function ProfileDetails() {
                 name="dob"
                 value={Profile.dob}
                 onChange={handleChange}
+                className="profile-input"
               />
             </div>
             <div>
@@ -104,6 +98,7 @@ export default function ProfileDetails() {
                 name="address"
                 value={Profile.address}
                 onChange={handleChange}
+                className="profile-input"
               />
             </div>
             <div>
@@ -114,6 +109,7 @@ export default function ProfileDetails() {
                 name="postalcode"
                 value={Profile.postalcode}
                 onChange={handleChange}
+                className="profile-input"
               />
             </div>
             {/* <div>
@@ -127,7 +123,9 @@ export default function ProfileDetails() {
                 />
               </div>
             </div> */}
-            <button type="submit">Submit</button>
+            <button type="submit" className="profile-submit">
+              Submit
+            </button>
           </form>
         </div>
       )}
