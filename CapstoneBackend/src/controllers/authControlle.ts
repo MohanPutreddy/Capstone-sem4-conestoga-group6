@@ -401,6 +401,50 @@ export const saveProfile = async (
   }
 };
 
+export const editUserProfileByAdmin = async (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id, body } = req;
+    const { userid } = req.params;
+    const { file, ...rest } = body;
+    const data = {
+      ...rest,
+    };
+    const profileimage = req?.file?.filename || "";
+    profileimage && (data.profileimage = profileimage);
+
+    if (!id || !userid) {
+      return res.json({
+        status: false,
+        message: "Invalid user id",
+      });
+    }
+
+    const userDetails = await prisma.users.update({
+      where: {
+        id: +userid,
+      },
+      data,
+    });
+
+    return res.json({
+      status: true,
+      profile: {
+        ...userDetails,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      status: false,
+      message: "Internal Server Error!!!",
+    });
+  }
+};
+
 export const editAccountStatus = async (
   req: CustomRequest,
   res: Response,

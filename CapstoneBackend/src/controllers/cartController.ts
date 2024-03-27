@@ -1,6 +1,7 @@
 import { NextFunction, Response } from "express";
 import { CustomRequest } from "../utils/types";
 import { PrismaClient } from "@prisma/client";
+import { discountedPRice } from "../utils/utils";
 
 const prisma = new PrismaClient();
 
@@ -94,10 +95,18 @@ export const getUserCart = async (
           id: +obj.productid,
         },
       });
-      output.push({
-        ...cart[i],
-        productdetails: product,
-      });
+      if (product) {
+        output.push({
+          ...cart[i],
+          productdetails: {
+            ...product,
+            salePrice: discountedPRice(
+              +product.price,
+              product.discountpercent || 0
+            ),
+          },
+        });
+      }
     }
 
     return res.status(200).json({

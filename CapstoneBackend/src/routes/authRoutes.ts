@@ -2,6 +2,7 @@ import express from "express";
 import {
   adminLogin,
   editAccountStatus,
+  editUserProfileByAdmin,
   forgotPassword,
   getAllUsers,
   getProfile,
@@ -41,5 +42,11 @@ router.get("/profile", tokenValidation, getProfile);
 router.post("/profile", upload.single("file"), tokenValidation, saveProfile);
 router.post("/accountstatus", tokenValidation, isUserAdmin, editAccountStatus);
 router.get("/admin/users/all", tokenValidation, isUserAdmin, getAllUsers);
+router.post(
+  "/admin/edituserprofile/:userid",
+  upload.single("file"),
+  tokenValidation,
+  editUserProfileByAdmin
+);
 
 export const userAuthRouter = router;
