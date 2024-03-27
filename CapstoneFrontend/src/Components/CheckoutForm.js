@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AppContext } from "./GlobalContextProvider";
 
 const CheckoutForm = ({ onSubmit }) => {
+  const {  cartItems, userId } = useContext(AppContext);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -19,12 +21,42 @@ const CheckoutForm = ({ onSubmit }) => {
       [name]: value,
     }));
   };
-
+/*   console.log("cartItems are:", cartItems); */
   const handleSubmit = async (e) => {
+
+   /*  console.log("GlobalcontextProvider.js line 20:", userId); */
+
+
     e.preventDefault();
     const errors = validateForm(formData);
     if (Object.keys(errors).length === 0) {
-      console.log(formData);
+      const paymentData = {
+        fullName: formData.fullName,
+        email: formData.email,
+        phoneNumber: formData.phoneNumber,
+        address: formData.address,
+        userId
+      };
+      //Backend call to stripe payments
+      const response = await fetch("/payment", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(paymentData)
+      }).then(res => {
+        if (res.ok) return res.json()
+        return res.json().then(json => Promise.reject(json))
+      }).then(({ url }) => {/* 
+        console.log(url, "From Checkoutform js line 51"); */
+        window.location = url;
+      }).catch(
+        e =>{
+          console.log(e.errors);
+        }
+      )
+        ;
+      console.log(response);
     } else {
       setFormErrors(errors);
     }
@@ -47,15 +79,6 @@ const CheckoutForm = ({ onSubmit }) => {
     }
     if (!data.address.trim()) {
       errors.address = "Address is required";
-    }
-    if (!data.cardNumber.trim()) {
-      errors.cardNumber = "Card number is required";
-    }
-    if (!data.expiryDate.trim()) {
-      errors.expiryDate = "Expiry date is required";
-    }
-    if (!data.cvv.trim()) {
-      errors.cvv = "CVV is required";
     }
     return errors;
   };
@@ -127,51 +150,8 @@ const CheckoutForm = ({ onSubmit }) => {
               )}
             </div>
           </div>
-
-          <div className="form-fields">
-            <label htmlFor="cardNumber">Card Number:</label>
-            <input
-              type="text"
-              id="cardNumber"
-              name="cardNumber"
-              value={formData.cardNumber}
-              onChange={handleInputChange}
-            />
-            {formErrors.cardNumber && (
-              <span style={{ color: "red" }}>{formErrors.cardNumber}</span>
-            )}
-          </div>
-
-          <div className="form-fields">
-            <label htmlFor="expiryDate">Expiry Date:</label>
-            <input
-              type="text"
-              id="expiryDate"
-              name="expiryDate"
-              value={formData.expiryDate}
-              onChange={handleInputChange}
-            />
-            {formErrors.expiryDate && (
-              <span style={{ color: "red" }}>{formErrors.expiryDate}</span>
-            )}
-          </div>
-
-          <div className="form-fields">
-            <label htmlFor="cvv">CVV:</label>
-            <input
-              type="text"
-              id="cvv"
-              name="cvv"
-              value={formData.cvv}
-              onChange={handleInputChange}
-            />
-            {formErrors.cvv && (
-              <span style={{ color: "red" }}>{formErrors.cvv}</span>
-            )}
-          </div>
-
           <div className="login-button">
-            <button type="submit">Pay Now</button>
+            <button type="submit" onClick={handleSubmit}>Pay Now</button>
           </div>
         </form>
       </div>

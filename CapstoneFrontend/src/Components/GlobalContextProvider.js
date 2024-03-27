@@ -7,6 +7,7 @@ export const AppContext = createContext(null);
 export default function GlobalContextProvider() {
   const [logIn, setLogIn] = useState(false);
   const [cartItems, setCartItems] = useState();
+  const [userId, setUserId] = useState();
   const [fetchCount, refetch] = useState(1);
 
   const [Profile, setProfile] = useState("");
@@ -18,12 +19,13 @@ export default function GlobalContextProvider() {
           `http://localhost:3000/userauth/profile`
         );
         setProfile(response.data?.profile);
+        setUserId(response.data.profile.id);
       } catch (error) {
         console.error("error while getting details:", error);
       }
     };
     if (logIn) fetchProfileDetails();
-  }, [logIn, fetchCount]);
+  }, [logIn, userId, fetchCount]);
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -43,6 +45,7 @@ export default function GlobalContextProvider() {
           logIn,
           setLogIn,
           setProfile,
+          userId,
           Profile,
           cartItems,
           setCartItems,
