@@ -494,6 +494,10 @@ body {
   justify-content: space-evenly;
 }
 
+.width100{
+  width: 100%;
+}
+
 .price-container {
   padding: 15px;
   background-color: #fff;

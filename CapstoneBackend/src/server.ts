@@ -50,7 +50,8 @@ app.post("/payment", async (req, res) => {
       });
       if (product) {
         const productName = product.bookname;
-        const productPrice = parseInt(product.price, 10) * 100;
+        const productPrice = product.discountpercent? ( (parseFloat(product.price) * (product.discountpercent/100)) * 100): parseFloat(product.price) * 100;
+        /* console.log(product.discountpercent, "server.ts, line 54"); */
         productDetails.push({
           price_data: {
             currency: "cad",
