@@ -82,16 +82,6 @@ export default function ProductDetail() {
               <p className="price">
                 <strong>Price:</strong> ${product.price}
               </p>
-              <div className="quantityControl">
-                <button
-                  onClick={() => handleQuantityChange(-1)}
-                  disabled={quantity === 0}
-                >
-                  -
-                </button>
-                <span>{quantity}</span>
-                <button onClick={() => handleQuantityChange(1)}>+</button>
-              </div>
               {product.discountpercent > 0 && (
                 <div>
                   <p>
@@ -103,6 +93,16 @@ export default function ProductDetail() {
                   </p>
                 </div>
               )}
+              <div className="quantityControl">
+                <button
+                  onClick={() => handleQuantityChange(-1)}
+                  disabled={quantity === 0}
+                >
+                  -
+                </button>
+                <span>{quantity}</span>
+                <button onClick={() => handleQuantityChange(1)}>+</button>
+              </div>
             </div>
           </div>
           <div className="bookDescription">
