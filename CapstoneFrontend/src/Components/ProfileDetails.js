@@ -39,23 +39,35 @@ export default function ProfileDetails() {
 
   return (
     <div className="profile-container">
+      <h1>Profile Details</h1>
       {displayProfile ? (
         <div className="profile-details">
-          <h1>Profile Details</h1>
           <div>
-            <p>First Name: {Profile.firstname}</p>
-            <p>Last Name: {Profile.lastname}</p>
-            <p>Date of Birth: {Profile.dob}</p>
-            <p>Address: {Profile.address}</p>
-            <p>Postal Code: {Profile.postalcode}</p>
-            <button onClick={() => setDisplayProfile(false)}>
-              Edit Profile
-            </button>
+            <div className="profile-info">
+              <label>First Name:</label>
+              <p>{Profile.firstname}</p>
+            </div>
+            <div className="profile-info">
+              <label>Last Name:</label>
+              <p>{Profile.lastname}</p>
+            </div>
+            <div className="profile-info">
+              <label>Date of Birth:</label>
+              <p>{Profile.dob}</p>
+            </div>
+            <div className="profile-info">
+              <label>Address:</label>
+              <p>{Profile.address}</p>
+            </div>
+            <div className="profile-info">
+              <label>Postal Code:</label>
+              <p>{Profile.postalcode}</p>
+            </div>
           </div>
+          <button onClick={() => setDisplayProfile(false)}>Edit Profile</button>
         </div>
       ) : (
         <div className="profile-details">
-          <h1>Profile Details</h1>
           <form onSubmit={handleSubmit}>
             <div>
               <label htmlFor="firstname">First Name:</label>

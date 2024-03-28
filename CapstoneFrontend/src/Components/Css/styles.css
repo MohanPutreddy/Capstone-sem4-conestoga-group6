@@ -856,23 +856,47 @@ body {
 .profile-container {
   max-width: 600px;
   margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
   padding: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .profile-container h1 {
   text-align: center;
+  margin-bottom: 40px;
+  text-decoration: underline;
 }
 
-.profile-details {
-  padding: 20px;
-  margin-top: 20px;
-  border: 1px solid transparent;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.profile-details > div {
+  padding-left: 30%;
+  margin-bottom: 40px;
+}
+.profile-details div div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-.profile-details p {
+/* .profile-info {
+  display: flex;
+  align-items: center;
   margin-bottom: 10px;
+} */
+
+.profile-info label {
+  flex: 0 0 40%;
+  margin-right: 10px;
+  white-space: nowrap;
+  font-weight: bold;
+}
+
+.profile-info p {
+  flex: 1;
+  margin: 0;
+  white-space: nowrap;
   font-weight: bold;
 }
 
@@ -886,30 +910,36 @@ body {
   border-radius: 5px;
   cursor: pointer;
 }
-
 .profile-details form {
   margin-top: 20px;
 }
 
+.profile-details form div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
 .profile-details form label {
-  display: block;
-  margin-bottom: 5px;
+  flex: 1;
+  margin-right: 10px;
+  font-weight: bold;
 }
 
 .profile-details form input[type="text"],
 .profile-details form input[type="date"] {
-  width: 100%;
+  flex: 2;
+  width: calc(100% - 10px);
   padding: 8px;
-  margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
-
 .profile-details form button[type="submit"] {
   display: block;
   margin: 20px auto;
   padding: 10px 20px;
-  background-color: #28a745;
+  background-color: #007bff;
   color: #fff;
   border: none;
   border-radius: 5px;
