@@ -809,6 +809,47 @@ body {
   transform: rotate(-5deg);
   animation: swing 0.5s ease-in-out infinite alternate;
 }
+@media screen and (max-width: 768px) {
+  .main {
+    padding: 10px;
+  }
+  .intro {
+    padding: 10px;
+  }
+  .offer {
+    height: auto;
+  }
+  .offer-content {
+    padding: 10px;
+  }
+  .button-list {
+    flex-direction: column;
+  }
+  .button-link {
+    margin-left: 0;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .main {
+    padding: 20px;
+  }
+  .intro {
+    padding: 20px;
+  }
+  .offer {
+    height: auto;
+  }
+  .offer-content {
+    padding: 20px;
+  }
+  .button-list {
+    flex-direction: column;
+  }
+  .button-link {
+    margin-left: 0;
+  }
+}
 
 /* profile Page Css  */
 .profile-container {
