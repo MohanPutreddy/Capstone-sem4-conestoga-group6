@@ -196,6 +196,13 @@ body {
   margin: 50px;
 }
 
+.checkout-container {
+  margin: 50px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: space-around;
+}
+
 /* Header css*/
 header {
   position: sticky;
@@ -501,6 +508,7 @@ body {
 .price-container {
   padding: 15px;
   background-color: #fff;
+  width: 400px;
   /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
 }
 

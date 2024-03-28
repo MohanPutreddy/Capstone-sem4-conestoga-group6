@@ -85,7 +85,79 @@ const CheckoutForm = ({ onSubmit }) => {
   };
 
   return (
-    <div>
+    <div className="checkout-container">
+      <div className="form-container">
+        <h2>Checkout</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="form-fields">
+            <label htmlFor="fullName">Full Name:</label>
+            <div>
+              <input
+                type="text"
+                id="fullName"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleInputChange}
+              />
+              {formErrors.fullName && (
+                <span style={{ color: "red" }}>{formErrors.fullName}</span>
+              )}
+            </div>
+          </div>
+
+          <div className="form-fields">
+            <label htmlFor="email">Email:</label>
+            <div>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+              />
+              {formErrors.email && (
+                <span style={{ color: "red" }}>{formErrors.email}</span>
+              )}
+            </div>
+          </div>
+
+          <div className="form-fields">
+            <label htmlFor="phoneNumber">Phone Number:</label>
+            <div>
+              <input
+                type="text"
+                id="phoneNumber"
+                name="phoneNumber"
+                value={formData.phoneNumber}
+                onChange={handleInputChange}
+              />
+              {formErrors.phoneNumber && (
+                <span style={{ color: "red" }}>{formErrors.phoneNumber}</span>
+              )}
+            </div>
+          </div>
+          <h2>Shipping Address</h2>
+          <div className="form-fields">
+            <label htmlFor="address">Address:</label>
+            <div>
+              <textarea
+                id="address"
+                name="address"
+                value={formData.address}
+                onChange={handleInputChange}
+              />
+              {formErrors.address && (
+                <span style={{ color: "red" }}>{formErrors.address}</span>
+              )}
+            </div>
+          </div>
+          <div className="login-button">
+            <button type="submit" onClick={handleSubmit}>
+              Pay Now
+            </button>
+          </div>
+        </form>
+      </div>
       <div className="price-container">
         <h2>Order Summary</h2>
         <div>
@@ -93,7 +165,7 @@ const CheckoutForm = ({ onSubmit }) => {
             <strong>SubTotal price:</strong>
           </span>
           <span>
-            <strong>${subTotalPrice}</strong>
+            <strong>${parseFloat(subTotalPrice).toFixed(2)}</strong>
           </span>
         </div>
         <div>
@@ -101,7 +173,7 @@ const CheckoutForm = ({ onSubmit }) => {
             <strong>Tax (13%):</strong>
           </span>
           <span>
-            <strong>${tax}</strong>
+            <strong>${parseFloat(tax).toFixed(2)}</strong>
           </span>
         </div>
         <div>
@@ -109,83 +181,8 @@ const CheckoutForm = ({ onSubmit }) => {
             <strong>Total price: </strong>
           </span>
           <span>
-            <strong>${totalPrice}</strong>
+            <strong>${parseFloat(totalPrice).toFixed(2)}</strong>
           </span>
-        </div>
-      </div>
-
-      <div className="main-container">
-        <div className="form-container">
-          <h2>Checkout</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="form-fields">
-              <label htmlFor="fullName">Full Name:</label>
-              <div>
-                <input
-                  type="text"
-                  id="fullName"
-                  name="fullName"
-                  value={formData.fullName}
-                  onChange={handleInputChange}
-                />
-                {formErrors.fullName && (
-                  <span style={{ color: "red" }}>{formErrors.fullName}</span>
-                )}
-              </div>
-            </div>
-
-            <div className="form-fields">
-              <label htmlFor="email">Email:</label>
-              <div>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                />
-                {formErrors.email && (
-                  <span style={{ color: "red" }}>{formErrors.email}</span>
-                )}
-              </div>
-            </div>
-
-            <div className="form-fields">
-              <label htmlFor="phoneNumber">Phone Number:</label>
-              <div>
-                <input
-                  type="text"
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  value={formData.phoneNumber}
-                  onChange={handleInputChange}
-                />
-                {formErrors.phoneNumber && (
-                  <span style={{ color: "red" }}>{formErrors.phoneNumber}</span>
-                )}
-              </div>
-            </div>
-            <h2>Shipping Address</h2>
-            <div className="form-fields">
-              <label htmlFor="address">Address:</label>
-              <div>
-                <textarea
-                  id="address"
-                  name="address"
-                  value={formData.address}
-                  onChange={handleInputChange}
-                />
-                {formErrors.address && (
-                  <span style={{ color: "red" }}>{formErrors.address}</span>
-                )}
-              </div>
-            </div>
-            <div className="login-button">
-              <button type="submit" onClick={handleSubmit}>
-                Pay Now
-              </button>
-            </div>
-          </form>
         </div>
       </div>
     </div>
