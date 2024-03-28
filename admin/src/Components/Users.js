@@ -22,10 +22,10 @@ export default function Users() {
   }, []);
 
   return (
-    <div>
+    <div className="users-container">
       <h1>Users List</h1>
       <div>
-        <ul>
+        <ul className="users-list">
           {users
             ?.filter((user) => user.role === "regular")
             .map((user) => (

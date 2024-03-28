@@ -70,15 +70,32 @@ export default function ManageUser() {
 
   return (
     <div className="profile-container">
+      <h1>Profile Details</h1>
       {displayProfile ? (
         <div className="profile-details">
-          <h1>Profile Details</h1>
-          <div>
-            <p>First Name: {Profile.firstname}</p>
-            <p>Last Name: {Profile.lastname}</p>
-            <p>Date of Birth: {Profile.dob}</p>
-            <p>Address: {Profile.address}</p>
-            <p>Postal Code: {Profile.postalcode}</p>
+          <div className="profile-info">
+            <div>
+              <label>First Name:</label>
+              <p>{Profile.firstname}</p>
+            </div>
+            <div>
+              <label>Last Name:</label>
+              <p>{Profile.lastname}</p>
+            </div>
+            <div>
+              <label>Date of Birth:</label>
+              <p>{Profile.dob}</p>
+            </div>
+            <div>
+              <label>Address:</label>
+              <p>{Profile.address}</p>
+            </div>
+            <div>
+              <label>Postal Code:</label>
+              <p>{Profile.postalcode}</p>
+            </div>
+          </div>
+          <div className="manageuser-buttons">
             <button onClick={() => setDisplayProfile(false)}>
               Edit Profile
             </button>
@@ -89,7 +106,6 @@ export default function ManageUser() {
         </div>
       ) : (
         <div className="profile-details">
-          <h1>Profile Details</h1>
           <form onSubmit={handleSubmit}>
             <div>
               <label htmlFor="firstname">First Name:</label>
@@ -147,16 +163,16 @@ export default function ManageUser() {
               />
             </div>
             {/* <div>
-            <label htmlFor="file">Image URL: </label>
-            <div>
-              <input
-                type="file"
-                name="file"
-                ref={fileInput}
-                accept="image/*"
-              />
-            </div>
-          </div> */}
+              <label htmlFor="file">Image URL: </label>
+              <div>
+                <input
+                  type="file"
+                  name="file"
+                  ref={fileInput}
+                  accept="image/*"
+                />
+              </div>
+            </div> */}
             <button type="submit" className="profile-submit">
               Submit
             </button>
