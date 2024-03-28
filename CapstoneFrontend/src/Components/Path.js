@@ -88,8 +88,10 @@ export default function Path() {
           <Route path="/products/" element={<Products></Products>}></Route>
 
           <Route path="/product/:id" element={<ProductDetail />} />
-          <Route path="/checkout" element={<CheckoutForm />} />
-        
+          <Route
+            path="/checkout/:subTotalPrice/:tax/:totalPrice"
+            element={<CheckoutForm />}
+          />
         </Routes>
       </main>
       <footer>&copy; Group 6 - 2024 Winter - Sec 8</footer>
