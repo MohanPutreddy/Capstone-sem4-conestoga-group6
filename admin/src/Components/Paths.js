@@ -9,6 +9,7 @@ import logo from "../logo/logo.png";
 import { AppContext } from "./GlobalContextProvider";
 import Login from "./Login";
 import SignUp from "./SignUp";
+import ManageUser from "./ManageUser";
 import ForgotPassword from "./ForgotPassword";
 import AddCategory from "./AddCategory";
 import EditBooks from "./EditBooks";
@@ -86,7 +87,10 @@ export default function Paths() {
                 element={<AddCategory></AddCategory>}
               ></Route>
               <Route path="/edit/:productId" element={<EditBooks />} />
-
+              <Route
+                path="/manageuser"
+                element={<ManageUser></ManageUser>}
+              ></Route>
               <Route
                 path="/displaybooks"
                 element={<DisplayBooks></DisplayBooks>}

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import axios from "axios";
 import { AppContext } from "./GlobalContextProvider";
 import { Link } from "react-router-dom";
@@ -8,8 +8,11 @@ const Cart = () => {
 
   const subTotalPrice = cartItems?.reduce((acc, item) => {
     const itemPrice = parseFloat(item.productdetails.price);
+    const salePrice = parseFloat(item.productdetails.salePrice);
+    const discountpercent = parseFloat(item.productdetails.discountpercent);
+    const discountprice = discountpercent > 0 ? salePrice : itemPrice;
     const itemCount = item.count;
-    return acc + itemPrice * itemCount;
+    return acc + discountprice * itemCount;
   }, 0);
 
   const tax = subTotalPrice * 0.13;
@@ -52,7 +55,21 @@ const Cart = () => {
                   <p className="cart-item-name">
                     Book Name: {item.productdetails.bookname}
                   </p>
-                  <p> price: ${item.productdetails.price}</p>
+                  <p
+                    style={
+                      item.productdetails.discountpercent > 0
+                        ? { textDecorationLine: "line-through" }
+                        : {}
+                    }
+                  >
+                    price: ${item.productdetails.price}
+                  </p>
+
+                  {item.productdetails.discountpercent > 0 && (
+                    <div>
+                      <p> Sale Price: ${item.productdetails.salePrice}</p>
+                    </div>
+                  )}
                   <div className="cart-item-buttons">
                     <button
                       onClick={() => deleteItem(item.id)}
@@ -126,7 +143,6 @@ const Cart = () => {
           </Link>
         </div>
       </div>
-
     </div>
   );
 };

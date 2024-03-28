@@ -141,12 +141,16 @@ export default function Products() {
                       />
                     </Link>
                     <p className="product-name">{product.bookname}</p>
-                    <p>
+                    <p
+                      style={
+                        product.discountpercent > 0
+                          ? { textDecorationLine: "line-through" }
+                          : {}
+                      }
+                    >
                       <strong>Price:</strong> ${product.price}
                     </p>
-                    {/* <p>
-                      <strong>Price:</strong> ${product.price}
-                    </p> */}
+
                     {product.discountpercent > 0 && (
                       <div>
                         <p>
@@ -154,8 +158,8 @@ export default function Products() {
                           {product.salePrice.toFixed(2)}
                         </p>
                         <p>
-                          <strong>Discount Percent:</strong> $
-                          {product.discountpercent}
+                          <strong>Discount Percent: </strong>
+                          {product.discountpercent} %
                         </p>
                       </div>
                     )}
