@@ -150,6 +150,13 @@ export default function Products() {
                     >
                       <strong>Price:</strong> ${product.price}
                     </p>
+                    <p>
+                      <strong>category:</strong>
+                      {
+                        categories.find((o) => o.id === product.categoryid)
+                          ?.name
+                      }
+                    </p>
 
                     {product.discountpercent > 0 && (
                       <div>
@@ -157,10 +164,10 @@ export default function Products() {
                           <strong>Sale Price:</strong> $
                           {product.salePrice.toFixed(2)}
                         </p>
-                        <p>
+                        {/* <p>
                           <strong>Discount Percent: </strong>
                           {product.discountpercent} %
-                        </p>
+                        </p> */}
                       </div>
                     )}
                     <Link to={`/product/${product.id}`}>

@@ -759,7 +759,8 @@ body {
 }
 .offer {
   position: relative;
-  background-color: #532626;
+
+  background-color: #004080;
   color: #fff;
   overflow: hidden;
   height: 150px;
@@ -794,7 +795,7 @@ body {
 .button-link {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #532626;
+  background-color: #004080;
   color: #fff;
   text-decoration: none;
   border-radius: 5px;
