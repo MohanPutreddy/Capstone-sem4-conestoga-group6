@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react"; // Import useRef
 import axios from "axios";
 import { useContext } from "react";
 import { AppContext } from "./GlobalContextProvider";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate
+import NotificationSystem from "react-notification-system";
 
 export default function ProductDetail() {
   const { id } = useParams();
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // useNavigate hook
+  const notificationSystem = useRef(null); // Initialize notificationSystem ref
   const { cartItems, reFetchCart, logIn } = useContext(AppContext);
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -43,6 +44,31 @@ export default function ProductDetail() {
     fetchProducts();
   }, [id]);
 
+  // Function to show a notification
+  const showNotification = () => {
+    if (notificationSystem.current) {
+      // Add a new notification
+      notificationSystem.current.addNotification({
+        message: "Product added to cart!",
+        level: "success", // success, error, warning, info
+        position: "tc", // tc (top center), tl (top left), tr (top right), etc.
+        autoDismiss: 1, // Auto dismiss in 3 seconds
+      });
+    }
+  };
+
+  const showNotification2 = () => {
+    if (notificationSystem.current) {
+      // Add a new notification
+      notificationSystem.current.addNotification({
+        message: "Product removed from cart!",
+        level: "success", // success, error, warning, info
+        position: "tc", // tc (top center), tl (top left), tr (top right), etc.
+        autoDismiss: 1, // Auto dismiss in 3 seconds
+      });
+    }
+  };
+
   const handleQuantityChange = async (value) => {
     if (logIn) {
       const newQuantity = quantity + value;
@@ -52,6 +78,11 @@ export default function ProductDetail() {
           // setAddedToCart(true);
           setQuantity(newQuantity);
           reFetchCart();
+          if (newQuantity > quantity) {
+            showNotification();
+          } else {
+            showNotification2();
+          }
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -116,6 +147,8 @@ export default function ProductDetail() {
           </div>
         </div>
       )}
+      {/* NotificationSystem component */}
+      <NotificationSystem ref={notificationSystem} />
     </div>
   );
 }
