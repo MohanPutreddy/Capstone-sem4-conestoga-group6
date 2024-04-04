@@ -36,7 +36,7 @@ export default function Home() {
   return (
     <div className="body">
       <div className="image-container" onClick={viewBooks}>
-        <img src={bannerImage} alt="Banner" />
+        <img src={bannerImage} alt="Banner" className="width100"/>
         <div className="overlay">Click here to veiw all Books</div>
       </div>
 
