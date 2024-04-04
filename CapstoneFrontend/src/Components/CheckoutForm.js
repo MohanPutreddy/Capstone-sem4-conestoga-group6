@@ -3,7 +3,7 @@ import { AppContext } from "./GlobalContextProvider";
 import { useParams } from "react-router-dom";
 
 const CheckoutForm = ({ onSubmit }) => {
-  const { cartItems, userId } = useContext(AppContext);
+  const { userId } = useContext(AppContext);
   const { subTotalPrice, tax, totalPrice } = useParams();
   const [formData, setFormData] = useState({
     fullName: "",

@@ -16,7 +16,7 @@ export default function ProductDetail() {
 
   useEffect(() => {
     const findCount = cartItems?.find(
-      (element) => element.productdetails.id == id
+      (element) => element.productdetails.id === parseInt(id)
     );
 
     console.log(findCount);
