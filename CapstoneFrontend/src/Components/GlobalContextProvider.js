@@ -38,6 +38,7 @@ export default function GlobalContextProvider() {
     };
     if (logIn) fetchCartItems();
   }, [logIn, fetchCount]);
+
   return (
     <div>
       <AppContext.Provider

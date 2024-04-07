@@ -1,18 +1,21 @@
-import React, { useState, useEffect, useRef } from "react"; // Import useRef
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useContext } from "react";
 import { AppContext } from "./GlobalContextProvider";
-import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate
+import { useParams, useNavigate } from "react-router-dom";
 import NotificationSystem from "react-notification-system";
 
 export default function ProductDetail() {
   const { id } = useParams();
-  const navigate = useNavigate(); // useNavigate hook
-  const notificationSystem = useRef(null); // Initialize notificationSystem ref
+  const navigate = useNavigate();
+  const notificationSystem = useRef(null);
   const { cartItems, reFetchCart, logIn } = useContext(AppContext);
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [quantity, setQuantity] = useState(0); // Default quantity is 1
+  const [quantity, setQuantity] = useState(0);
+  const [reviews, setReviews] = useState([]);
+  const [averageRating, setAverageRating] = useState(0);
+  const [showNoReviews, setShowNoReviews] = useState(false);
 
   useEffect(() => {
     const findCount = cartItems?.find(
@@ -28,12 +31,8 @@ export default function ProductDetail() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        await axios
-          .get(`http://localhost:3000/product/${id}`)
-          .then((response) => {
-            setProduct(response.data.product);
-          });
-
+        const response = await axios.get(`http://localhost:3000/product/${id}`);
+        setProduct(response.data.product);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching product by ID:", error);
@@ -44,27 +43,24 @@ export default function ProductDetail() {
     fetchProducts();
   }, [id]);
 
-  // Function to show a notification
-  const showNotification = () => {
+  const showNotification = (message) => {
     if (notificationSystem.current) {
-      // Add a new notification
       notificationSystem.current.addNotification({
-        message: "Product added to cart!",
-        level: "success", // success, error, warning, info
-        position: "tc", // tc (top center), tl (top left), tr (top right), etc.
-        autoDismiss: 1, // Auto dismiss in 3 seconds
+        message,
+        level: "success",
+        position: "tc",
+        autoDismiss: 1,
       });
     }
   };
 
-  const showNotification2 = () => {
+  const showNotification2 = (message) => {
     if (notificationSystem.current) {
-      // Add a new notification
       notificationSystem.current.addNotification({
-        message: "Product removed from cart!",
-        level: "success", // success, error, warning, info
-        position: "tc", // tc (top center), tl (top left), tr (top right), etc.
-        autoDismiss: 1, // Auto dismiss in 3 seconds
+        message,
+        level: "success",
+        position: "tc",
+        autoDismiss: 1,
       });
     }
   };
@@ -75,13 +71,13 @@ export default function ProductDetail() {
       if (newQuantity > -1) {
         try {
           await axios.get(`http://localhost:3000/cart/${id}/${newQuantity}`);
-          // setAddedToCart(true);
+
           setQuantity(newQuantity);
           reFetchCart();
           if (newQuantity > quantity) {
-            showNotification();
+            showNotification("Product added to cart!");
           } else {
-            showNotification2();
+            showNotification2("Product removed from cart!");
           }
         } catch (error) {
           console.error("Error fetching data:", error);
@@ -89,6 +85,24 @@ export default function ProductDetail() {
       }
     } else {
       navigate("/login");
+    }
+  };
+
+  const fetchReviewsAndRatings = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/product/ratings/${id}`
+      );
+      const { records, avgRating } = response.data;
+      if (records.length === 0) {
+        setShowNoReviews(true);
+      } else {
+        setShowNoReviews(false);
+        setReviews(records);
+        setAverageRating(avgRating);
+      }
+    } catch (error) {
+      console.error("Error fetching reviews and ratings:", error);
     }
   };
 
@@ -144,6 +158,25 @@ export default function ProductDetail() {
             <p>
               <strong>Description:</strong> {product.description}
             </p>
+            <button onClick={fetchReviewsAndRatings}>
+              Show Reviews & Ratings
+            </button>
+            {reviews.length > 0 && (
+              <div>
+                <h2>Reviews & Ratings</h2>
+                <p>Average Rating: {averageRating}</p>
+                <ul>
+                  {reviews.map((review) => (
+                    <li key={review.id}>
+                      <p>Username: {review.username}</p>
+                      <p>Review: {review.review}</p>
+                      <p>Rating: {review.rating}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {showNoReviews && <p>No reviews available</p>}
           </div>
         </div>
       )}

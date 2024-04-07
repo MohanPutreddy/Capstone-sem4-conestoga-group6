@@ -50,3 +50,28 @@ model cart {
   productid Int
   count     Int
 }
+
+model ratings {
+  id        Int     @id @default(autoincrement())
+  productid Int
+  userid    Int
+  rating    Int?
+  review    String? @db.VarChar(500)
+  username  String? @db.VarChar(50)
+}
+
+model order_item {
+  orderid  Int
+  itemid   Int
+  quantity Int
+  price    Float @db.Float
+  id       Int   @id @default(autoincrement())
+}
+
+model orders {
+  orderid   Int     @id @default(autoincrement())
+  userid    Int
+  total     Float   @db.Float
+  paymentid String  @db.VarChar(100)
+  date      String? @db.VarChar(50)
+}

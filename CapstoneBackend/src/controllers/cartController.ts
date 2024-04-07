@@ -5,6 +5,154 @@ import { discountedPRice } from "../utils/utils";
 
 const prisma = new PrismaClient();
 
+export const getUserOrders = async (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userid = req.id;
+
+    const orders = await prisma.orders.findMany({
+      where: {
+        userid: userid!,
+      },
+    });
+
+    let output = [];
+    for (let i = 0; i < orders.length; i++) {
+      const { date, orderid, paymentid, total, userid } = orders[i];
+      let obj = {
+        date,
+        orderid,
+        paymentid,
+        total,
+        userid,
+        items: [] as any,
+      };
+      const orderItems = await prisma.order_item.findMany({
+        where: {
+          orderid,
+        },
+      });
+      for (let j = 0; j < orderItems.length; j++) {
+        const { id, itemid, orderid, price, quantity } = orderItems[0];
+        const productDetails = await prisma.products.findFirst({
+          where: {
+            id: itemid,
+          },
+        });
+        const userRating = await prisma.ratings.findFirst({
+          where: {
+            productid: productDetails?.id,
+            userid: userid,
+          },
+        });
+        obj.items.push({
+          itemid,
+          orderid,
+          price,
+          quantity,
+          userRating,
+          ...productDetails,
+        });
+      }
+      output.push(obj);
+    }
+    res.json([...(output || [])]);
+  } catch (error) {
+    return res.status(500).json({
+      status: false,
+      message: "Internal Error",
+    });
+  }
+};
+
+export const placeOrder = async (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userid = req.id;
+    const cart = await prisma.cart.findMany({
+      where: {
+        userid: userid!,
+      },
+    });
+
+    if (cart?.length === 0) {
+      return res.json({
+        status: false,
+        message: "Cart is Empty cannot place order",
+      });
+    }
+
+    await prisma.cart.deleteMany({
+      where: {
+        userid: userid!,
+      },
+    });
+
+    const paymentid = new Date().getTime();
+    let order_items = [];
+    let total = 0;
+
+    for (let i = 0; i < cart?.length; i++) {
+      const obj = cart[i];
+      const product = await prisma.products.findFirst({
+        where: {
+          id: +obj.productid,
+        },
+      });
+      if (product) {
+        const productPrice = product.discountpercent
+          ? parseFloat(product.price) * (product.discountpercent / 100) * 100
+          : parseFloat(product.price) * 100;
+        total += productPrice;
+        order_items.push({
+          itemid: +obj.productid,
+          quantity: obj.count,
+          price: productPrice,
+        });
+      }
+    }
+
+    console.log(order_items);
+
+    const orderDetails = await prisma.orders.create({
+      data: {
+        userid: userid!,
+        total,
+        paymentid: `${paymentid}`,
+        date: new Date().toDateString(),
+      },
+    });
+
+    console.log(orderDetails);
+
+    for (let i = 0; i < order_items.length; i++) {
+      await prisma.order_item.create({
+        data: {
+          orderid: orderDetails.orderid!,
+          ...order_items[i],
+        },
+      });
+    }
+
+    res.json({
+      status: true,
+      orderDetails,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      status: false,
+      message: "Internal Error",
+    });
+  }
+};
+
 export const addToCart = async (
   req: CustomRequest,
   res: Response,

@@ -678,6 +678,31 @@ body {
   font-size: 1.2rem;
   margin-bottom: 10px;
 }
+
+/* CSS for the Orders component */
+.ordersContainer {
+  margin: 20px;
+}
+
+.order {
+  margin-bottom: 20px;
+}
+
+.order h2 {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.order p {
+  margin-bottom: 5px;
+}
+
+.order img {
+  width: 100px;
+  height: 150px;
+  margin-right: 10px;
+}
+
 /* home css start */
 .body {
   display: flex;

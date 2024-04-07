@@ -1,4 +1,4 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import { userAuthRouter } from "./routes/authRoutes";
@@ -14,7 +14,7 @@ const prisma = new PrismaClient();
 dotenv.config();
 
 const app = express();
-const stripe = require('stripe')(process.env.STRIPE_KEY);
+const stripe = require("stripe")(process.env.STRIPE_KEY);
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -31,17 +31,18 @@ app.post("/payment", async (req, res) => {
     //Getting the Cart's products from the userID, as we need to keep the site secure, if we send the cart data from frontend
     //then there is a posiblity of data intervention enroute to server and prices can be made 0 and get things for free
     const cartDetails = await prisma.cart.findMany({
-      where: { userid: req.body.userId, },
+      where: { userid: req.body.userId },
     });
     /* console.log("Cart Details:", cartDetails); */
 
     //Here we are getting the book name and its count and storing it in an array, so that we can send it to the stripe
     const productDetails = [];
 
-    const taxRate = await stripe.taxRates.create({ // Here
-      display_name: 'Sales Tax',
+    const taxRate = await stripe.taxRates.create({
+      // Here
+      display_name: "Sales Tax",
       percentage: 13,
-      inclusive: false
+      inclusive: false,
     });
 
     for (const cartItem of cartDetails) {
@@ -50,7 +51,10 @@ app.post("/payment", async (req, res) => {
       });
       if (product) {
         const productName = product.bookname;
-        const productPrice = product.discountpercent? ( (parseFloat(product.price) * (product.discountpercent/100)) * 100): parseFloat(product.price) * 100;
+        const productPrice = product.discountpercent
+          ? parseFloat(product.price) * (product.discountpercent / 100) * 100
+          : parseFloat(product.price) * 100;
+        console.log(productPrice);
         /* console.log(product.discountpercent, "server.ts, line 54"); */
         productDetails.push({
           price_data: {
@@ -59,10 +63,10 @@ app.post("/payment", async (req, res) => {
               name: productName,
             },
 
-            unit_amount: productPrice
+            unit_amount: parseInt(`${productPrice}`),
           },
           quantity: cartItem.count,
-          tax_rates: [taxRate.id]
+          tax_rates: [taxRate.id],
         });
       }
     }
@@ -72,17 +76,23 @@ app.post("/payment", async (req, res) => {
       payment_method_types: ["card"],
       mode: "payment",
       line_items: productDetails,
-      success_url: "http://localhost:4000/products",
-      cancel_url: "http://localhost:4000/cart"
+      success_url: "http://localhost:4000/paymentsuccess",
+      cancel_url: "http://localhost:4000/paymentfailure",
     });
     res.json({ url: session.url });
     /* 
         console.log(session.url); */
   } catch (error) {
     console.error("Error processing payment:", error);
-    res.status(500).json({ error: "An error occurred while processing the payment" });
+    res
+      .status(500)
+      .json({ error: "An error occurred while processing the payment" });
   }
-})
+});
+
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  res.status(500).json({});
+});
 
 app.listen(process.env.PORT || 3000, () => {
   console.log(

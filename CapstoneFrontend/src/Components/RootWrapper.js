@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import Path from "./Path";
 import { AppContext } from "./GlobalContextProvider";
 
-export default function RootWrapper() {
+function RootWrapper() {
   const { setLogIn } = useContext(AppContext);
   useEffect(() => {
     const authToken = localStorage.getItem("token");
@@ -19,3 +19,5 @@ export default function RootWrapper() {
     </div>
   );
 }
+
+export default React.memo(RootWrapper);

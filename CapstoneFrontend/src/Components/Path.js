@@ -15,8 +15,11 @@ import Cart from "./Cart";
 import { useNavigate } from "react-router-dom";
 import ProfileDetails from "./ProfileDetails";
 import CheckoutForm from "./CheckoutForm";
+import PaymentSuccess from "./PaymentSuccess";
+import PaymentFailure from "./PaymentFailure";
+import Orders from "./Orders";
 
-export default function Path() {
+function Path() {
   const navigate = useNavigate();
   const { logIn, setLogIn } = useContext(AppContext);
   const handleLogout = () => {
@@ -43,6 +46,9 @@ export default function Path() {
                 <>
                   <li>
                     <Link to="/cart">Cart</Link>
+                  </li>
+                  <li>
+                    <Link to="/orders">Orders</Link>
                   </li>
                   <li>
                     <Link to="/profile">Profile</Link>
@@ -84,7 +90,15 @@ export default function Path() {
             path="/profile"
             element={<ProfileDetails></ProfileDetails>}
           ></Route>
-
+          <Route
+            path="/paymentsuccess"
+            element={<PaymentSuccess></PaymentSuccess>}
+          ></Route>
+          <Route path="/orders" element={<Orders></Orders>}></Route>
+          <Route
+            path="/paymentfailure"
+            element={<PaymentFailure></PaymentFailure>}
+          ></Route>
           <Route path="/products/" element={<Products></Products>}></Route>
 
           <Route path="/product/:id" element={<ProductDetail />} />
@@ -98,3 +112,4 @@ export default function Path() {
     </>
   );
 }
+export default React.memo(Path);

@@ -4,6 +4,9 @@ import {
   addProduct,
   getProducts,
   getProductById,
+  productReview,
+  getProductReviews,
+  deleteReview,
 } from "../controllers/productController";
 import { deleteProduct, editProduct } from "../controllers/productController";
 import { tokenValidation } from "../middlewares/tokenValidation";
@@ -26,5 +29,8 @@ router.get("/:id", getProductById);
 router.post("/", upload.single("file"), tokenValidation, addProduct);
 router.put("/", upload.single("file"), tokenValidation, editProduct);
 router.delete("/", tokenValidation, deleteProduct);
+router.get("/ratings/:productid", tokenValidation, getProductReviews);
+router.post("/rating", tokenValidation, productReview);
+router.delete("/rating/:productid", tokenValidation, deleteReview);
 
 export const productRouter = router;
