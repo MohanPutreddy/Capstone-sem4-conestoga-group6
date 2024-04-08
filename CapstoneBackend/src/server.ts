@@ -33,7 +33,7 @@ app.post("/payment", async (req, res) => {
     const cartDetails = await prisma.cart.findMany({
       where: { userid: req.body.userId },
     });
-    /* console.log("Cart Details:", cartDetails); */
+    //  console.log("Cart Details:", cartDetails);
 
     //Here we are getting the book name and its count and storing it in an array, so that we can send it to the stripe
     const productDetails = [];
@@ -51,11 +51,10 @@ app.post("/payment", async (req, res) => {
       });
       if (product) {
         const productName = product.bookname;
-        const productPrice = product.discountpercent
-          ? parseFloat(product.price) * (product.discountpercent / 100) * 100
-          : parseFloat(product.price) * 100;
-        console.log(productPrice);
-        /* console.log(product.discountpercent, "server.ts, line 54"); */
+        const productPrice = product.discountpercent ? ( (parseFloat(product.price) * ((100 - product.discountpercent)/100)) * 100) : parseFloat(product.price) * 100;
+
+        // console.log(productPrice, product.price, product.discountpercent);
+        //  /*  */console.log(product.discountpercent, "server.ts, line 54");
         productDetails.push({
           price_data: {
             currency: "cad",
@@ -63,7 +62,7 @@ app.post("/payment", async (req, res) => {
               name: productName,
             },
 
-            unit_amount: parseInt(`${productPrice}`),
+            unit_amount: productPrice,
           },
           quantity: cartItem.count,
           tax_rates: [taxRate.id],
