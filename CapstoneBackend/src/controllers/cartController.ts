@@ -97,6 +97,7 @@ export const placeOrder = async (
     const paymentid = new Date().getTime();
     let order_items = [];
     let total = 0;
+    let itemTotal = 0;
 
     for (let i = 0; i < cart?.length; i++) {
       const obj = cart[i];
@@ -106,19 +107,22 @@ export const placeOrder = async (
         },
       });
       if (product) {
-        const productPrice = product.discountpercent
-          ? parseFloat(product.price) * (product.discountpercent / 100) * 100
-          : parseFloat(product.price) * 100;
-        total += productPrice;
+        const productPrice = product.discountpercent ? (parseFloat(product.price) * ((100 - product.discountpercent)/100)) : parseFloat(product.price);
+        const tax = productPrice * 0.13;
+        console.log(tax, "Line 111 in cartController.js");
+        itemTotal = (productPrice + tax)*obj.count;
+        total += itemTotal;
+        console.log(itemTotal, "Line 115 in cartController.js, For Item", obj);
+        console.log(total, "Line 116 in cartController.js");
         order_items.push({
           itemid: +obj.productid,
           quantity: obj.count,
-          price: productPrice,
+          price: itemTotal,
         });
       }
     }
 
-    console.log(order_items);
+    console.log(order_items, "line 122 in carController.js");
 
     const orderDetails = await prisma.orders.create({
       data: {
