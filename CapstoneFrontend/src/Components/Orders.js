@@ -67,17 +67,16 @@ export default function Orders() {
             </div>
             {order.items.map((item) => (
               <div key={item.itemid} className="orderBody">
-                
                 <div className="orderBodyItemDetails">
-                <img
-                  src={`http://localhost:3000/uploads/${item.image}`}
-                  alt={item.bookname}
-                  className="img-thumbnail"
-                />
+                  <img
+                    src={`http://localhost:3000/uploads/${item.image}`}
+                    alt={item.bookname}
+                    className="img-thumbnail"
+                  />
                   <div>
                     <p>Book Name: {item.bookname}</p>
                     <p>Author Name: {item.authorname}</p>
-                    <p>Price: {item.price}</p>
+                    <p>Price: CAD {item.price}</p>
                   </div>
                 </div>
 
@@ -92,12 +91,14 @@ export default function Orders() {
                   {!item.userRating && (
                     <>
                       <textarea
+                        className="form-control"
                         value={review}
                         onChange={handleReviewChange}
                         placeholder="Add your review"
                       />
                       <div>
                         <input
+                          className="form-control"
                           type="number"
                           value={rating}
                           onChange={handleRatingChange}
