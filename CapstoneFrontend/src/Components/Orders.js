@@ -54,6 +54,33 @@ export default function Orders() {
     }
   };
 
+  const downloadInvoice = async (orderId) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/cart/download-invoice",
+        { orderId },
+        { responseType: "blob" } // Specify response type as blob to download file
+      );
+
+      // Create a blob URL for the downloaded file
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+
+      // Create a link element and trigger the download
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `invoice_${orderId}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+
+      // Cleanup
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Error downloading invoice:", error);
+    }
+  };
+
+
   return (
     <div className="ordersContainer">
       <h1>Your Orders</h1>
@@ -64,6 +91,9 @@ export default function Orders() {
               <p>Order Placed: {order.date}</p>
               <p>Total: CAD {(order.total).toFixed(2)}</p>
               <p>Order # {order.orderid}</p>
+              <button className="btn btn-dark" onClick={() => downloadInvoice(order.orderid)}>
+                Download Invoice
+              </button>
             </div>
             {order.items.map((item) => (
               <div key={item.itemid} className="orderBody">
