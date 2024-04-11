@@ -60,47 +60,61 @@ export default function Orders() {
       <div>
         {orders?.map((order) => (
           <div className="order" key={order.orderid}>
-            <h2>Order ID: {order.orderid}</h2>
-            <p>Date: {order.date}</p>
-            <p>Total: {order.total}</p>
+            <div className="orderHeader">
+              <p>Order Placed: {order.date}</p>
+              <p>Total: CAD {(order.total).toFixed(2)}</p>
+              <p>Order # {order.orderid}</p>
+            </div>
             {order.items.map((item) => (
-              <div key={item.itemid}>
-                <p>Book Name: {item.bookname}</p>
-                <p>Author Name: {item.authorname}</p>
-                <p>Price: {item.price}</p>
+              <div key={item.itemid} className="orderBody">
+                
+                <div className="orderBodyItemDetails">
                 <img
                   src={`http://localhost:3000/uploads/${item.image}`}
                   alt={item.bookname}
                   className="img-thumbnail"
                 />
-                {item.userRating && (
-                  <>
-                    <h6>Your Feedback</h6>
-                    <p>Rating : {item.userRating?.rating || 0}</p>
-                    <p>Review : {item.userRating?.review || ""}</p>
-                  </>
-                )}
-                {!item.userRating && (
-                  <>
-                    <textarea
-                      value={review}
-                      onChange={handleReviewChange}
-                      placeholder="Add your review"
-                    />
-                    <input
-                      type="number"
-                      value={rating}
-                      onChange={handleRatingChange}
-                      placeholder="Rating (0-5)"
-                    />
-                    {/* Button to submit review and rating */}
-                    <button
-                      onClick={() => submitReview(item.itemid, rating, review)}
-                    >
-                      Add Rating
-                    </button>
-                  </>
-                )}
+                  <div>
+                    <p>Book Name: {item.bookname}</p>
+                    <p>Author Name: {item.authorname}</p>
+                    <p>Price: {item.price}</p>
+                  </div>
+                </div>
+
+                <div className="orderBodyReviews">
+                  {item.userRating && (
+                    <>
+                      <h6>Your Feedback</h6>
+                      <p>Rating : {item.userRating?.rating || 0}</p>
+                      <p>Review : {item.userRating?.review || ""}</p>
+                    </>
+                  )}
+                  {!item.userRating && (
+                    <>
+                      <textarea
+                        value={review}
+                        onChange={handleReviewChange}
+                        placeholder="Add your review"
+                      />
+                      <div>
+                        <input
+                          type="number"
+                          value={rating}
+                          onChange={handleRatingChange}
+                          placeholder="Rating (0-5)"
+                        />
+                        {/* Button to submit review and rating */}
+                        <button className="btn btn-primary width100"
+                          onClick={() => submitReview(item.itemid, rating, review)}
+                        >
+                          Add Rating
+                        </button>
+                      </div>
+
+                    </>
+                  )}
+                </div>
+
               </div>
             ))}
           </div>

@@ -685,7 +685,14 @@ body {
 }
 
 .order {
-  margin-bottom: 20px;
+  background-color: #a9c9eb;
+  border: #bebebe solid;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  margin-top: 10px;
 }
 
 .order h2 {
@@ -701,6 +708,38 @@ body {
   width: 100px;
   height: 150px;
   margin-right: 10px;
+}
+
+.orderHeader{
+  padding: 10px;
+  background-color: rgb(211, 211, 211);
+  display: flex;
+  justify-content: space-between;
+}
+
+.orderBody{
+  padding: 10px;
+  background-color: white;
+  display: grid;
+  grid-template-columns: 50% auto;
+}
+
+.orderBodyItemDetails{
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  display: flex;
+}
+
+.orderBodyReviews textarea{
+  width: 100%;
+}
+
+.orderBodyReviews div{
+  width: 100%;
+  padding: 10px 0px;
+  display: grid;
+  grid-template-columns: 60% auto;
+  gap: 10px;
 }
 
 /* home css start */
