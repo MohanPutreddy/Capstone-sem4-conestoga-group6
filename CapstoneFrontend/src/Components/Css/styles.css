@@ -424,59 +424,150 @@ main {
 }
 
 /* Product Details */
+/* Container for the entire product detail page */
 .usersViewProductsComponent {
   display: flex;
   flex-direction: column;
-  align-items: space-between;
+  align-items: center;
   margin-top: 20px;
 }
 
+/* Styling for the main product display section */
 .individualProductDisplay {
   display: flex;
+  justify-content: center;
   align-items: flex-start;
-  max-width: 800px;
+  width: 80%;
+  margin-bottom: 30px;
 }
 
+/* Styling for the product image container */
 .productImageContainer-indi {
+  width: 40%;
   margin-right: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .productImageContainer-indi img {
-  max-width: 100%;
+  width: 100%;
   height: auto;
+  border-radius: 8px;
 }
 
+/* Styling for the product details container */
 .productDetails {
   flex: 1;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .price {
-  font-size: 18px;
-  margin-bottom: 10px;
+  font-size: 24px;
+  margin-bottom: 15px;
 }
 
+/* Styling for the quantity control */
 .quantityControl {
   display: flex;
   align-items: center;
+  margin-top: 20px;
 }
 
 .quantityControl button {
-  padding: 5px 10px;
-  margin: 0 5px;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
+  padding: 10px 20px;
+  margin: 0 10px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
-.quantityControl button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.quantityControl button:hover {
+  background-color: #0056b3;
 }
 
-.cartMessage {
-  font-size: 16px;
-  margin-top: 10px;
+.quantityControl span {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Override for specific product details container */
+.bookDescription {
+  margin-top: 30px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+}
+
+.bookDescription button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.bookDescription button:hover {
+  background-color: #0056b3;
+}
+
+/* Styling for the reviews section */
+.bookDescription h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.bookDescription p {
+  margin-bottom: 10px;
+}
+
+.bookDescription ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.bookDescription ul li {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 15px;
+}
+
+/* Styling for individual review items */
+.bookDescription ul li:last-child {
+  border-bottom: none;
+}
+
+/* Styling for the notification system container */
+.notification-system {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+/* Override for individual notification items */
+.notification-system .notification-item {
+  padding: 12px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  background-color: #28a745;
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.notification-system .notification-item.error {
+  background-color: #dc3545;
+}
+
+.notification-system .notification-item.warning {
+  background-color: #ffc107;
 }
 
 /* Cart */
@@ -710,31 +801,31 @@ body {
   margin-right: 10px;
 }
 
-.orderHeader{
+.orderHeader {
   padding: 10px;
   background-color: rgb(211, 211, 211);
   display: flex;
   justify-content: space-between;
 }
 
-.orderBody{
+.orderBody {
   padding: 10px;
   background-color: white;
   display: grid;
   grid-template-columns: 50% auto;
 }
 
-.orderBodyItemDetails{
+.orderBodyItemDetails {
   padding-bottom: 10px;
   margin-bottom: 10px;
   display: flex;
 }
 
-.orderBodyReviews textarea{
+.orderBodyReviews textarea {
   width: 100%;
 }
 
-.orderBodyReviews div{
+.orderBodyReviews div {
   width: 100%;
   padding: 10px 0px;
   display: grid;

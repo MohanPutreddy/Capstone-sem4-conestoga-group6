@@ -148,35 +148,35 @@ export default function ProductDetail() {
                 <span>{quantity}</span>
                 <button onClick={() => handleQuantityChange(1)}>+</button>
               </div>
-            </div>
-          </div>
-          <div className="bookDescription">
-            <h2>Book Description</h2>
-            <p>
-              <strong>Author:</strong> {product.authorname}
-            </p>
-            <p>
-              <strong>Description:</strong> {product.description}
-            </p>
-            <button onClick={fetchReviewsAndRatings}>
-              Show Reviews & Ratings
-            </button>
-            {reviews.length > 0 && (
-              <div>
-                <h2>Reviews & Ratings</h2>
-                <p>Average Rating: {averageRating}</p>
-                <ul>
-                  {reviews.map((review) => (
-                    <li key={review.id}>
-                      <p>Username: {review.username}</p>
-                      <p>Review: {review.review}</p>
-                      <p>Rating: {review.rating}</p>
-                    </li>
-                  ))}
-                </ul>
+              <div className="bookDescription">
+                <h2>Book Description</h2>
+                <p>
+                  <strong>Author:</strong> {product.authorname}
+                </p>
+                <p>
+                  <strong>Description:</strong> {product.description}
+                </p>
+                <button onClick={fetchReviewsAndRatings}>
+                  Show Reviews & Ratings
+                </button>
+                {reviews.length > 0 && (
+                  <div>
+                    <h2>Reviews & Ratings</h2>
+                    <p>Average Rating: {averageRating}</p>
+                    <ul>
+                      {reviews.map((review) => (
+                        <li key={review.id}>
+                          <p>Username: {review.username}</p>
+                          <p>Review: {review.review}</p>
+                          <p>Rating: {review.rating}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {showNoReviews && <p>No reviews available</p>}
               </div>
-            )}
-            {showNoReviews && <p>No reviews available</p>}
+            </div>
           </div>
         </div>
       )}
