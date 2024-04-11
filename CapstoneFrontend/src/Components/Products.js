@@ -77,7 +77,7 @@ export default function Products() {
   };
 
   return (
-    <div className="usersViewProductsComponent">
+    <div className="usersViewsProductsComponent">
       <h1 className="partition-text">Shop</h1>
 
       <div className="searchAndSortComponent">
