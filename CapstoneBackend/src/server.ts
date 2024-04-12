@@ -8,6 +8,8 @@ import path from "path";
 import { catRouter } from "./routes/categoryRoutes";
 import { cartRouter } from "./routes/cartRouter";
 import { PrismaClient } from "@prisma/client";
+import fs from "fs";
+import pdf from "html-pdf";
 
 const prisma = new PrismaClient();
 
@@ -51,7 +53,7 @@ app.post("/payment", async (req, res) => {
       });
       if (product) {
         const productName = product.bookname;
-        const productPrice = product.discountpercent ? ( (parseFloat(product.price) * ((100 - product.discountpercent)/100)) * 100) : parseFloat(product.price) * 100;
+        const productPrice = product.discountpercent ? ((parseFloat(product.price) * ((100 - product.discountpercent) / 100)) * 100) : parseFloat(product.price) * 100;
 
         // console.log(productPrice, product.price, product.discountpercent);
         //  /*  */console.log(product.discountpercent, "server.ts, line 54");
@@ -89,14 +91,142 @@ app.post("/payment", async (req, res) => {
   }
 });
 
+//Backend to handle invoice generation
+app.post("/cart/download-invoice", async (req, res) => {
+  try {
+    // Extract the order ID from the request body
+    const { orderId } = req.body;
+
+    //Finding the details about the order to get the paymentId to display in the invoice
+    const order_details = await prisma.orders.findUnique({
+      where: {
+        orderid: orderId,
+      },
+      select:{
+        userid: true,
+        paymentid: true,
+        date: true,
+        total: true
+      }
+    });
+
+    //Finding the details of the User name to display in the invoice
+    const user_details = await prisma.users.findUnique({
+      where: {
+        id: order_details?.userid,
+      },
+      select: {
+        firstname: true,
+        lastname: true
+      }
+    });
+
+    console.log(order_details?.paymentid, "line 106, server.ts");
+    console.log(user_details?.firstname, user_details?.lastname, "line 115 server.ts");
+
+
+    const order_items = await prisma.order_item.findMany({
+      where: {
+        orderid: orderId,
+      },
+    });
+    console.log(orderId, "server.ts, line 112");
+    console.log(order_items, "server.ts line 113");
+    let obj = [];
+    for (let j = 0; j < order_items.length; j++) {
+      const { id, itemid, orderid, price, quantity } = order_items[j];
+      const productDetails = await prisma.products.findFirst({
+        where: {
+          id: itemid,
+        },
+        select: {
+          bookname: true
+        }
+      });
+      console.log("Book", j, productDetails?.bookname, price, quantity, orderid, "Line 122, server.ts");
+      
+      //Temp Obj to store the combined data from the objects retreived until now
+      const tempObj = { ...order_details, ...user_details, ...productDetails, ...order_items[j]};
+
+      //Pushing to a new empty obj array, so that we have as many objects as we have the particular order
+      obj.push(tempObj)
+
+    }
+    console.log(obj, "Final run");
+    
+
+    const htmlContent = generateInvoiceHTML(obj);
+    console.log(htmlContent);
+
+    // Define options for PDF generation
+    const options: pdf.CreateOptions = {
+    };
+
+    // Generate PDF from HTML content
+    pdf.create(htmlContent, options).toStream((err, stream) => {
+      if (err) {
+        console.error("Error generating PDF:", err);
+        res.status(500).json({ error: "Error generating PDF" });
+      } else {
+        // Set response headers for PDF download
+        res.setHeader("Content-Type", "application/pdf");
+        res.setHeader("Content-Disposition", `attachment; filename="invoice_${orderId}.pdf"`);
+
+        // Pipe the PDF stream to the response
+        stream.pipe(res);
+      }
+    });
+  } catch (error) {
+    console.error("Error processing request:", error);
+    res.status(500).json({ error: "An error occurred" });
+  }
+});
+
+
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   res.status(500).json({});
 });
 
 app.listen(process.env.PORT || 3000, () => {
   console.log(
-    `[server]: Server is running at http://localhost:${
-      process.env.PORT || 3000
+    `[server]: Server is running at http://localhost:${process.env.PORT || 3000
     }`
   );
 });
+
+
+// Function to generate HTML content for the invoice
+function generateInvoiceHTML(obj: any) {
+  // Generate HTML content based on order details
+  // Example implementation
+  let htmlContent = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Invoice</title>
+    </head>
+    <body>
+        <h1>Invoice</h1>
+        <p>Order ID: ${obj[0].orderid}</p>
+        <p>Order Date: ${obj[0].date}</p>
+        <p>Total: $${obj[0].total}</p>
+        <p>Payment ID: ${obj[0].paymentid}</p>
+        <h2>Items:</h2>
+  `;
+  obj.forEach((item: any) => {
+    htmlContent += `
+      <p>Product ID: ${item.itemid}</p>
+      <p>Product Name: ${item.bookname}</p>
+      <p>Quantity: ${item.quantity}</p>
+      <p>Price: $${item.price}</p>
+    `;
+  });
+  htmlContent += `
+    </body>
+    </html>
+  `;
+  return htmlContent;
+}
+

@@ -38,7 +38,7 @@ export const getUserOrders = async (
         },
       });
       for (let j = 0; j < orderItems.length; j++) {
-        const { id, itemid, orderid, price, quantity } = orderItems[0];
+        const { id, itemid, orderid, price, quantity } = orderItems[j];
         const productDetails = await prisma.products.findFirst({
           where: {
             id: itemid,
