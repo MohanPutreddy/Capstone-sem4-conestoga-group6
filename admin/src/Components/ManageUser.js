@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function ManageUser() {
   const location = useLocation();
+
   const queryParams = new URLSearchParams(location.search);
   const id = queryParams.get("id");
+  const navigate = useNavigate();
   const [Profile, setProfile] = useState({});
   const [isActive, setIsActive] = useState("");
   const [displayProfile, setDisplayProfile] = useState(true);
@@ -102,6 +106,9 @@ export default function ManageUser() {
             <button onClick={() => handleToggle(Profile.id)}>
               {isActive ? "Block User" : "Unblock User"}
             </button>
+            <Link to={`/userorderhistory/${id}`}>
+              <button>View Order History</button>
+            </Link>
           </div>
         </div>
       ) : (

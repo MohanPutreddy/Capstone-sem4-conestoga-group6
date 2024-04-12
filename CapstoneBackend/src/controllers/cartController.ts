@@ -11,11 +11,13 @@ export const getUserOrders = async (
   next: NextFunction
 ) => {
   try {
-    const userid = req.id;
-
+    const { userid } = req.params;
+    if (!userid) {
+      return res.json({ status: false, message: "User id missing" });
+    }
     const orders = await prisma.orders.findMany({
       where: {
-        userid: userid!,
+        userid: +userid!,
       },
     });
 
@@ -107,10 +109,12 @@ export const placeOrder = async (
         },
       });
       if (product) {
-        const productPrice = product.discountpercent ? (parseFloat(product.price) * ((100 - product.discountpercent)/100)) : parseFloat(product.price);
+        const productPrice = product.discountpercent
+          ? parseFloat(product.price) * ((100 - product.discountpercent) / 100)
+          : parseFloat(product.price);
         const tax = productPrice * 0.13;
         console.log(tax, "Line 111 in cartController.js");
-        itemTotal = (productPrice + tax)*obj.count;
+        itemTotal = (productPrice + tax) * obj.count;
         total += itemTotal;
         console.log(itemTotal, "Line 115 in cartController.js, For Item", obj);
         console.log(total, "Line 116 in cartController.js");

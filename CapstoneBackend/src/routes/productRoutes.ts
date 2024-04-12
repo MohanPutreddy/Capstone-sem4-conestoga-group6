@@ -31,6 +31,6 @@ router.put("/", upload.single("file"), tokenValidation, editProduct);
 router.delete("/", tokenValidation, deleteProduct);
 router.get("/ratings/:productid", tokenValidation, getProductReviews);
 router.post("/rating", tokenValidation, productReview);
-router.delete("/rating/:productid", tokenValidation, deleteReview);
+router.delete("/rating/:productid/:userid", tokenValidation, deleteReview);
 
 export const productRouter = router;
