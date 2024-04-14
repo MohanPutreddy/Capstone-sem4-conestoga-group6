@@ -110,7 +110,7 @@ export default function Orders() {
                   />
                   <div>
                     <p>Book Name: {item.bookname}</p>
-                    <p>Author Name: {item.authorname}</p>
+                    <p>Quantity: {item.quantity}</p>
                     <p>Price: CAD {item.price}</p>
                   </div>
                 </div>

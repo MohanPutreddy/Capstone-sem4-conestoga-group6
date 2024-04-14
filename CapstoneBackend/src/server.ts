@@ -21,6 +21,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static("public"));
 app.use("/userauth", userAuthRouter);
 app.use("/product", productRouter);
 app.use("/category", catRouter);
@@ -102,7 +103,7 @@ app.post("/cart/download-invoice", async (req, res) => {
       where: {
         orderid: orderId,
       },
-      select:{
+      select: {
         userid: true,
         paymentid: true,
         date: true,
@@ -121,8 +122,8 @@ app.post("/cart/download-invoice", async (req, res) => {
       }
     });
 
-    console.log(order_details?.paymentid, "line 106, server.ts");
-    console.log(user_details?.firstname, user_details?.lastname, "line 115 server.ts");
+    //console.log(order_details?.paymentid, "line 106, server.ts");
+    //console.log(user_details?.firstname, user_details?.lastname, "line 115 server.ts");
 
 
     const order_items = await prisma.order_item.findMany({
@@ -130,8 +131,8 @@ app.post("/cart/download-invoice", async (req, res) => {
         orderid: orderId,
       },
     });
-    console.log(orderId, "server.ts, line 112");
-    console.log(order_items, "server.ts line 113");
+    //console.log(orderId, "server.ts, line 112");
+    //console.log(order_items, "server.ts line 113");
     let obj = [];
     for (let j = 0; j < order_items.length; j++) {
       const { id, itemid, orderid, price, quantity } = order_items[j];
@@ -143,20 +144,20 @@ app.post("/cart/download-invoice", async (req, res) => {
           bookname: true
         }
       });
-      console.log("Book", j, productDetails?.bookname, price, quantity, orderid, "Line 122, server.ts");
-      
+      //console.log("Book", j, productDetails?.bookname, price, quantity, orderid, "Line 122, server.ts");
+
       //Temp Obj to store the combined data from the objects retreived until now
-      const tempObj = { ...order_details, ...user_details, ...productDetails, ...order_items[j]};
+      const tempObj = { ...order_details, ...user_details, ...productDetails, ...order_items[j] };
 
       //Pushing to a new empty obj array, so that we have as many objects as we have the particular order
       obj.push(tempObj)
 
     }
-    console.log(obj, "Final run");
-    
+    //console.log(obj, "Final run");
+
 
     const htmlContent = generateInvoiceHTML(obj);
-    console.log(htmlContent);
+    //console.log(htmlContent);
 
     // Define options for PDF generation
     const options: pdf.CreateOptions = {
@@ -194,11 +195,9 @@ app.listen(process.env.PORT || 3000, () => {
   );
 });
 
-
 // Function to generate HTML content for the invoice
 function generateInvoiceHTML(obj: any) {
   // Generate HTML content based on order details
-  // Example implementation
   let htmlContent = `
     <!DOCTYPE html>
     <html lang="en">
@@ -206,24 +205,65 @@ function generateInvoiceHTML(obj: any) {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Invoice</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+          }
+          .header{
+            display:flex;
+            justify-content: space-between;
+          }
+          table {
+            width: 100%;
+            border-collapse: collapse;
+          }
+          th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+          }
+          th {
+            background-color: #f2f2f2;
+          }
+          .footerNotes{
+            font-style: italic;
+          }
+        </style>
     </head>
     <body>
         <h1>Invoice</h1>
-        <p>Order ID: ${obj[0].orderid}</p>
-        <p>Order Date: ${obj[0].date}</p>
-        <p>Total: $${obj[0].total}</p>
-        <p>Payment ID: ${obj[0].paymentid}</p>
-        <h2>Items:</h2>
+        <div class="header">
+              <p><strong>Order ID: </strong>${obj[0].orderid}</p>
+              <p><strong>Order Date: </strong>${obj[0].date}</p>
+              <p><strong>Total: </strong>CAD ${obj[0].total.toFixed(2)}</p>
+              <p><strong>Payment ID: </strong>${obj[0].paymentid}</p>
+        </div>
+        <h3>Items in this Order</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Quantity</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
   `;
   obj.forEach((item: any) => {
     htmlContent += `
-      <p>Product ID: ${item.itemid}</p>
-      <p>Product Name: ${item.bookname}</p>
-      <p>Quantity: ${item.quantity}</p>
-      <p>Price: $${item.price}</p>
+      <tr>
+        <td>${item.bookname}</td>
+        <td>${item.quantity}</td>
+        <td>CAD ${item.price.toFixed(2)}</td>
+      </tr>
     `;
   });
   htmlContent += `
+          </tbody>
+        </table>
+        <p class="footerNotes">This is a order invoice generated upon user's request. Any dispute in this invoice should be immediately informed to us within 7 business days after placement of the order.</p>
     </body>
     </html>
   `;
