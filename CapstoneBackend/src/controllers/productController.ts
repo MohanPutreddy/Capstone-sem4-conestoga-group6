@@ -15,8 +15,7 @@ export const deleteReview = async (
   next: NextFunction
 ) => {
   try {
-    const userid = req.id;
-    const { productid } = req.params;
+    const { productid, userid } = req.params;
 
     if (!userid) {
       return res.status(401).json({

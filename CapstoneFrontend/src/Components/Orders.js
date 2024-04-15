@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useContext } from "react";
+import { AppContext } from "./GlobalContextProvider";
 
 export default function Orders() {
   const [orders, setOrders] = useState([]);
+  const { userId } = useContext(AppContext);
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    userId && fetchData();
+  }, [userId]);
 
   async function fetchData() {
     try {
-      const response = await axios.get("http://localhost:3000/cart/orders");
+      const response = await axios.get(
+        `http://localhost:3000/cart/orders/user/${userId}`
+      );
       setOrders(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -89,7 +94,7 @@ export default function Orders() {
           <div className="order" key={order.orderid}>
             <div className="orderHeader">
               <p>Order Placed: {order.date}</p>
-              <p>Total: CAD {(order.total).toFixed(2)}</p>
+              <p>Total: CAD {order.total.toFixed(2)}</p>
               <p>Order # {order.orderid}</p>
               <button className="btn btn-dark" onClick={() => downloadInvoice(order.orderid)}>
                 Download Invoice
@@ -105,7 +110,7 @@ export default function Orders() {
                   />
                   <div>
                     <p>Book Name: {item.bookname}</p>
-                    <p>Author Name: {item.authorname}</p>
+                    <p>Quantity: {item.quantity}</p>
                     <p>Price: CAD {item.price}</p>
                   </div>
                 </div>
@@ -135,17 +140,18 @@ export default function Orders() {
                           placeholder="Rating (0-5)"
                         />
                         {/* Button to submit review and rating */}
-                        <button className="btn btn-primary width100"
-                          onClick={() => submitReview(item.itemid, rating, review)}
+                        <button
+                          className="btn btn-primary width100"
+                          onClick={() =>
+                            submitReview(item.itemid, rating, review)
+                          }
                         >
                           Add Rating
                         </button>
                       </div>
-
                     </>
                   )}
                 </div>
-
               </div>
             ))}
           </div>

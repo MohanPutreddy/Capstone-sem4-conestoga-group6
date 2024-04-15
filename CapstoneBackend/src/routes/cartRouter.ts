@@ -14,6 +14,6 @@ router.get("/", tokenValidation, getUserCart);
 router.get("/:productid/:count", tokenValidation, addToCart);
 router.delete("/:id", tokenValidation, deleteFromCart);
 router.post("/placeorder", tokenValidation, placeOrder);
-router.get("/orders", tokenValidation, getUserOrders);
+router.get("/orders/user/:userid", tokenValidation, getUserOrders);
 
 export const cartRouter = router;

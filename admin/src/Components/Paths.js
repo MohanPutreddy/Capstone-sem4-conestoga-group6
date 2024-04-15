@@ -15,6 +15,7 @@ import AddCategory from "./AddCategory";
 import EditBooks from "./EditBooks";
 import { useNavigate } from "react-router-dom";
 import Users from "./Users";
+import UserOrderHistory from "./UserOrderHistory";
 export default function Paths() {
   const navigate = useNavigate();
   const { logIn, setLogIn } = useContext(AppContext);
@@ -94,6 +95,10 @@ export default function Paths() {
               <Route
                 path="/displaybooks"
                 element={<DisplayBooks></DisplayBooks>}
+              ></Route>
+              <Route
+                path="/userorderhistory/:id"
+                element={<UserOrderHistory></UserOrderHistory>}
               ></Route>
             </Routes>
           </div>

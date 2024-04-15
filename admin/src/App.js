@@ -1,6 +1,10 @@
 import axios from "axios";
 import GlobalContextProvider from "./Components/GlobalContextProvider";
 
+// axios({
+//   baseURL: "http://localhost:3000/",
+// });
+
 axios.interceptors.request.use(
   (config) => {
     const token = localStorage.token;

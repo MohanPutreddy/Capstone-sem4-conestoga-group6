@@ -8,6 +8,8 @@ import path from "path";
 import { catRouter } from "./routes/categoryRoutes";
 import { cartRouter } from "./routes/cartRouter";
 import { PrismaClient } from "@prisma/client";
+import fs from "fs";
+import pdf from "html-pdf";
 
 const prisma = new PrismaClient();
 
@@ -19,6 +21,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static("public"));
 app.use("/userauth", userAuthRouter);
 app.use("/product", productRouter);
 app.use("/category", catRouter);
@@ -51,7 +54,7 @@ app.post("/payment", async (req, res) => {
       });
       if (product) {
         const productName = product.bookname;
-        const productPrice = product.discountpercent ? ( (parseFloat(product.price) * ((100 - product.discountpercent)/100)) * 100) : parseFloat(product.price) * 100;
+        const productPrice = product.discountpercent ? ((parseFloat(product.price) * ((100 - product.discountpercent) / 100)) * 100) : parseFloat(product.price) * 100;
 
         // console.log(productPrice, product.price, product.discountpercent);
         //  /*  */console.log(product.discountpercent, "server.ts, line 54");
@@ -89,14 +92,181 @@ app.post("/payment", async (req, res) => {
   }
 });
 
+//Backend to handle invoice generation
+app.post("/cart/download-invoice", async (req, res) => {
+  try {
+    // Extract the order ID from the request body
+    const { orderId } = req.body;
+
+    //Finding the details about the order to get the paymentId to display in the invoice
+    const order_details = await prisma.orders.findUnique({
+      where: {
+        orderid: orderId,
+      },
+      select: {
+        userid: true,
+        paymentid: true,
+        date: true,
+        total: true
+      }
+    });
+
+    //Finding the details of the User name to display in the invoice
+    const user_details = await prisma.users.findUnique({
+      where: {
+        id: order_details?.userid,
+      },
+      select: {
+        firstname: true,
+        lastname: true
+      }
+    });
+
+    //console.log(order_details?.paymentid, "line 106, server.ts");
+    //console.log(user_details?.firstname, user_details?.lastname, "line 115 server.ts");
+
+
+    const order_items = await prisma.order_item.findMany({
+      where: {
+        orderid: orderId,
+      },
+    });
+    //console.log(orderId, "server.ts, line 112");
+    //console.log(order_items, "server.ts line 113");
+    let obj = [];
+    for (let j = 0; j < order_items.length; j++) {
+      const { id, itemid, orderid, price, quantity } = order_items[j];
+      const productDetails = await prisma.products.findFirst({
+        where: {
+          id: itemid,
+        },
+        select: {
+          bookname: true
+        }
+      });
+      //console.log("Book", j, productDetails?.bookname, price, quantity, orderid, "Line 122, server.ts");
+
+      //Temp Obj to store the combined data from the objects retreived until now
+      const tempObj = { ...order_details, ...user_details, ...productDetails, ...order_items[j] };
+
+      //Pushing to a new empty obj array, so that we have as many objects as we have the particular order
+      obj.push(tempObj)
+
+    }
+    //console.log(obj, "Final run");
+
+
+    const htmlContent = generateInvoiceHTML(obj);
+    //console.log(htmlContent);
+
+    // Define options for PDF generation
+    const options: pdf.CreateOptions = {
+    };
+
+    // Generate PDF from HTML content
+    pdf.create(htmlContent, options).toStream((err, stream) => {
+      if (err) {
+        console.error("Error generating PDF:", err);
+        res.status(500).json({ error: "Error generating PDF" });
+      } else {
+        // Set response headers for PDF download
+        res.setHeader("Content-Type", "application/pdf");
+        res.setHeader("Content-Disposition", `attachment; filename="invoice_${orderId}.pdf"`);
+
+        // Pipe the PDF stream to the response
+        stream.pipe(res);
+      }
+    });
+  } catch (error) {
+    console.error("Error processing request:", error);
+    res.status(500).json({ error: "An error occurred" });
+  }
+});
+
+
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   res.status(500).json({});
 });
 
 app.listen(process.env.PORT || 3000, () => {
   console.log(
-    `[server]: Server is running at http://localhost:${
-      process.env.PORT || 3000
+    `[server]: Server is running at http://localhost:${process.env.PORT || 3000
     }`
   );
 });
+
+// Function to generate HTML content for the invoice
+function generateInvoiceHTML(obj: any) {
+  // Generate HTML content based on order details
+  let htmlContent = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Invoice</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+          }
+          .header{
+            display:flex;
+            justify-content: space-between;
+          }
+          table {
+            width: 100%;
+            border-collapse: collapse;
+          }
+          th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+          }
+          th {
+            background-color: #f2f2f2;
+          }
+          .footerNotes{
+            font-style: italic;
+          }
+        </style>
+    </head>
+    <body>
+        <h1>Invoice</h1>
+        <div class="header">
+              <p><strong>Order ID: </strong>${obj[0].orderid}</p>
+              <p><strong>Order Date: </strong>${obj[0].date}</p>
+              <p><strong>Total: </strong>CAD ${obj[0].total.toFixed(2)}</p>
+              <p><strong>Payment ID: </strong>${obj[0].paymentid}</p>
+        </div>
+        <h3>Items in this Order</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Quantity</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+  `;
+  obj.forEach((item: any) => {
+    htmlContent += `
+      <tr>
+        <td>${item.bookname}</td>
+        <td>${item.quantity}</td>
+        <td>CAD ${item.price.toFixed(2)}</td>
+      </tr>
+    `;
+  });
+  htmlContent += `
+          </tbody>
+        </table>
+        <p class="footerNotes">This is a order invoice generated upon user's request. Any dispute in this invoice should be immediately informed to us within 7 business days after placement of the order.</p>
+    </body>
+    </html>
+  `;
+  return htmlContent;
+}
+
