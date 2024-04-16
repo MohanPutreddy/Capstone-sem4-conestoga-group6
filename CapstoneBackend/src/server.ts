@@ -206,33 +206,67 @@ function generateInvoiceHTML(obj: any) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Invoice</title>
         <style>
-          body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-          }
-          .header{
-            display:flex;
-            justify-content: space-between;
-          }
-          table {
-            width: 100%;
-            border-collapse: collapse;
-          }
-          th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-          }
-          th {
-            background-color: #f2f2f2;
-          }
-          .footerNotes{
-            font-style: italic;
-          }
+        body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 20px;
+      }
+
+      .header {
+          display: flex;
+          justify-content: space-between;
+      }
+
+      table {
+          width: 100%;
+          border-collapse: collapse;
+      }
+
+      th,
+      td {
+          border: 1px solid #ddd;
+          padding: 8px;
+          text-align: left;
+      }
+
+      th {
+          background-color: #f2f2f2;
+      }
+
+      .footerNotes {
+          margin-top: 50px;
+          font-style: italic;
+      }
+
+      .ImageContainer img {
+          height: 100px;
+          width: auto;
+          margin-left: 43%;
+      }
+
+      .ImageContainer {
+          display: flex;
+          justify-content: space-around;
+          background: #004080;
+          color: #ddd;
+          align-items: center;
+      }
+
+      .productList {
+          display: flex;
+          justify-content: center;
+      }
+
+      .productList table {
+          width: 75%;
+      }
         </style>
     </head>
     <body>
+        <div class="ImageContainer">
+          <img src="https://capstone-sem4-conestoga-group6-plla.vercel.app/static/media/logo.5758b3a5c9573f29f83e.png" alt="Logo"></img>
+          
+        </div>
         <h1>Invoice</h1>
         <div class="header">
               <p><strong>Order ID: </strong>${obj[0].orderid}</p>
@@ -241,6 +275,7 @@ function generateInvoiceHTML(obj: any) {
               <p><strong>Payment ID: </strong>${obj[0].paymentid}</p>
         </div>
         <h3>Items in this Order</h3>
+        <div>
         <table>
           <thead>
             <tr>
@@ -263,7 +298,10 @@ function generateInvoiceHTML(obj: any) {
   htmlContent += `
           </tbody>
         </table>
-        <p class="footerNotes">This is a order invoice generated upon user's request. Any dispute in this invoice should be immediately informed to us within 7 business days after placement of the order.</p>
+        </div>
+        <p class="footerNotes"><strong>Note: </strong>This is an order invoice generated upon user's request. Any dispute in
+        this invoice should be
+        immediately informed to us within 7 business days after placement of the order.</p>
     </body>
     </html>
   `;
