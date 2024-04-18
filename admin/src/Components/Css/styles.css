@@ -590,7 +590,68 @@ main {
   opacity: 0;
   transition: opacity 0.3s;
 }
+/* CSS for UserOrderHistory component */
 
+.ordersContainer {
+  padding: 20px;
+}
+
+.ordersContainer h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.order {
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.orderHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.orderBody {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.orderBodyItemDetails {
+  display: flex;
+  align-items: center;
+}
+
+.orderBodyItemDetails img {
+  width: 90px;
+  /* height: 80px; */
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.orderBodyReviews {
+  margin-left: auto;
+}
+
+.orderBodyReviews h6 {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.orderBodyReviews button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.orderBodyReviews button:hover {
+  background-color: #c82333;
+}
 
 /* Responsiveness - Larger Tablets */
 @media (min-width: 1025px) and (max-width: 1200px) {
