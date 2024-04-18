@@ -16,7 +16,11 @@ export default function Products() {
     // Fetch categories from the backend
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/category");
+        const response = await axios.get("https://6811-99-251-82-105.ngrok-free.app/category", {
+          headers: {
+            'ngrok-skip-browser-warning': '69420'
+          }
+        });
         if (response.data) {
           setCategories(response.data);
         } else {
@@ -33,10 +37,14 @@ export default function Products() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/product/");
+        const response = await axios.get("https://6811-99-251-82-105.ngrok-free.app/product/", {
+          headers: {
+            'ngrok-skip-browser-warning': '69420'
+          }
+        });
         setProducts(response.data?.products || []);
-        setDisplayProducts(products);
         setLoading(false);
+        fetchAndDisplayImages(response.data?.products || []);
       } catch (error) {
         console.error("Error fetching products:", error);
         setLoading(false);
@@ -45,6 +53,32 @@ export default function Products() {
 
     fetchProducts();
   }, []);
+
+  const fetchAndDisplayImages = async (products) => {
+    try {
+      const updatedProducts = await Promise.all(products.map(async (product) => {
+        const response = await axios.get(`https://6811-99-251-82-105.ngrok-free.app/uploads/${product.image}`, {
+          responseType: 'blob', // set the response type to blob
+          headers: {
+            'Content-Type': 'image/jpeg',
+            'ngrok-skip-browser-warning': '69420'
+          }
+        });
+        
+        // Read the image data as a base64 string
+        const reader = new FileReader();
+        reader.readAsDataURL(response.data);
+        reader.onloadend = () => {
+          product.imageSrc = reader.result; // set the base64 image data to the product
+        };
+        return product;
+      }));
+      
+      setDisplayProducts(updatedProducts);
+    } catch (error) {
+      console.error("Error fetching image:", error);
+    }
+  };
 
   useEffect(() => {
     let result = [...products];
@@ -110,7 +144,7 @@ export default function Products() {
       )}
       {params.get("type") === "sale" && (
         <>
-          <h5>Prodcuts under sale</h5>
+          <h5>Products under sale</h5>
         </>
       )}
 
@@ -135,7 +169,7 @@ export default function Products() {
                   <div className="product-card">
                     <Link to={`/product/${product.id}`}>
                       <img
-                        src={`http://localhost:3000/uploads/${product.image}`}
+                        src={product.imageSrc} // Use the base64 image data here
                         alt={product.bookname}
                         className="img-thumbnail"
                       />
@@ -164,10 +198,6 @@ export default function Products() {
                           <strong>Sale Price:</strong> $
                           {product.salePrice.toFixed(2)}
                         </p>
-                        {/* <p>
-                          <strong>Discount Percent: </strong>
-                          {product.discountpercent} %
-                        </p> */}
                       </div>
                     )}
                     <Link to={`/product/${product.id}`}>

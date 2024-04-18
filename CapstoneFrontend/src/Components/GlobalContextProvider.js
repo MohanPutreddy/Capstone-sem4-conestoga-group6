@@ -16,7 +16,11 @@ export default function GlobalContextProvider() {
     const fetchProfileDetails = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/userauth/profile`
+          `https://6811-99-251-82-105.ngrok-free.app/userauth/profile`, {
+            headers: {
+              'ngrok-skip-browser-warning': '69420'
+            }
+          }
         );
         setProfile(response.data?.profile);
         setUserId(response.data.profile.id);
@@ -30,7 +34,11 @@ export default function GlobalContextProvider() {
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/cart/`);
+        const response = await axios.get(`https://6811-99-251-82-105.ngrok-free.app/cart/`, {
+          headers: {
+            'ngrok-skip-browser-warning': '69420'
+          }
+        });
         setCartItems(response.data?.cart);
       } catch (error) {
         console.error("Error fetching cart items:", error);

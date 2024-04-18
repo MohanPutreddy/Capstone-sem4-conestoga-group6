@@ -1,26 +1,81 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { AppContext } from "./GlobalContextProvider";
 import { Link } from "react-router-dom";
 
 const Cart = () => {
   const { reFetchCart, cartItems } = useContext(AppContext);
+  const [displayItems, setDisplayItems] = useState([]);
+  const [subTotalPrice, setSubTotalPrice] = useState(0);
+  const [tax, setTax] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
 
-  const subTotalPrice = cartItems?.reduce((acc, item) => {
-    const itemPrice = parseFloat(item.productdetails.price);
-    const salePrice = parseFloat(item.productdetails.salePrice);
-    const discountpercent = parseFloat(item.productdetails.discountpercent);
-    const discountprice = discountpercent > 0 ? salePrice : itemPrice;
-    const itemCount = item.count;
-    return acc + discountprice * itemCount;
-  }, 0);
+  useEffect(() => {
+    const fetchAndDisplayImages = async () => {
+      const updatedItems = [];
+      for (const item of cartItems) {
+        try {
+          const response = await axios.get(`https://6811-99-251-82-105.ngrok-free.app/uploads/${item.productdetails.image}`, {
+            responseType: 'blob', // set the response type to blob
+            headers: {
+              'Content-Type': 'image/jpeg',
+              'ngrok-skip-browser-warning': '69420'
+            }
+          });
 
-  const tax = subTotalPrice * 0.13;
-  const totalPrice = subTotalPrice + tax;
+          // Convert blob to base64 URL
+          const reader = new FileReader();
+          reader.readAsDataURL(response.data);
+          reader.onloadend = () => {
+            const base64Image = reader.result;
+            updatedItems.push({
+              ...item,
+              productdetails: {
+                ...item.productdetails,
+                image: base64Image
+              }
+            });
+            setDisplayItems([...updatedItems]);
+          };
+        } catch (error) {
+          console.error("Error fetching image:", error);
+          updatedItems.push(item);
+          setDisplayItems([...updatedItems]);
+        }
+      }
+    };
+
+    fetchAndDisplayImages();
+  }, [cartItems]);
+
+  useEffect(() => {
+    // Calculate subtotal price
+    const subtotal = displayItems.reduce((acc, item) => {
+      const itemPrice = parseFloat(item.productdetails.price);
+      const salePrice = parseFloat(item.productdetails.salePrice);
+      const discountpercent = parseFloat(item.productdetails.discountpercent);
+      const discountprice = discountpercent > 0 ? salePrice : itemPrice;
+      const itemCount = item.count;
+      return acc + discountprice * itemCount;
+    }, 0);
+    setSubTotalPrice(subtotal);
+
+    // Calculate tax (assuming 13%)
+    const taxAmount = subtotal * 0.13;
+    setTax(taxAmount);
+
+    // Calculate total price
+    const totalPrice = subtotal + taxAmount;
+    setTotalPrice(totalPrice);
+  }, [displayItems]);
 
   const deleteItem = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/cart/${id}`);
+      await axios.delete(`https://6811-99-251-82-105.ngrok-free.app/cart/${id}`, {
+        headers: {
+          'ngrok-skip-browser-warning': '69420'
+        }
+      });
       reFetchCart();
     } catch (error) {
       console.error("Error deleting item:", error);
@@ -30,7 +85,11 @@ const Cart = () => {
   const handleItemCount = async (id, count, itemId) => {
     if (count > 0) {
       try {
-        await axios.get(`http://localhost:3000/cart/${id}/${count}`);
+        await axios.get(`https://6811-99-251-82-105.ngrok-free.app/cart/${id}/${count}`, {
+          headers: {
+            'ngrok-skip-browser-warning': '69420'
+          }
+        });
         reFetchCart();
       } catch (error) {
         console.error("Error updating item count:", error);
@@ -43,11 +102,11 @@ const Cart = () => {
       <h2 className="mt-3 mb-4">Shopping Cart</h2>
       <div className="cart">
         <div className="cart-container">
-          {cartItems?.length > 0 ? (
-            cartItems?.map((item) => (
+          {displayItems.length > 0 ? (
+            displayItems.map((item) => (
               <div key={item.id} className="cart-item">
                 <img
-                  src={`http://localhost:3000/uploads/${item.productdetails.image}`}
+                  src={item.productdetails.image}
                   alt={item.productdetails.bookname}
                   className="cart-item-image"
                 />

@@ -11,7 +11,11 @@ export default function Home() {
     // Fetch categories from the backend
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/category");
+        const response = await axios.get("https://6811-99-251-82-105.ngrok-free.app/category", {
+          headers: {
+            'ngrok-skip-browser-warning': '69420'
+          }
+        });
         if (response.data) {
           setCategories(response.data);
         } else {

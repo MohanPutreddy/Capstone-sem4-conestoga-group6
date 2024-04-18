@@ -9,7 +9,11 @@ export default function Users() {
     const getUsers = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/userauth/admin/users/all`
+          `https://6811-99-251-82-105.ngrok-free.app/userauth/admin/users/all`, {
+            headers: {
+              'ngrok-skip-browser-warning': '69420'
+            }
+          }
         );
         if (response.data.length > 0) {
           setUsers(response.data);

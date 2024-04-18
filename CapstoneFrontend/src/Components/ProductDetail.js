@@ -16,6 +16,7 @@ export default function ProductDetail() {
   const [reviews, setReviews] = useState([]);
   const [averageRating, setAverageRating] = useState(0);
   const [showNoReviews, setShowNoReviews] = useState(false);
+  const [imageSrc, setImageSrc] = useState(""); // State to hold the base64 image data
 
   useEffect(() => {
     const findCount = cartItems?.find(
@@ -31,9 +32,14 @@ export default function ProductDetail() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/product/${id}`);
+        const response = await axios.get(`https://6811-99-251-82-105.ngrok-free.app/product/${id}`, {
+          headers: {
+            'ngrok-skip-browser-warning': '69420'
+          }
+        });
         setProduct(response.data.product);
         setLoading(false);
+        fetchAndDisplayImage(response.data.product.image);
       } catch (error) {
         console.error("Error fetching product by ID:", error);
         setLoading(false);
@@ -43,18 +49,28 @@ export default function ProductDetail() {
     fetchProducts();
   }, [id]);
 
-  const showNotification = (message) => {
-    if (notificationSystem.current) {
-      notificationSystem.current.addNotification({
-        message,
-        level: "success",
-        position: "tc",
-        autoDismiss: 1,
+  const fetchAndDisplayImage = async (imageName) => {
+    try {
+      const response = await axios.get(`https://6811-99-251-82-105.ngrok-free.app/uploads/${imageName}`, {
+        responseType: 'blob', // set the response type to blob
+        headers: {
+          'Content-Type': 'image/jpeg',
+          'ngrok-skip-browser-warning': '69420'
+        }
       });
+      
+      // Read the image data as a base64 string
+      const reader = new FileReader();
+      reader.readAsDataURL(response.data);
+      reader.onloadend = () => {
+        setImageSrc(reader.result); // set the base64 image data to the state
+      };
+    } catch (error) {
+      console.error("Error fetching image:", error);
     }
   };
 
-  const showNotification2 = (message) => {
+  const showNotification = (message) => {
     if (notificationSystem.current) {
       notificationSystem.current.addNotification({
         message,
@@ -70,14 +86,18 @@ export default function ProductDetail() {
       const newQuantity = quantity + value;
       if (newQuantity > -1) {
         try {
-          await axios.get(`http://localhost:3000/cart/${id}/${newQuantity}`);
+          await axios.get(`https://6811-99-251-82-105.ngrok-free.app/cart/${id}/${newQuantity}`, {
+            headers: {
+              'ngrok-skip-browser-warning': '69420'
+            }
+          });
 
           setQuantity(newQuantity);
           reFetchCart();
           if (newQuantity > quantity) {
             showNotification("Product added to cart!");
           } else {
-            showNotification2("Product removed from cart!");
+            showNotification("Product removed from cart!");
           }
         } catch (error) {
           console.error("Error fetching data:", error);
@@ -91,7 +111,11 @@ export default function ProductDetail() {
   const fetchReviewsAndRatings = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/product/ratings/${id}`
+        `https://6811-99-251-82-105.ngrok-free.app/product/ratings/${id}`, {
+          headers: {
+            'ngrok-skip-browser-warning': '69420'
+          }
+        }
       );
       const { records, avgRating } = response.data;
       if (records.length === 0) {
@@ -115,7 +139,7 @@ export default function ProductDetail() {
           <div className="individualProductDisplay">
             <div className="productImageContainer-indi">
               <img
-                src={`http://localhost:3000/uploads/${product.image}`}
+                src={imageSrc} // Use the base64 image data here
                 alt={product.bookname}
               />
             </div>

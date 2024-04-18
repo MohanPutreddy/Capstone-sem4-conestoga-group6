@@ -43,8 +43,12 @@ export default function SignUp({ onGoToLogin }) {
     if (validateSignUp()) {
       try {
         const response = await axios.post(
-          "http://localhost:3000/userauth/signup",
-          formData
+          "https://6811-99-251-82-105.ngrok-free.app/userauth/signup",
+          formData, {
+            headers: {
+              'ngrok-skip-browser-warning': '69420'
+            }
+          }
         );
         if (response.data.status) {
           console.log("data sent successfully:", response.data);

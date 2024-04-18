@@ -18,7 +18,13 @@ export default function ManageUser() {
     const fetchProfileDetails = async () => {
       try {
         const response = await axios.post(
-          `http://localhost:3000/userauth/admin/edituserprofile/${id}`
+          `https://6811-99-251-82-105.ngrok-free.app/userauth/admin/edituserprofile/${id}`, 
+          {}, // empty request body
+          {
+            headers: {
+              'ngrok-skip-browser-warning': '69420'
+            }
+          }
         );
         setProfile(response.data?.profile);
         setIsActive(response.data?.profile.isactive);
@@ -32,8 +38,12 @@ export default function ManageUser() {
   const handleToggle = async (id) => {
     try {
       const changeStatus = await axios.post(
-        `http://localhost:3000/userauth/accountstatus`,
-        { accountstatus: !isActive, id: id }
+        `https://6811-99-251-82-105.ngrok-free.app/userauth/accountstatus`,
+        { accountstatus: !isActive, id: id }, {
+          headers: {
+            'ngrok-skip-browser-warning': '69420'
+          }
+        }
       );
       if (changeStatus.status) {
         setIsActive(!isActive);
@@ -54,8 +64,12 @@ export default function ManageUser() {
     // formData.append("file", fileInput.current?.files[0]);
     try {
       const userDetails = await axios.post(
-        `http://localhost:3000/userauth/admin/edituserprofile/${id}`,
-        formData
+        `https://6811-99-251-82-105.ngrok-free.app/userauth/admin/edituserprofile/${id}`,
+        formData, {
+          headers: {
+            'ngrok-skip-browser-warning': '69420'
+          }
+        }
       );
       if (userDetails.data.status) {
         setDisplayProfile(true);

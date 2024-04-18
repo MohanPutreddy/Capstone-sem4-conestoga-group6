@@ -15,8 +15,12 @@ export default function ForgotPassword() {
     if (isValidEmail) {
       try {
         const response = await axios.post(
-          "http://localhost:3000/userauth/forgotpassword",
-          { email }
+          "https://6811-99-251-82-105.ngrok-free.app/userauth/forgotpassword",
+          { email }, {
+            headers: {
+              'ngrok-skip-browser-warning': '69420'
+            }
+          }
         );
         if (response.data.status) {
           console.log("otp sent", response.data);
@@ -67,8 +71,12 @@ export default function ForgotPassword() {
     if (validOtpForm()) {
       try {
         const response = await axios.post(
-          "http://localhost:3000/userauth/resetpassword",
-          { ...OtpForm, email }
+          "https://6811-99-251-82-105.ngrok-free.app/userauth/resetpassword",
+          { ...OtpForm, email }, {
+            headers: {
+              'ngrok-skip-browser-warning': '69420'
+            }
+          }
         );
         if (response.data.status) {
           console.log("new password sent", response.data);

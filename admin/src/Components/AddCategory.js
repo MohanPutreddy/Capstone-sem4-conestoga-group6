@@ -26,8 +26,12 @@ const AddCategory = () => {
     if (validateCategory()) {
       try {
         const response = await axios.post(
-          "http://localhost:3000/category",
-          category
+          "https://6811-99-251-82-105.ngrok-free.app/category",
+          category, {
+            headers: {
+              'ngrok-skip-browser-warning': '69420'
+            }
+          }
         );
         if (response.data.status) {
           console.log("category is added", response.data);

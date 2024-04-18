@@ -5,6 +5,8 @@ import { AppContext } from "./GlobalContextProvider";
 
 export default function Orders() {
   const [orders, setOrders] = useState([]);
+  const [review, setReview] = useState("");
+  const [rating, setRating] = useState(0);
   const { userId } = useContext(AppContext);
 
   useEffect(() => {
@@ -14,16 +16,48 @@ export default function Orders() {
   async function fetchData() {
     try {
       const response = await axios.get(
-        `http://localhost:3000/cart/orders/user/${userId}`
+        `https://6811-99-251-82-105.ngrok-free.app/cart/orders/user/${userId}`,
+        {
+          headers: {
+            'ngrok-skip-browser-warning': '69420'
+          }
+        }
       );
-      setOrders(response.data);
+
+      const ordersWithImages = await Promise.all(response.data.map(async (order) => {
+        const itemsWithImages = await fetchAndDisplayImages(order.items);
+        order.items = itemsWithImages;
+        return order;
+      }));
+
+      setOrders(ordersWithImages);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   }
 
-  const [review, setReview] = useState("");
-  const [rating, setRating] = useState(0);
+  async function fetchAndDisplayImages(items) {
+    const itemsWithImages = await Promise.all(items.map(async (item) => {
+      try {
+        const response = await axios.get(
+          `https://6811-99-251-82-105.ngrok-free.app/uploads/${item.image}`,
+          {
+            responseType: 'arraybuffer',
+            headers: {
+              'Content-Type': 'image/jpeg',
+              'ngrok-skip-browser-warning': '69420'
+            }
+          }
+        );
+        const base64Image = Buffer.from(response.data, 'binary').toString('base64');
+        return { ...item, image: `data:image/jpeg;base64,${base64Image}` };
+      } catch (error) {
+        console.error("Error fetching image:", error);
+        return item;
+      }
+    }));
+    return itemsWithImages;
+  }
 
   const handleReviewChange = (e) => {
     setReview(e.target.value);
@@ -38,13 +72,16 @@ export default function Orders() {
 
   const submitReview = async (productId, rating, review) => {
     try {
-      // Send review and rating data to the server
       const response = await axios.post(
-        "http://localhost:3000/product/rating",
+        "https://6811-99-251-82-105.ngrok-free.app/product/rating",
         {
           productid: productId,
           rating: rating,
           review: review,
+        }, {
+          headers: {
+            'ngrok-skip-browser-warning': '69420'
+          }
         }
       );
       if (response.data.status) {
@@ -52,8 +89,7 @@ export default function Orders() {
         setRating(0);
         fetchData();
       }
-      // Handle success or display any message to the user
-      console.log(response.data); // Log the response from the server
+      console.log(response.data);
     } catch (error) {
       console.error("Error submitting review:", error);
     }
@@ -62,29 +98,28 @@ export default function Orders() {
   const downloadInvoice = async (orderId) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/cart/download-invoice",
+        "https://6811-99-251-82-105.ngrok-free.app/cart/download-invoice",
         { orderId },
-        { responseType: "blob" } // Specify response type as blob to download file
+        { responseType: "blob" }, {
+          headers: {
+            'ngrok-skip-browser-warning': '69420'
+          }
+        }
       );
 
-      // Create a blob URL for the downloaded file
       const url = window.URL.createObjectURL(new Blob([response.data]));
-
-      // Create a link element and trigger the download
       const link = document.createElement("a");
       link.href = url;
       link.setAttribute("download", `invoice_${orderId}.pdf`);
       document.body.appendChild(link);
       link.click();
 
-      // Cleanup
       window.URL.revokeObjectURL(url);
       document.body.removeChild(link);
     } catch (error) {
       console.error("Error downloading invoice:", error);
     }
   };
-
 
   return (
     <div className="ordersContainer">
@@ -104,7 +139,7 @@ export default function Orders() {
               <div key={item.itemid} className="orderBody">
                 <div className="orderBodyItemDetails">
                   <img
-                    src={`http://localhost:3000/uploads/${item.image}`}
+                    src={item.image}
                     alt={item.bookname}
                     className="img-thumbnail"
                   />
@@ -139,7 +174,6 @@ export default function Orders() {
                           onChange={handleRatingChange}
                           placeholder="Rating (0-5)"
                         />
-                        {/* Button to submit review and rating */}
                         <button
                           className="btn btn-primary width100"
                           onClick={() =>

@@ -18,7 +18,11 @@ export default function PaymentSuccess() {
   async function fetchData() {
     try {
       const response = await axios.post(
-        "http://localhost:3000/cart/placeorder"
+        "https://6811-99-251-82-105.ngrok-free.app/cart/placeorder", {
+          headers: {
+            'ngrok-skip-browser-warning': '69420'
+          }
+        }
       );
       setData(response.data);
       if (response.status) {

@@ -3,6 +3,36 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+const fetchAndDisplayImages = async (books, setDisplaybooks) => {
+  const bookImages = [];
+  for (const book of books) {
+    try {
+      const response = await axios.get(`https://6811-99-251-82-105.ngrok-free.app/uploads/${book.image}`, {
+        responseType: 'blob', // set the response type to blob
+        headers: {
+          'Content-Type': 'image/jpeg',
+          'ngrok-skip-browser-warning': '69420'
+        }
+      });
+      
+      // Read the image data as a base64 string
+      const reader = new FileReader();
+      reader.readAsDataURL(response.data);
+      reader.onloadend = () => {
+        const base64Image = reader.result;
+        bookImages.push({
+          ...book,
+          image: base64Image
+        });
+        setDisplaybooks([...bookImages]); // update the display books state
+      };
+    } catch (error) {
+      console.error("Error fetching image:", error);
+      bookImages.push(book);
+      setDisplaybooks([...bookImages]); // update the display books state
+    }
+  }
+};
 export default function EditBooks() {
   const fileInput = useRef();
   const navigate = useNavigate();
@@ -17,17 +47,42 @@ export default function EditBooks() {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/product/${productId}`
+          `https://6811-99-251-82-105.ngrok-free.app/product/${productId}`, {
+            headers: {
+              'ngrok-skip-browser-warning': '69420'
+            }
+          }
         );
-
-        setbook(response.data.product);
-
-        setLoading(false);
+    
+        const product = response.data.product;
+        if (product.image) {
+          const response = await axios.get(`https://6811-99-251-82-105.ngrok-free.app/uploads/${product.image}`, {
+            responseType: 'blob',
+            headers: {
+              'Content-Type': 'image/jpeg',
+              'ngrok-skip-browser-warning': '69420'
+            }
+          });
+    
+          const reader = new FileReader();
+          reader.readAsDataURL(response.data);
+          reader.onloadend = () => {
+            setbook({
+              ...product,
+              image: reader.result
+            });
+            setLoading(false);
+          };
+        } else {
+          setbook(product);
+          setLoading(false);
+        }
       } catch (error) {
         console.error("Error fetching product:", error);
         setLoading(false);
       }
     };
+    
 
     fetchProduct();
   }, [productId]);
@@ -36,7 +91,11 @@ export default function EditBooks() {
     // Fetch categories from the backend
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/category");
+        const response = await axios.get("https://6811-99-251-82-105.ngrok-free.app/category", {
+          headers: {
+            'ngrok-skip-browser-warning': '69420'
+          }
+        });
         if (response.data) {
           setCategories(response.data);
         } else {
@@ -118,8 +177,12 @@ export default function EditBooks() {
       // formData.append("file", file.current.file);
       try {
         const response = await axios.put(
-          "http://localhost:3000/product/",
-          formData
+          "https://6811-99-251-82-105.ngrok-free.app/product/",
+          formData, {
+            headers: {
+              'ngrok-skip-browser-warning': '69420'
+            }
+          }
         );
         if (response.data.status) {
           console.log("book is added", response.data);
@@ -151,7 +214,7 @@ export default function EditBooks() {
         <div className="edit-container">
           <div className="productImageContainer">
             <img
-              src={`http://localhost:3000/uploads/${book.image}`}
+              src={book.image}
               alt={book.bookname}
               className="product-image"
             />

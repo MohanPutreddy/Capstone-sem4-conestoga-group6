@@ -24,8 +24,12 @@ export default function ProfileDetails() {
 
     try {
       const updateProfile = await axios.post(
-        `http://localhost:3000/userauth/profile`,
-        formData
+        `https://6811-99-251-82-105.ngrok-free.app/userauth/profile`,
+        formData, {
+          headers: {
+            'ngrok-skip-browser-warning': '69420'
+          }
+        }
       );
 
       if (updateProfile.data.status) {

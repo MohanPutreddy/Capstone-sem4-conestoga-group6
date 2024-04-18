@@ -2,6 +2,37 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
+const fetchAndDisplayImages = async (books, setDisplaybooks) => {
+  const bookImages = [];
+  for (const book of books) {
+    try {
+      const response = await axios.get(`https://6811-99-251-82-105.ngrok-free.app/uploads/${book.image}`, {
+        responseType: 'blob', // set the response type to blob
+        headers: {
+          'Content-Type': 'image/jpeg',
+          'ngrok-skip-browser-warning': '69420'
+        }
+      });
+      
+      // Read the image data as a base64 string
+      const reader = new FileReader();
+      reader.readAsDataURL(response.data);
+      reader.onloadend = () => {
+        const base64Image = reader.result;
+        bookImages.push({
+          ...book,
+          image: base64Image
+        });
+        setDisplaybooks([...bookImages]); // update the display books state
+      };
+    } catch (error) {
+      console.error("Error fetching image:", error);
+      bookImages.push(book);
+      setDisplaybooks([...bookImages]); // update the display books state
+    }
+  }
+};
+
 export default function DisplayBooks() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,7 +43,11 @@ export default function DisplayBooks() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/product/");
+        const response = await axios.get("https://6811-99-251-82-105.ngrok-free.app/product/", {
+          headers: {
+            'ngrok-skip-browser-warning': '69420'
+          }
+        });
         setProducts(response.data?.products);
         setLoading(false);
       } catch (error) {
@@ -23,10 +58,18 @@ export default function DisplayBooks() {
 
     fetchProducts();
   }, []);
+
+  useEffect(() => {
+    fetchAndDisplayImages(products, setDisplayProducts);
+  }, [products]);
+
   const deleteProduct = async (id) => {
     try {
-      await axios.delete("http://localhost:3000/product/", {
+      await axios.delete("https://6811-99-251-82-105.ngrok-free.app/product/", {
         data: { id },
+        headers: {
+          'ngrok-skip-browser-warning': '69420'
+        }
       });
       window.location.reload();
     } catch (error) {
@@ -99,7 +142,7 @@ export default function DisplayBooks() {
                 <li key={product.id} className="product-card">
                   <div className="thumbnail">
                     <img
-                      src={`http://localhost:3000/uploads/${product.image}`}
+                      src={product.image}
                       alt={product.bookname}
                       className="img-thumbnail"
                     />
