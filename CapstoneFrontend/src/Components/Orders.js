@@ -36,28 +36,27 @@ export default function Orders() {
     }
   }
 
-  async function fetchAndDisplayImages(items) {
-    const itemsWithImages = await Promise.all(items.map(async (item) => {
-      try {
-        const response = await axios.get(
-          `https://6811-99-251-82-105.ngrok-free.app/uploads/${item.image}`,
-          {
-            responseType: 'arraybuffer',
-            headers: {
-              'Content-Type': 'image/jpeg',
-              'ngrok-skip-browser-warning': '69420'
-            }
+  const fetchAndDisplayImages = async (items) => {
+    try {
+      const updatedItems = await Promise.all(items.map(async (item) => {
+        const response = await axios.get(`https://6811-99-251-82-105.ngrok-free.app/uploads/${item.image}`, {
+          responseType: 'blob', // set the response type to blob
+          headers: {
+            'Content-Type': 'image/jpeg',
+            'ngrok-skip-browser-warning': '69420'
           }
-        );
-        const base64Image = Buffer.from(response.data, 'binary').toString('base64');
-        return { ...item, image: `data:image/jpeg;base64,${base64Image}` };
-      } catch (error) {
-        console.error("Error fetching image:", error);
-        return item;
-      }
-    }));
-    return itemsWithImages;
-  }
+        });
+        
+        const imageUrl = URL.createObjectURL(response.data);
+        return { ...item, image: imageUrl };
+      }));
+      
+      return updatedItems;
+    } catch (error) {
+      console.error("Error fetching image:", error);
+      return items; // Return the original items in case of error
+    }
+  };  
 
   const handleReviewChange = (e) => {
     setReview(e.target.value);
