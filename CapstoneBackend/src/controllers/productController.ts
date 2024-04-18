@@ -361,7 +361,7 @@ export const getProducts = async (
   const products = await prisma.products.findMany();
   return res.json({
     status: true,
-    products: products.map((obj) => {
+    products: products.map((obj: any) => {
       return {
         ...obj,
         salePrice: discountedPRice(+obj.price, obj.discountpercent || 0),

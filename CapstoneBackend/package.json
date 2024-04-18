@@ -9,7 +9,8 @@
     "dev": "nodemon src/server.ts",
     "migrate": "npx prisma migrate dev --name init",
     "generate": "npx prisma generate",
-    "pull": "npx prisma db pull"
+    "pull": "npx prisma db pull",
+    "postinstall": "prisma generate"
   },
   "author": "capestone",
   "license": "ISC",

@@ -75,3 +75,9 @@ model orders {
   paymentid String  @db.VarChar(100)
   date      String? @db.VarChar(50)
 }
+
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/client"
+}
