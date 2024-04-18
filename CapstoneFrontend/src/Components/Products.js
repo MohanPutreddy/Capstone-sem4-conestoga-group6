@@ -13,7 +13,6 @@ export default function Products() {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    // Fetch categories from the backend
     const fetchCategories = async () => {
       try {
         const response = await axios.get("https://6811-99-251-82-105.ngrok-free.app/category", {
@@ -58,20 +57,15 @@ export default function Products() {
     try {
       const updatedProducts = await Promise.all(products.map(async (product) => {
         const response = await axios.get(`https://6811-99-251-82-105.ngrok-free.app/uploads/${product.image}`, {
-          responseType: 'blob', // set the response type to blob
+          responseType: 'blob',
           headers: {
             'Content-Type': 'image/jpeg',
             'ngrok-skip-browser-warning': '69420'
           }
         });
         
-        // Read the image data as a base64 string
-        const reader = new FileReader();
-        reader.readAsDataURL(response.data);
-        reader.onloadend = () => {
-          product.imageSrc = reader.result; // set the base64 image data to the product
-        };
-        return product;
+        const imageUrl = URL.createObjectURL(response.data);
+        return { ...product, imageUrl };
       }));
       
       setDisplayProducts(updatedProducts);
@@ -164,46 +158,41 @@ export default function Products() {
               }
             })
             .map((product) => (
-              <div className="productImageContainer">
-                <div key={product.id}>
-                  <div className="product-card">
-                    <Link to={`/product/${product.id}`}>
-                      <img
-                        src={product.imageSrc} // Use the base64 image data here
-                        alt={product.bookname}
-                        className="img-thumbnail"
-                      />
-                    </Link>
-                    <p className="product-name">{product.bookname}</p>
-                    <p
-                      style={
-                        product.discountpercent > 0
-                          ? { textDecorationLine: "line-through" }
-                          : {}
-                      }
-                    >
-                      <strong>Price:</strong> ${product.price}
-                    </p>
-                    <p>
-                      <strong>category:</strong>
-                      {
-                        categories.find((o) => o.id === product.categoryid)
-                          ?.name
-                      }
-                    </p>
+              <div className="productImageContainer" key={product.id}>
+                <div className="product-card">
+                  <Link to={`/product/${product.id}`}>
+                    <img
+                      src={product.imageUrl}
+                      alt={product.bookname}
+                      className="img-thumbnail"
+                    />
+                  </Link>
+                  <p className="product-name">{product.bookname}</p>
+                  <p
+                    style={
+                      product.discountpercent > 0
+                        ? { textDecorationLine: "line-through" }
+                        : {}
+                    }
+                  >
+                    <strong>Price:</strong> ${product.price}
+                  </p>
+                  <p>
+                    <strong>Category:</strong>{" "}
+                    {categories.find((o) => o.id === product.categoryid)?.name}
+                  </p>
 
-                    {product.discountpercent > 0 && (
-                      <div>
-                        <p>
-                          <strong>Sale Price:</strong> $
-                          {product.salePrice.toFixed(2)}
-                        </p>
-                      </div>
-                    )}
-                    <Link to={`/product/${product.id}`}>
-                      <button className="btn btn-light">Buy</button>
-                    </Link>
-                  </div>
+                  {product.discountpercent > 0 && (
+                    <div>
+                      <p>
+                        <strong>Sale Price:</strong> $
+                        {product.salePrice.toFixed(2)}
+                      </p>
+                    </div>
+                  )}
+                  <Link to={`/product/${product.id}`}>
+                    <button className="btn btn-light">Buy</button>
+                  </Link>
                 </div>
               </div>
             ))}
