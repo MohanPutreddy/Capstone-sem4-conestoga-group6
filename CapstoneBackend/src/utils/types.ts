@@ -1,4 +1,3 @@
-import { users } from "@prisma/client";
 import { Request } from "express";
 
 export type Login = {
@@ -23,7 +22,7 @@ export type ResetPassword = {
 };
 
 export type UserResponse = {
-  userdetails?: users;
+  userdetails?: User;
   status: boolean;
   message?: string | null;
 };
