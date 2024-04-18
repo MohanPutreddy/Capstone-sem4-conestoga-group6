@@ -43,7 +43,7 @@ export default function SignUp({ onGoToLogin }) {
     if (validateSignUp()) {
       try {
         const response = await axios.post(
-          "https://6811-99-251-82-105.ngrok-free.app/userauth/admin/signup",
+          `${process.env.REACT_APP_NGROK_URL}/userauth/admin/signup`,
           formData, {
             headers: {
               'ngrok-skip-browser-warning': '69420'

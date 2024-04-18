@@ -15,7 +15,7 @@ export default function ForgotPassword() {
     if (isValidEmail) {
       try {
         const response = await axios.post(
-          "https://6811-99-251-82-105.ngrok-free.app/userauth/forgotpassword",
+          `${process.env.REACT_APP_NGROK_URL}userauth/forgotpassword`,
           { email }, {
             headers: {
               'ngrok-skip-browser-warning': '69420'
@@ -71,7 +71,7 @@ export default function ForgotPassword() {
     if (validOtpForm()) {
       try {
         const response = await axios.post(
-          "https://6811-99-251-82-105.ngrok-free.app/userauth/resetpassword",
+          `${process.env.REACT_APP_NGROK_URL}/userauth/resetpassword`,
           { ...OtpForm, email }, {
             headers: {
               'ngrok-skip-browser-warning': '69420'

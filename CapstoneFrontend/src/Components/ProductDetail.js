@@ -32,7 +32,7 @@ export default function ProductDetail() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(`https://6811-99-251-82-105.ngrok-free.app/product/${id}`, {
+        const response = await axios.get(`${process.env.REACT_APP_NGROK_URL}/product/${id}`, {
           headers: {
             'ngrok-skip-browser-warning': '69420'
           }
@@ -51,7 +51,7 @@ export default function ProductDetail() {
 
   const fetchAndDisplayImage = async (imageName) => {
     try {
-      const response = await axios.get(`https://6811-99-251-82-105.ngrok-free.app/uploads/${imageName}`, {
+      const response = await axios.get(`${process.env.REACT_APP_NGROK_URL}/uploads/${imageName}`, {
         responseType: 'blob', // set the response type to blob
         headers: {
           'Content-Type': 'image/jpeg',
@@ -86,7 +86,7 @@ export default function ProductDetail() {
       const newQuantity = quantity + value;
       if (newQuantity > -1) {
         try {
-          await axios.get(`https://6811-99-251-82-105.ngrok-free.app/cart/${id}/${newQuantity}`, {
+          await axios.get(`${process.env.REACT_APP_NGROK_URL}/cart/${id}/${newQuantity}`, {
             headers: {
               'ngrok-skip-browser-warning': '69420'
             }
@@ -111,7 +111,7 @@ export default function ProductDetail() {
   const fetchReviewsAndRatings = async () => {
     try {
       const response = await axios.get(
-        `https://6811-99-251-82-105.ngrok-free.app/product/ratings/${id}`, {
+        `${process.env.REACT_APP_NGROK_URL}/product/ratings/${id}`, {
           headers: {
             'ngrok-skip-browser-warning': '69420'
           }

@@ -12,7 +12,7 @@ export default function DisplayBooks() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("https://6811-99-251-82-105.ngrok-free.app/product/", {
+        const response = await axios.get(`${process.env.REACT_APP_NGROK_URL}/product/`, {
           headers: {
             'ngrok-skip-browser-warning': '69420'
           }
@@ -53,7 +53,7 @@ export default function DisplayBooks() {
       }
   
       const updatedProducts = await Promise.all(result.map(async (product) => {
-        const response = await axios.get(`https://6811-99-251-82-105.ngrok-free.app/uploads/${product.image}`, {
+        const response = await axios.get(`${process.env.REACT_APP_NGROK_URL}/uploads/${product.image}`, {
           responseType: 'blob',
           headers: {
             'Content-Type': 'image/jpeg',
@@ -76,7 +76,7 @@ export default function DisplayBooks() {
 
   const deleteProduct = async (id) => {
     try {
-      await axios.delete("https://6811-99-251-82-105.ngrok-free.app/product/", {
+      await axios.delete(`${process.env.REACT_APP_NGROK_URL}/product/`, {
         data: { id },
         headers: {
           'ngrok-skip-browser-warning': '69420'

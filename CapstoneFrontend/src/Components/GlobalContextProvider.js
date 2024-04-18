@@ -16,7 +16,7 @@ export default function GlobalContextProvider() {
     const fetchProfileDetails = async () => {
       try {
         const response = await axios.get(
-          `https://6811-99-251-82-105.ngrok-free.app/userauth/profile`, {
+          `${process.env.REACT_APP_NGROK_URL}/userauth/profile`, {
             headers: {
               'ngrok-skip-browser-warning': '69420'
             }
@@ -34,7 +34,7 @@ export default function GlobalContextProvider() {
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
-        const response = await axios.get(`https://6811-99-251-82-105.ngrok-free.app/cart/`, {
+        const response = await axios.get(`${process.env.REACT_APP_NGROK_URL}/cart/`, {
           headers: {
             'ngrok-skip-browser-warning': '69420'
           }

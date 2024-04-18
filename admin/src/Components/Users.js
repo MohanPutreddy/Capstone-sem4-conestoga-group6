@@ -9,7 +9,7 @@ export default function Users() {
     const getUsers = async () => {
       try {
         const response = await axios.get(
-          `https://6811-99-251-82-105.ngrok-free.app/userauth/admin/users/all`, {
+          `${process.env.REACT_APP_NGROK_URL}/userauth/admin/users/all`, {
             headers: {
               'ngrok-skip-browser-warning': '69420'
             }

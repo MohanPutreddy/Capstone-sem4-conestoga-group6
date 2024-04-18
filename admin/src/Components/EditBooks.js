@@ -7,7 +7,7 @@ const fetchAndDisplayImages = async (books, setDisplaybooks) => {
   const bookImages = [];
   for (const book of books) {
     try {
-      const response = await axios.get(`https://6811-99-251-82-105.ngrok-free.app/uploads/${book.image}`, {
+      const response = await axios.get(`${process.env.REACT_APP_NGROK_URL}/uploads/${book.image}`, {
         responseType: 'blob', // set the response type to blob
         headers: {
           'Content-Type': 'image/jpeg',
@@ -47,7 +47,7 @@ export default function EditBooks() {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(
-          `https://6811-99-251-82-105.ngrok-free.app/product/${productId}`, {
+          `${process.env.REACT_APP_NGROK_URL}/product/${productId}`, {
             headers: {
               'ngrok-skip-browser-warning': '69420'
             }
@@ -56,7 +56,7 @@ export default function EditBooks() {
     
         const product = response.data.product;
         if (product.image) {
-          const response = await axios.get(`https://6811-99-251-82-105.ngrok-free.app/uploads/${product.image}`, {
+          const response = await axios.get(`${process.env.REACT_APP_NGROK_URL}/uploads/${product.image}`, {
             responseType: 'blob',
             headers: {
               'Content-Type': 'image/jpeg',
@@ -91,7 +91,7 @@ export default function EditBooks() {
     // Fetch categories from the backend
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("https://6811-99-251-82-105.ngrok-free.app/category", {
+        const response = await axios.get(`${process.env.REACT_APP_NGROK_URL}/category`, {
           headers: {
             'ngrok-skip-browser-warning': '69420'
           }
@@ -177,7 +177,7 @@ export default function EditBooks() {
       // formData.append("file", file.current.file);
       try {
         const response = await axios.put(
-          "https://6811-99-251-82-105.ngrok-free.app/product/",
+          `${process.env.REACT_APP_NGROK_URL}/product/`,
           formData, {
             headers: {
               'ngrok-skip-browser-warning': '69420'

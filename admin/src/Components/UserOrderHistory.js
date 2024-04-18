@@ -6,7 +6,7 @@ const fetchAndDisplayImages = async (products, setDisplayProducts) => {
   const productImages = [];
   for (const product of products) {
     try {
-      const response = await axios.get(`https://6811-99-251-82-105.ngrok-free.app/uploads/${product.image}`, {
+      const response = await axios.get(`${process.env.REACT_APP_NGROK_URL}/uploads/${product.image}`, {
         responseType: 'blob', // set the response type to blob
         headers: {
           'Content-Type': 'image/jpeg',
@@ -44,7 +44,7 @@ export default function UserOrderHistory() {
   async function fetchData() {
     try {
       const response = await axios.get(
-        `https://6811-99-251-82-105.ngrok-free.app/cart/orders/user/${id}`, {
+        `${process.env.REACT_APP_NGROK_URL}/cart/orders/user/${id}`, {
           headers: {
             'ngrok-skip-browser-warning': '69420'
           }
@@ -59,7 +59,7 @@ export default function UserOrderHistory() {
   const deleteReview = async (productid) => {
     try {
       const deleteResponse = await axios.delete(
-        `https://6811-99-251-82-105.ngrok-free.app/product/rating/${productid}/${id}`, {
+        `${process.env.REACT_APP_NGROK_URL}/product/rating/${productid}/${id}`, {
           headers: {
             'ngrok-skip-browser-warning': '69420'
           }

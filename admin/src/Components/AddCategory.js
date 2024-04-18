@@ -26,7 +26,7 @@ const AddCategory = () => {
     if (validateCategory()) {
       try {
         const response = await axios.post(
-          "https://6811-99-251-82-105.ngrok-free.app/category",
+          `${process.env.REACT_APP_NGROK_URL}/category`,
           category, {
             headers: {
               'ngrok-skip-browser-warning': '69420'

@@ -23,7 +23,7 @@ export default function AddBook() {
     // Fetch categories from the backend
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("https://6811-99-251-82-105.ngrok-free.app/category", {
+        const response = await axios.get(`${process.env.REACT_APP_NGROK_URL}/category`, {
           headers: {
             'ngrok-skip-browser-warning': '69420'
           }
@@ -108,13 +108,12 @@ export default function AddBook() {
 
       // formData.append("file", file.current.file);
       try {
-        const response = await axios.post(
-          "https://6811-99-251-82-105.ngrok-free.app/product/",
+        const response = await axios.post(`${process.env.REACT_APP_NGROK_URL}/product`,
           formData, {
-            headers: {
-              'ngrok-skip-browser-warning': '69420'
-            }
+          headers: {
+            'ngrok-skip-browser-warning': '69420'
           }
+        }
         );
         if (response.data.status) {
           console.log("book is added", response.data);

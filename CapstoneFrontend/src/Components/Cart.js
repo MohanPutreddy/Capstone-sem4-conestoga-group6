@@ -15,7 +15,7 @@ const Cart = () => {
       const updatedItems = [];
       for (const item of cartItems) {
         try {
-          const response = await axios.get(`https://6811-99-251-82-105.ngrok-free.app/uploads/${item.productdetails.image}`, {
+          const response = await axios.get(`${process.env.REACT_APP_NGROK_URL}/uploads/${item.productdetails.image}`, {
             responseType: 'blob', // set the response type to blob
             headers: {
               'Content-Type': 'image/jpeg',
@@ -71,7 +71,7 @@ const Cart = () => {
 
   const deleteItem = async (id) => {
     try {
-      await axios.delete(`https://6811-99-251-82-105.ngrok-free.app/cart/${id}`, {
+      await axios.delete(`${process.env.REACT_APP_NGROK_URL}/cart/${id}`, {
         headers: {
           'ngrok-skip-browser-warning': '69420'
         }
@@ -85,7 +85,7 @@ const Cart = () => {
   const handleItemCount = async (id, count, itemId) => {
     if (count > 0) {
       try {
-        await axios.get(`https://6811-99-251-82-105.ngrok-free.app/cart/${id}/${count}`, {
+        await axios.get(`${process.env.REACT_APP_NGROK_URL}/cart/${id}/${count}`, {
           headers: {
             'ngrok-skip-browser-warning': '69420'
           }

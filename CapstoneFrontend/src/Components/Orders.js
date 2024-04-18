@@ -16,7 +16,7 @@ export default function Orders() {
   async function fetchData() {
     try {
       const response = await axios.get(
-        `https://6811-99-251-82-105.ngrok-free.app/cart/orders/user/${userId}`,
+        `${process.env.REACT_APP_NGROK_URL}/cart/orders/user/${userId}`,
         {
           headers: {
             'ngrok-skip-browser-warning': '69420'
@@ -39,7 +39,7 @@ export default function Orders() {
   const fetchAndDisplayImages = async (items) => {
     try {
       const updatedItems = await Promise.all(items.map(async (item) => {
-        const response = await axios.get(`https://6811-99-251-82-105.ngrok-free.app/uploads/${item.image}`, {
+        const response = await axios.get(`${process.env.REACT_APP_NGROK_URL}/uploads/${item.image}`, {
           responseType: 'blob', // set the response type to blob
           headers: {
             'Content-Type': 'image/jpeg',
@@ -72,7 +72,7 @@ export default function Orders() {
   const submitReview = async (productId, rating, review) => {
     try {
       const response = await axios.post(
-        "https://6811-99-251-82-105.ngrok-free.app/product/rating",
+        `${process.env.REACT_APP_NGROK_URL}/product/rating`,
         {
           productid: productId,
           rating: rating,
@@ -97,7 +97,7 @@ export default function Orders() {
   const downloadInvoice = async (orderId) => {
     try {
       const response = await axios.post(
-        "https://6811-99-251-82-105.ngrok-free.app/cart/download-invoice",
+        `${process.env.REACT_APP_NGROK_URL}/cart/download-invoice`,
         { orderId },
         { responseType: "blob" }, {
           headers: {
