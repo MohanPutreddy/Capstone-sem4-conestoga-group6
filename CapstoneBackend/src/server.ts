@@ -78,8 +78,8 @@ app.post("/payment", async (req, res) => {
       payment_method_types: ["card"],
       mode: "payment",
       line_items: productDetails,
-      success_url: "http://localhost:4000/paymentsuccess",
-      cancel_url: "http://localhost:4000/paymentfailure",
+      success_url: "https://capstone-sem4-conestoga-group6-plla.vercel.app/paymentsuccess",
+      cancel_url: "https://capstone-sem4-conestoga-group6-plla.vercel.app/paymentfailure",
     });
     res.json({ url: session.url });
     /* 

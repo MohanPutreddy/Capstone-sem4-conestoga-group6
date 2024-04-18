@@ -38,10 +38,11 @@ const CheckoutForm = ({ onSubmit }) => {
         userId,
       };
       //Backend call to stripe payments
-      const response = await fetch("/payment", {
+      const response = await fetch("https://6811-99-251-82-105.ngrok-free.app/payment", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          'ngrok-skip-browser-warning': '69420'
         },
         body: JSON.stringify(paymentData),
       })
