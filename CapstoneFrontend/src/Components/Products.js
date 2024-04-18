@@ -75,30 +75,47 @@ export default function Products() {
   };
 
   useEffect(() => {
-    let result = [...products];
-    result = result.filter((product) =>
-      product.bookname.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-
-    switch (sortOrder) {
-      case "name-asc":
-        result.sort((a, b) => a.bookname.localeCompare(b.bookname));
-        break;
-      case "name-desc":
-        result.sort((a, b) => b.bookname.localeCompare(a.bookname));
-        break;
-      case "price-asc":
-        result.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
-        break;
-      case "price-desc":
-        result.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
-        break;
-      default:
-        break;
-    }
-
-    setDisplayProducts(result);
+    const fetchImages = async () => {
+      let result = [...products];
+      result = result.filter((product) =>
+        product.bookname.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+  
+      switch (sortOrder) {
+        case "name-asc":
+          result.sort((a, b) => a.bookname.localeCompare(b.bookname));
+          break;
+        case "name-desc":
+          result.sort((a, b) => b.bookname.localeCompare(a.bookname));
+          break;
+        case "price-asc":
+          result.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+          break;
+        case "price-desc":
+          result.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+          break;
+        default:
+          break;
+      }
+  
+      const updatedProducts = await Promise.all(result.map(async (product) => {
+        const response = await axios.get(`https://6811-99-251-82-105.ngrok-free.app/uploads/${product.image}`, {
+          responseType: 'blob',
+          headers: {
+            'Content-Type': 'image/jpeg',
+            'ngrok-skip-browser-warning': '69420'
+          }
+        });
+        const imageUrl = URL.createObjectURL(response.data);
+        return { ...product, imageUrl };
+      }));
+  
+      setDisplayProducts(updatedProducts);
+    };
+  
+    fetchImages();
   }, [products, searchQuery, sortOrder]);
+  
 
   const handleSortChange = (event) => {
     setSortOrder(event.target.value);
